@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 9 Reflection - Security and Risk Management</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../landing.html">Landing</a></li>
+							<li><a href="../../generic.html">Generic</a></li>
+							<li><a href="../../elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 9: Risk, Business Continuity and Disaster Recovery</h1>
+								</header>
+								<span class="image main"><img src="../../images/pic05.jpg" alt="" /></span>
+								<p>This unit covers business continuity (BC) and disaster recovery (DR) plans, the business impact analysis (BIA) that should drive them, recovery time and recovery point objectives (RTOs and RPOs), and the trends shaping information risk management. The artefacts below are a notebook that reproduces Andrade et al.&rsquo;s (2017) availability model of a Disaster-Recovery-as-a-Service solution and a BIA for Pampered Pets that tests the recovery objectives in my executive summary.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 9 moved from estimating risk to living with it when it happens. The lecturecast defined BC, DR, RTO and RPO, matched recovery solutions to recovery objectives and looked at where information risk management is heading. The required reading was Andrade et al.&rsquo;s (2017) availability model of a Disaster-Recovery-as-a-Service (DRaaS) solution. From the recommended book by Popov, Lyon and Hollcroft (2022) I read Hollcroft and Lyon&rsquo;s (2022) chapter on business continuity plans and Lyon&rsquo;s (2022) chapter on assessing operational risks at an organisational level. There was no seminar this week, so I followed the pattern of Unit 8. I rebuilt Andrade et al.&rsquo;s model in Python to see whether its results could be reproduced. I then carried out the BIA that my executive summary should have started from and used it to test the recovery objectives the summary set (Stevens, 2026). The two notebooks are the artefacts below.</p>
+
+								<h3>So what?</h3>
+								<p>Andrade et al. (2017) model a primary site with a load balancer, five web servers and a database, backed by a cloud copy that takes over when a disaster strikes. They solve it for three parameter settings, with and without DR. Unlike Aijaz and Nazir&rsquo;s (2024) model in Unit 8, this one held up. With the parameter table as printed, the &lsquo;very high availability&rsquo; setting came out worse than published and the &lsquo;medium&rsquo; setting better, by up to 21 hours of downtime a year. Then I noticed that the repair times of the data centre, the load balancers and the cloud server got slower as the settings became more available, which contradicts the authors&rsquo; own description. With those four rows read the other way round, all six availabilities reproduced to within about 2%, and the top nine parameters of the sensitivity ranking came out in the published order. The arithmetic around the model was another matter. The text says DR cuts downtime by &lsquo;more than 72%&rsquo;, but that figure is the ratio of downtime with DR to downtime without it; the reduction is 28%. The lost transactions are 1,000 times too small. Most importantly, the hourly cost of downtime, $6,849 for a firm with $1 million of annual revenue and four high-revenue hours a day, is ten times the $684.93 that those assumptions give. At $6,849 an hour DRaaS pays for itself in every setting. At $684.93 it pays for itself in none. In Unit 8 I learned to reproduce a number before relying on it. This time the model was sound, and the input that decided the investment was the one nobody had checked.</p>
+								<p>Two more points from the paper changed how I think about recovery objectives. The published RTOs (6.36, 16.26 and 27.65 minutes) are close to the average time the cloud takes to take over, and the paper compares them with a 15-minute limit. An RTO is a limit, though, and an average says little about it. Under the &lsquo;high&rsquo; setting, whose average misses 15 minutes, more than half of failovers would still finish in time. Second, the RPO is zero only because the authors assume perfect synchronisation and a backup that &lsquo;always works properly&rsquo;. Replication copies corruption and deletion just as faithfully as good data. AWS (2021) itself warns that continuous replication &lsquo;may not protect against&rsquo; corruption or malicious deletion as well as point-in-time backups. The paper&rsquo;s most useful finding was its sensitivity analysis: once DR is in place, availability depends almost entirely on everyday failures and repairs at the primary site. When I switched DR off, disasters moved up the ranking but still cost less availability than routine faults. DR covers the rare event, and most downtime comes from somewhere else.</p>
+								<p>The Popov et al. (2022) chapters came at continuity from the other direction. The authors write from operational safety and insurance, and Hollcroft and Lyon (2022) start with emergency action plans for getting people out of a building, then crisis management and communication. Disaster recovery planning is described as &lsquo;highly specialized and generally outside of the scope&rsquo; of the chapter. That was a useful corrective. For Pampered Pets, the most important continuity measure for in-store sales is a paper sales log and a card terminal that works on its own mobile data connection, not a data centre. Their advice to anchor consequence levels by asking the people who hold the money what loss they could pay without approval, and what loss would end the business, would give a four-person firm a scale it could actually use. The gaps were just as instructive. Neither chapter mentions an RPO. Lyon (2022) lists ISO 31010&rsquo;s BIA steps, including a maximum acceptable outage and RTOs &lsquo;for any specialized equipment or technology&rsquo;, but nothing about how much data a business can afford to lose. For a retailer whose orders and customer records are created all day, that is the more important question. The chapters also rely on risk matrices with three to five levels, which I have been criticising since Unit 4 (Cox, 2008). One detail bothered me. Hollcroft and Lyon open with the claim that about 90% of small businesses fail within two years of a disaster, followed by &lsquo;(Citation, year)&rsquo;, a placeholder left in the second edition. Andrade et al. open with similar figures, credited to other bodies but cited from a certification magazine. Both readings lean on frightening survival rates without pointing to the original source. I recognised the habit, because my executive summary did something similar with its own requirements.</p>
+								<p>Applying the BIA to Pampered Pets was uncomfortable. My executive summary required 24/7/365 availability with an RTO and an RPO of under one minute and recommended an active-active, multi-region cloud architecture, citing AWS and Microsoft guidance (Stevens, 2026). It never asked what an hour of downtime would cost. The BIA in Artefact 2 gives maximum tolerable outages of a day or longer, and a week or more for half the functions. On generous assumptions, an hour of online downtime costs a median of about &pound;15. Active-active would only pay for itself at a median of about &pound;6,600 an hour, and it was never the cheapest option, even when I multiplied every hour of downtime by 500 to allow for reputational damage with the brief&rsquo;s high-profile customers. Backup and restore, with point-in-time copies of the order data and one copy kept offline, was cheapest in 99% of the input sets. Data disasters such as ransomware, deletion or corruption, which active-active does nothing to prevent, accounted for about 80% of the loss that remained. I had chosen the architecture first and then found sources to support it, which is reasoning backwards from the solution. The sub-minute objectives may have been part of the brief, but a BIA would have shown that they needed challenging rather than meeting.</p>
+								<p>The unit&rsquo;s emerging trends made this sharper. The outages that shaped resilience thinking in the last two years were failures of providers that many organisations share. A faulty CrowdStrike update affected 8.5 million Windows devices in July 2024 (Microsoft, 2024). A DNS fault in DynamoDB disrupted AWS&rsquo;s Northern Virginia region for about 15 hours on 19 and 20 October 2025 (AWS, 2025). A second region would have helped with the second outage but not the first, because the faulty software was installed everywhere at once. Lyon&rsquo;s (2022) lists of risks, from a 2015 survey and from RIMS, treat IT outages, supply chain disruption and contractors as separate items. Neither captures the way one supplier&rsquo;s failure now reaches thousands of customers at the same moment. Ransomware has also turned DR into a question about backups an attacker cannot reach, which is the NCSC&rsquo;s (2019) argument for keeping at least one copy offline. Small firms are not keeping up. Only 21% of micro businesses have a formal incident response plan, and the share of small businesses with a business continuity plan covering cyber security fell to 44% from 53% (DSIT and Home Office, 2026). Pampered Pets, with no backups at all, sits squarely in that group.</p>
+
+								<h3>Now what?</h3>
+								<p>Four changes follow. First, I will not recommend a recovery architecture until a BIA has set the maximum tolerable outage, RTO and RPO for each function. I will also set a separate RPO for data disasters, because replication is not a backup. Second, I will state an RTO as a limit with the probability of meeting it, not as an average, and I will only trust it once a restore has actually been tested. Hollcroft and Lyon (2022) recommend testing at least once a year, and a tabletop exercise is enough for a business this size. Third, I will extend my Unit 8 habit of reproducing a number to the business inputs, because the hourly cost of downtime decided Andrade et al.&rsquo;s conclusion and my own. Fourth, in my end-of-module e-portfolio I will revise the executive summary&rsquo;s recommendation. Active-active will be replaced by backup and restore with an offline copy and point-in-time backups for order data, a manual fallback for the shop, and a one-page continuity plan covering one natural, one human-caused and one technological scenario, as Hollcroft and Lyon (2022) suggest. At work, I will ask whether the RTOs in our DR plan are averages or limits and when a restore was last tested.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: Reproducing Andrade et al.&rsquo;s DRaaS Availability Model</h2>
+								</header>
+								<p><em>Python notebook: unit9_andrade_draas_reproduction.ipynb. The stochastic Petri net in Section 5 of the paper is translated into the continuous-time Markov chain it generates (3,782 states with DR, 62 without) and solved directly. Inputs are from Table 3; targets are from Table 5, Section 6.2 and Table 6.</em></p>
+
+								<h3>1. Availability</h3>
+								<p>Two details of the model&rsquo;s semantics are left as switches: single- or infinite-server transitions, and whether VMs need their own repair after a data centre outage. Every combination was run with Table 3 as printed and with the repair times of the data centre, both load balancers and the cloud server (6, 4 and 2 hours for VHA, HA and MA) read in reverse order. Only single-server semantics with VM repair after an outage, which is what the paper describes, combined with the reversed repair rows reproduces the published figures.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Setting</th>
+												<th>Published, DR on</th>
+												<th>Table 3 as printed</th>
+												<th>Repair rows reversed</th>
+												<th>Published, DR off</th>
+												<th>Table 3 as printed</th>
+												<th>Repair rows reversed</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>VHA</td><td>0.999039</td><td>0.998209</td><td>0.999057</td><td>0.998514</td><td>0.997543</td><td>0.998532</td></tr>
+											<tr><td>HA</td><td>0.997220</td><td>0.997283</td><td>0.997283</td><td>0.996145</td><td>0.996208</td><td>0.996208</td></tr>
+											<tr><td>MA</td><td>0.992429</td><td>0.994746</td><td>0.992581</td><td>0.990449</td><td>0.992873</td><td>0.990600</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit9/figures/u9_reproduction.png" alt="Grouped bar chart of annual downtime for VHA, HA and MA with disaster recovery enabled and disabled. Published values and the reproduction with four repair rows reversed are almost identical; the reproduction with Table 3 as printed is about 7 to 8 hours too high for VHA and about 20 hours too low for MA." /></span>
+
+								<h3>2. Derived figures</h3>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Claim in the paper</th>
+												<th>Recalculated from the paper&rsquo;s own inputs</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>DR cuts HA downtime by &lsquo;more than 72%&rsquo;; lost requests fall by 64%, 72% and 79%</td><td>These are the ratios of downtime with DR to downtime without it. The reductions are 35%, 28% and 21%.</td></tr>
+											<tr><td>Lost transactions L<sub>q</sub> = 8.42 (VHA, DR on), with &lambda; = 1,000 per hour</td><td>(1 &minus; A) &times; 8,760 &times; 1,000 = 8,418. The published column equals downtime in hours.</td></tr>
+											<tr><td>Downtime costs $6,849 an hour ($1,000,000 revenue, 4 high-revenue hours a day)</td><td>$1,000,000 / (365 &times; 4) = $684.93, one tenth of the published figure; the average hour is worth $114.16.</td></tr>
+											<tr><td>DRaaS at $12,338 to $16,186 a year is &lsquo;an acceptable cost&rsquo;</td><td>True at $6,849 an hour. At $684.93 the saving is $3,151 (VHA), $6,459 (HA) and $11,884 (MA), below the cost in every setting.</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit9/figures/u9_breakeven.png" alt="Line chart of downtime cost avoided against the cost of one hour of downtime for the three settings. A dashed line marks the DRaaS cost of $12,338 a year. At the paper's $6,849 an hour all three lines are above the cost; at $685 an hour all three are below it." /></span>
+
+								<h3>3. What the RTO measures</h3>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Setting</th>
+												<th>Published RTO</th>
+												<th>Failover only (mean)</th>
+												<th>P(failover &gt; 15 min)</th>
+												<th>Full model, service restored (mean)</th>
+												<th>Primary site restored (paper&rsquo;s Table 2 guard)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>VHA</td><td>6.36 min</td><td>6.2 min</td><td>2%</td><td>9.0 min</td><td>11.7 h</td></tr>
+											<tr><td>HA</td><td>16.26 min</td><td>15.6 min</td><td>45%</td><td>24.8 min</td><td>19.4 h</td></tr>
+											<tr><td>MA</td><td>27.65 min</td><td>24.9 min</td><td>75%</td><td>41.7 min</td><td>27.1 h</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit9/figures/u9_rto.png" alt="Cumulative distribution curves of failover time for VHA, HA and MA with a dashed line at 15 minutes. VHA is almost certain to finish within 15 minutes, HA about 55% likely and MA about 25% likely." /></span>
+								<p>The published RTOs are close to the time the cloud takes to take over: three web servers activated one at a time while the database fails over in parallel. The full-model mean is longer because failover stops if the data centre comes back mid-failover, after which service waits for the primary VMs to be repaired.</p>
+
+								<h3>4. Sensitivity</h3>
+								<span class="image fit"><img src="artefacts/unit9/figures/u9_sensitivity.png" alt="Horizontal bar chart of sensitivity indices with disaster recovery enabled and disabled. Primary data centre failure, database repair and load balancer repair lead in both cases. The disaster failure and disaster repair parameters are near zero with DR enabled but rank seventh and eighth with DR disabled." /></span>
+								<p>The top nine parameters come out in the published order, with indices within about 3% of Table 6 (for example 0.000683 against 0.00068267 for database failure). The one clear difference is the scale-down time, which has no effect in my model because a fourth active web server cannot make the service unavailable.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit9/unit9_andrade_draas_reproduction.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit9/unit9_andrade_draas_reproduction.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Business Impact Analysis and Recovery Objectives for Pampered Pets</h2>
+								</header>
+								<p><em>Python notebook: unit9_pampered_pets_bia_recovery.ipynb. Follows the BIA steps in Lyon (2022) and NIST SP 800-34 Rev. 1 (Swanson et al., 2010), and the recovery tiers in AWS (2021). Every figure is an assumption made for this exercise; the case study gives no turnover, order volumes or IT costs.</em></p>
+
+								<h3>1. Business impact analysis</h3>
+								<p>The six functions come from the brief as summarised in our team report and from the digitalised design in my executive summary (Group 2, 2025; Stevens, 2026). Each is scored for impact at five points after disruption starts (1 negligible, 5 threatens the business). The maximum tolerable period of disruption (MTPD) is the first point where impact reaches 4. The RTO is at most half the MTPD, leaving time to detect the problem and decide to invoke the plan.</p>
+								<span class="image fit"><img src="artefacts/unit9/figures/u9_bia_heatmap.png" alt="Heat map of impact scores from 1 hour to 1 week for six business functions. In-store sales reaches severe impact at 24 hours; online shop and customer and order data at 72 hours; supplier ordering and email at 1 week; accounts, VAT and payroll does not reach severe within a week." /></span>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Function</th>
+												<th>MTPD</th>
+												<th>RTO</th>
+												<th>RPO</th>
+												<th>Recovery strategy</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>In-store sales</td><td>24 h</td><td>12 h (workaround within the hour)</td><td>Previous day</td><td>Paper sales log; card terminal on its own mobile data; spare PC</td></tr>
+											<tr><td>Online shop and ordering</td><td>72 h</td><td>36 h</td><td>n/a</td><td>Hosted platform; configuration backed up; holding page and phone orders</td></tr>
+											<tr><td>Customer and order data</td><td>72 h</td><td>36 h</td><td>15 min</td><td>Point-in-time backups and a daily copy kept offline (NCSC, 2019)</td></tr>
+											<tr><td>Supplier ordering and stock</td><td>1 week</td><td>48 h</td><td>24 h</td><td>Daily backup; phone orders from last stock count</td></tr>
+											<tr><td>Accounts, VAT and payroll</td><td>Over 1 week</td><td>48 h</td><td>24 h</td><td>Daily backup with an offline copy; move to cloud accounting</td></tr>
+											<tr><td>Email</td><td>1 week</td><td>48 h</td><td>Provider retention</td><td>Hosted service; supplier phone list kept on paper</td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<h3>2. Comparing recovery tiers for the online shop</h3>
+								<p>Infrastructure disasters (loss of a hosting region or platform) and data disasters (ransomware, deletion, corruption) are modelled separately, because replication helps with the first and not the second. 20,000 input sets are drawn from triangular ranges, and all tiers share the same random numbers (Eckstein and Riedmueller, 2002). Lost sales are costed at full value, not margin, which favours spending on recovery.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Tier</th>
+												<th>RTO (min, likely, max)</th>
+												<th>Annual cost, GBP (min, likely, max)</th>
+												<th>Expected total annual cost (median)</th>
+												<th>Expected downtime (median)</th>
+												<th>Cheapest in</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>No arrangements</td><td>24, 72, 240 h</td><td>0</td><td>&pound;5,447</td><td>56 h</td><td>1%</td></tr>
+											<tr><td>Backup and restore</td><td>4, 12, 24 h</td><td>300, 700, 1,500</td><td>&pound;1,415</td><td>6 h</td><td>99%</td></tr>
+											<tr><td>Pilot light</td><td>0.5, 1, 3 h</td><td>1,500, 3,000, 6,000</td><td>&pound;3,956</td><td>2 h</td><td>0%</td></tr>
+											<tr><td>Warm standby</td><td>6, 15, 30 min</td><td>4,000, 8,000, 15,000</td><td>&pound;9,324</td><td>1 h</td><td>0%</td></tr>
+											<tr><td>Active/active</td><td>Under 1 min</td><td>15,000, 30,000, 60,000</td><td>&pound;34,436</td><td>1 h</td><td>0%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit9/figures/u9_tiers.png" alt="Box plots of expected annual cost on a log scale for five recovery tiers. Backup and restore is lowest with a median near 1,400 pounds; no arrangements about 5,400; pilot light about 4,000; warm standby about 9,300; active/active about 34,000." /></span>
+								<p>Data disasters account for 81% of the expected loss that remains under backup and restore, and no tier with faster failover reduces it.</p>
+
+								<h3>3. What would justify sub-minute objectives?</h3>
+								<span class="image fit"><img src="artefacts/unit9/figures/u9_breakeven_pp.png" alt="Histograms on a log scale. The modelled cost of an hour of online downtime centres on about 15 pounds. The break-even cost for pilot light centres near 580 pounds, warm standby near 1,600 pounds and active/active near 6,600 pounds, with no overlap with the modelled cost." /></span>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Each hour of downtime costs</th>
+												<th>Backup and restore cheapest</th>
+												<th>Pilot light cheapest</th>
+												<th>Warm standby cheapest</th>
+												<th>Active/active cheapest</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Modelled figure (median &pound;15)</td><td>99%</td><td>0%</td><td>0%</td><td>0%</td></tr>
+											<tr><td>10 times</td><td>95%</td><td>5%</td><td>0%</td><td>0%</td></tr>
+											<tr><td>100 times</td><td>16%</td><td>84%</td><td>0.4%</td><td>0%</td></tr>
+											<tr><td>500 times</td><td>0.4%</td><td>72%</td><td>28%</td><td>0%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>Active/active would break even with backup and restore only if an hour offline cost a median of about &pound;6,600, which is 461 times the modelled figure. The executive summary&rsquo;s RTO and RPO of under one minute were requirements without a business case.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit9/unit9_pampered_pets_bia_recovery.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit9/unit9_pampered_pets_bia_recovery.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit9_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Aijaz, M. and Nazir, M. (2024) &lsquo;Modelling and analysis of social engineering threats using the attack tree and the Markov model&rsquo;, <em>International Journal of Information Technology</em>, 16(2), pp. 1231&ndash;1238. Available at: <a href="https://doi.org/10.1007/s41870-023-01540-z" target="_blank" rel="noopener">https://doi.org/10.1007/s41870-023-01540-z</a> (Accessed: 3 October 2026).<br /><br />
+									Andrade, E., Nogueira, B., Matos, R., Callou, G. and Maciel, P. (2017) &lsquo;Availability modeling and analysis of a disaster-recovery-as-a-service solution&rsquo;, <em>Computing</em>, 99(10), pp. 929&ndash;954. Available at: <a href="https://doi.org/10.1007/s00607-017-0539-8" target="_blank" rel="noopener">https://doi.org/10.1007/s00607-017-0539-8</a> (Accessed: 3 October 2026).<br /><br />
+									AWS (2021) <em>Disaster recovery of workloads on AWS: recovery in the cloud</em>. AWS whitepaper, 12 February. Seattle, WA: Amazon Web Services. Available at: <a href="https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html" target="_blank" rel="noopener">https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html</a> (Accessed: 3 October 2026).<br /><br />
+									AWS (2025) <em>Summary of the Amazon DynamoDB service disruption in the Northern Virginia (US-EAST-1) Region</em>. Seattle, WA: Amazon Web Services. Available at: <a href="https://aws.amazon.com/message/101925/" target="_blank" rel="noopener">https://aws.amazon.com/message/101925/</a> (Accessed: 3 October 2026).<br /><br />
+									Cox, L.A. (2008) &lsquo;What&rsquo;s wrong with risk matrices?&rsquo;, <em>Risk Analysis</em>, 28(2), pp. 497&ndash;512. Available at: <a href="https://doi.org/10.1111/j.1539-6924.2008.01030.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1539-6924.2008.01030.x</a> (Accessed: 3 October 2026).<br /><br />
+									Department for Science, Innovation and Technology (DSIT) and Home Office (2026) <em>Cyber security breaches survey 2025/2026</em>. Official statistics. Available at: <a href="https://www.gov.uk/government/statistics/cyber-security-breaches-survey-20252026/cyber-security-breaches-survey-20252026" target="_blank" rel="noopener">https://www.gov.uk/government/statistics/cyber-security-breaches-survey-20252026/cyber-security-breaches-survey-20252026</a> (Accessed: 3 October 2026).<br /><br />
+									Eckstein, J. and Riedmueller, S.T. (2002) &lsquo;YASAI: yet another add-in for teaching elementary Monte Carlo simulation in Excel&rsquo;, <em>INFORMS Transactions on Education</em>, 2(2), pp. 12&ndash;26. Available at: <a href="https://doi.org/10.1287/ited.2.2.12" target="_blank" rel="noopener">https://doi.org/10.1287/ited.2.2.12</a> (Accessed: 3 October 2026).<br /><br />
+									Group 2 (2025) <em>A risk assessment report for Pampered Pets based on ISO/IEC 27005:2022 and ISO 31000:2018</em>. Unpublished team report, Security and Risk Management module. University of Essex Online.<br /><br />
+									Hollcroft, B. and Lyon, B. (2022) &lsquo;Business continuity plan&rsquo;, in Popov, G., Lyon, B.K. and Hollcroft, B.D. <em>Risk assessment: a practical guide to assessing operational risks</em>. 2nd edn. Hoboken, NJ: John Wiley &amp; Sons, ch. 19. Available at: <a href="https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/</a> (Accessed: 3 October 2026).<br /><br />
+									Lyon, B. (2022) &lsquo;Assessing operational risks at an organizational level&rsquo;, in Popov, G., Lyon, B.K. and Hollcroft, B.D. <em>Risk assessment: a practical guide to assessing operational risks</em>. 2nd edn. Hoboken, NJ: John Wiley &amp; Sons, ch. 17. Available at: <a href="https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/</a> (Accessed: 3 October 2026).<br /><br />
+									Microsoft (2024) &lsquo;Helping our customers through the CrowdStrike outage&rsquo;, <em>The Official Microsoft Blog</em>, 20 July. Available at: <a href="https://blogs.microsoft.com/blog/2024/07/20/helping-our-customers-through-the-crowdstrike-outage/" target="_blank" rel="noopener">https://blogs.microsoft.com/blog/2024/07/20/helping-our-customers-through-the-crowdstrike-outage/</a> (Accessed: 3 October 2026).<br /><br />
+									National Cyber Security Centre (NCSC) (2019) &lsquo;Offline backups in an online world&rsquo;, <em>NCSC blog</em>, 13 August. Available at: <a href="https://www.ncsc.gov.uk/blog-post/offline-backups-in-an-online-world" target="_blank" rel="noopener">https://www.ncsc.gov.uk/blog-post/offline-backups-in-an-online-world</a> (Accessed: 3 October 2026).<br /><br />
+									Popov, G., Lyon, B.K. and Hollcroft, B.D. (2022) <em>Risk assessment: a practical guide to assessing operational risks</em>. 2nd edn. Hoboken, NJ: John Wiley &amp; Sons. Available at: <a href="https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/</a> (Accessed: 3 October 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection in nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Stevens, I. (2026) <em>Quantitative risk assessment and digital resilience strategy for Pampered Pets: executive summary</em>. Unpublished assignment, Security and Risk Management module. University of Essex Online.<br /><br />
+									Swanson, M., Bowen, P., Phillips, A.W., Gallup, D. and Lynes, D. (2010) <em>Contingency planning guide for federal information systems</em>. NIST Special Publication 800-34 Rev. 1. Gaithersburg, MD: National Institute of Standards and Technology. Available at: <a href="https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final" target="_blank" rel="noopener">https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final</a> (Accessed: 3 October 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
