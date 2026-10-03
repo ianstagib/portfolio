@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 4 Reflection - Security and Risk Management</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../landing.html">Landing</a></li>
+							<li><a href="../../generic.html">Generic</a></li>
+							<li><a href="../../elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 4: Application of Threat Modelling and Management Techniques</h1>
+								</header>
+								<span class="image main"><img src="../../images/pic11.jpg" alt="" /></span>
+								<p>This unit puts threat modelling into practice using the Threat Modeling Manifesto, the OWASP Threat Model Cookbook and the MITRE ATT&amp;CK knowledge base. It looks at where to find tools such as attack trees, STRIDE, DREAD and CVSS, how to choose between them for a given scenario, and how far their results can be trusted.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 4 turned the techniques from Unit 3 into practice. The readings covered the origins of attack trees in Salter et al.&rsquo;s (1998) secure system engineering methodology, the six-step threat modelling process and DREAD rating scheme in Meier et al. (2003, ch. 3), NIST&rsquo;s guidance on systems security engineering (Ross, McEvilley and Oren, 2016) and Sutton&rsquo;s (2021) chapters on risk identification and on threat and vulnerability assessment. Alongside these I worked through the OWASP Threat Model Cookbook and the MITRE ATT&amp;CK knowledge base, and prepared answers for the seminar on Jbair et al.&rsquo;s (2022) threat modelling method for industrial cyber-physical systems, which are included below.</p>
+
+								<h3>So what?</h3>
+								<p>The Cookbook was the first thing that changed how I think about the output of threat modelling. Its examples are stored as attack trees, flow diagrams and templates, many of them as plain text files that render into diagrams (OWASP, 2021), so they can be versioned and amended in the same way as code. Meier et al. (2003) make the same point in prose: the threat model is a document that evolves, and it should be revisited throughout the life cycle rather than produced once. In Unit 3 I recognised that our Pampered Pets report was a snapshot. The Cookbook showed me the practical reason it stayed that way. A STRIDE table pasted into a Word document is awkward to update, so nobody updates it.</p>
+								<p>The unit also made me look harder at the numbers different tools produce. I had tended to read a CVSS score as a measure of risk. The specification is clear that its output indicates the severity of a vulnerability relative to other vulnerabilities, and that organisations should combine it with factors outside CVSS before ranking threats (FIRST, 2023). DREAD has a different weakness. It does try to rate risk, but each of its five categories is scored from one to three by judgement, so two analysts can reach different totals for the same threat (Meier et al., 2003). Jbair et al. (2022) look more rigorous, combining threat actor, exposure and impact scores through geometric means and multiplying the result by likelihood. Every input is still a five-point ordinal rating, though, and the arithmetic gives a precision the inputs do not have, which is the concern Cox (2008) raises about risk matrices. I do not think this makes scoring useless. A consistent method makes the reasoning visible and the ranking repeatable, but I now treat the number as a way of ordering threats rather than as a measurement.</p>
+								<p>ATT&amp;CK shifted my attention from categories of threat to the behaviour of real adversaries. STRIDE asks what kinds of thing could go wrong; ATT&amp;CK records the tactics and techniques that named groups have actually used, with a separate matrix for industrial control systems (MITRE, no date). This connects to an argument Salter et al. (1998) made long before ATT&amp;CK existed, that countermeasures only need to be considered for attacks that match an adversary&rsquo;s resources and objectives. Our STRIDE table for Pampered Pets never named an adversary. Had it done so, the most likely one would have been a financially motivated criminal phishing staff for credentials or payment details, not a state-sponsored group, and that would have pushed staff training and MFA above some of the technical controls we ranked equally.</p>
+								<p>The seminar paper exposed the largest gap. Our executive summary described a move to automated warehouses and an international supply chain, and its quantitative model estimated the probability of product quality being degraded. The earlier threat model, however, treated every system as IT: a warehouse failure appeared only as denial of service against the ERP. Jbair et al. (2022) add safety to confidentiality, integrity and availability as an impact category and rank assets by how close they sit to the physical process. Read that way, an attacker who changes the set point on a warehouse temperature controller is not causing a data breach but spoiling stock, which is exactly the quality outcome the executive summary was concerned with. Across the two assignments we never connected the cyber threat to the physical consequence. Ross, McEvilley and Oren (2016) argue that trustworthy systems need a multidisciplinary engineering approach, and I can see now that our group, all from IT backgrounds, had nobody thinking as an operations or engineering lead would.</p>
+
+								<h3>Now what?</h3>
+								<p>I will start the choice of tool from the question I need answered. For a design review I will apply STRIDE per element to the data flow diagram; for a single high-value goal, an attack tree; and to ground both in reality, the ATT&amp;CK techniques used by the adversaries most likely to target that organisation. CVSS will be one input to patch prioritisation, adjusted for the asset and its exposure, and not a risk rating in its own right. I also plan to keep threat models as text-based artefacts in version control next to the design, following the Cookbook&rsquo;s approach, so that they are reviewed whenever the system changes. For Pampered Pets, the obvious revision is to add the warehouse control systems to the model with a separate column for safety and quality impact. My weakest area is industrial protocols such as OPC UA, so before the end of the module I will work through the ICS matrix in ATT&amp;CK and read the Ukrainian grid case study in full (Lee, Assante and Conway, 2016).</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Seminar Preparation</h2>
+								</header>
+								<p><em>Answers prepared for the Unit 4 seminar, Risk Identification and Modelling, based on Jbair et al. (2022).</em></p>
+
+								<h3>1. What are the key elements and interdependencies in a cyber-physical system that must be captured in a comprehensive threat model, and why are they critical for accurate risk analysis?</h3>
+								<p>A CPS threat model has to capture assets across every layer of the system, not just the IT estate. Jbair et al. (2022) organise assets using the Purdue model, from sensors and actuators at level 0 and programmable logic controllers (PLCs) at level 1, through human&ndash;machine interfaces (HMIs) and supervisory control, up to manufacturing execution and enterprise systems. Alongside the assets, the model needs the communication paths between them (in their case study an OPC UA server links the control layer to the higher systems), the threat actors and their tactics, techniques and procedures, the vulnerabilities those actors can exploit, the means of detecting an attack, and the impact.</p>
+								<p>The interdependencies matter as much as the elements. Jbair et al.&rsquo;s data model is in effect a chain: a threat actor exploits a vulnerability, conducts an attack using particular techniques, manipulates an asset and produces an impact that depends on that asset&rsquo;s value. Risk then follows from the attack vector and its likelihood, and determines the mitigation controls. If one link is missing, the analysis breaks. Two features make this critical in a CPS. First, an attack rarely ends where it starts. Access gained through an office network can end as a command to a physical device several layers down, so a model that stops at the IT boundary will underestimate the consequences. Second, impact has to include safety as well as confidentiality, integrity and availability, and assets that act directly on the physical process carry the highest criticality. A model built on the CIA triad alone could rank a leaked spreadsheet above a tampered controller, which in a factory or a substation gets the priorities the wrong way round.</p>
+
+								<h3>2. How can threat modelling help identify attack entry points and system vulnerabilities in cyber-physical energy systems, and what are the challenges in doing so effectively?</h3>
+								<p>Threat modelling identifies entry points by making the analyst trace how an adversary would get from outside the system to the physical process. Jbair et al. (2022) build attack trees from ATT&amp;CK for ICS techniques, so each path is a sequence of realistic steps: scanning and enumerating network services, gaining a valid account, moving laterally, and finally modifying PLC firmware or control logic. Known vulnerabilities from CVE records and vendor advisories are attached to the relevant nodes.</p>
+								<p>Although the paper&rsquo;s case study is a manufacturing test rig, the approach transfers directly to energy systems. The December 2015 attack on three Ukrainian distribution companies began with spear-phishing emails that delivered BlackEnergy 3 malware into the corporate network months before the outage. The attackers then used the operators&rsquo; own SCADA HMIs to open breakers, overwrote the firmware on serial-to-Ethernet gateways so that remote recovery was impossible, wiped systems with KillDisk and flooded the call centre with calls, leaving around 225,000 customers without power (Lee, Assante and Conway, 2016). An element-by-element threat model would have flagged the IT/OT boundary, remote access to the HMIs and the firmware integrity of field gateways as entry points, and an attack tree with the goal &lsquo;de-energise substations&rsquo; would have shown how they combine.</p>
+								<p>Doing this well is difficult. Many field devices are old, cannot be patched quickly and can be disrupted by active scanning, so the vulnerability picture is often incomplete. Asset inventories in OT environments are frequently out of date, and third-party remote access adds entry points the operator does not fully control. Likelihood is hard to estimate: Jbair et al. base their likelihood score on how often an attack has been seen in the sector, which is weak where incidents are rare or under-reported, and they leave human-factor risk to future work. Finally, the analysis needs people who understand both the cyber and the engineering side, which is the multidisciplinary requirement Ross, McEvilley and Oren (2016) set out for systems security engineering.</p>
+
+								<h3>3. In the context of CPS threat modelling, how can scenario-specific metrics and risk assessment methodologies be used to prioritise vulnerabilities and guide the development of targeted security countermeasures?</h3>
+								<p>Generic severity scores do not tell an operator which problem to fix first in their own plant. Jbair et al. (2022) address this with metrics tied to the scenario. Their attack vector score combines the threat actor&rsquo;s skills and resources, the exposure of the asset (its value, the vulnerability rating and how easily the attack would be detected) and the impact on availability, integrity, confidentiality and safety. Attack likelihood is scored from how common the attack has been in that industry. Risk is the product of the two and is placed on a five-level heat map.</p>
+								<p>The value of this shows in their case study. A firmware attack on the Siemens S7-1500 PLC scored 14.72 and was rated high, while a man-in-the-middle attack on the OPC UA server scored 10.84 and was rated moderate, so firmware integrity controls come first. Each risk is then mapped to technical or management controls from a library, and the digital twin tool generates deployable code and configuration for the specific assets in the model, such as firmware version monitoring and password policies. This is more targeted than CVSS, which describes the severity of a vulnerability rather than the risk it poses to a particular organisation (FIRST, 2023), although CVSS scores remain a useful input to the vulnerability rating.</p>
+								<p>There are limits. The inputs are ordinal ratings from one to five, and combining them through geometric means and multiplication produces decimals that suggest more precision than the judgements behind them (Cox, 2008). A likelihood score based on history will also understate new kinds of attack. I would still use a scheme like this, because it makes the reasoning behind each ranking explicit and repeatable, but I would present the results to engineers as an ordered list for discussion rather than as absolute risk values.</p>
+
+								<ul class="actions">
+									<li><a href="docs/Unit4_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Cox, L.A. (2008) &lsquo;What&rsquo;s wrong with risk matrices?&rsquo;, <em>Risk Analysis</em>, 28(2), pp. 497&ndash;512. Available at: <a href="https://doi.org/10.1111/j.1539-6924.2008.01030.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1539-6924.2008.01030.x</a> (Accessed: 3 October 2026).<br /><br />
+									FIRST (2023) <em>Common Vulnerability Scoring System version 4.0: specification document</em>. Cary, NC: Forum of Incident Response and Security Teams. Available at: <a href="https://www.first.org/cvss/v4.0/specification-document" target="_blank" rel="noopener">https://www.first.org/cvss/v4.0/specification-document</a> (Accessed: 3 October 2026).<br /><br />
+									Jbair, M., Ahmad, B., Maple, C. and Harrison, R. (2022) &lsquo;Threat modelling for industrial cyber physical systems in the era of smart manufacturing&rsquo;, <em>Computers in Industry</em>, 137, p. 103611. Available at: <a href="https://doi.org/10.1016/j.compind.2022.103611" target="_blank" rel="noopener">https://doi.org/10.1016/j.compind.2022.103611</a> (Accessed: 3 October 2026).<br /><br />
+									Lee, R.M., Assante, M.J. and Conway, T. (2016) <em>Analysis of the cyber attack on the Ukrainian power grid: defense use case</em>. Washington, DC: Electricity Information Sharing and Analysis Center. Available at: <a href="https://nsarchive.gwu.edu/sites/default/files/documents/3891751/SANS-and-Electricity-Information-Sharing-and.pdf" target="_blank" rel="noopener">https://nsarchive.gwu.edu/sites/default/files/documents/3891751/SANS-and-Electricity-Information-Sharing-and.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Meier, J.D., Mackman, A., Dunner, M., Vasireddy, S., Escamilla, R. and Murukan, A. (2003) <em>Improving web application security: threats and countermeasures</em>. Redmond, WA: Microsoft Corporation. Chapter 3: Threat modeling. Available at: <a href="https://learn.microsoft.com/en-us/previous-versions/msp-n-p/ff648644(v=pandp.10)" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/previous-versions/msp-n-p/ff648644(v=pandp.10)</a> (Accessed: 3 October 2026).<br /><br />
+									MITRE (no date) <em>ATT&amp;CK matrix for ICS</em>. Available at: <a href="https://attack.mitre.org/matrices/ics/" target="_blank" rel="noopener">https://attack.mitre.org/matrices/ics/</a> (Accessed: 3 October 2026).<br /><br />
+									OWASP (2021) <em>Threat Model Cookbook</em>. GitHub. Available at: <a href="https://github.com/OWASP/threat-model-cookbook" target="_blank" rel="noopener">https://github.com/OWASP/threat-model-cookbook</a> (Accessed: 3 October 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection in nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Ross, R., McEvilley, M. and Oren, J.C. (2016) <em>Systems security engineering: considerations for a multidisciplinary approach in the engineering of trustworthy secure systems</em>. NIST Special Publication 800-160. Gaithersburg, MD: National Institute of Standards and Technology. Available at: <a href="https://doi.org/10.6028/NIST.SP.800-160" target="_blank" rel="noopener">https://doi.org/10.6028/NIST.SP.800-160</a> (Accessed: 3 October 2026).<br /><br />
+									Salter, C., Saydjari, O.S., Schneier, B. and Wallner, J. (1998) &lsquo;Toward a secure system engineering methodology&rsquo;, in <em>Proceedings of the 1998 Workshop on New Security Paradigms (NSPW &rsquo;98)</em>. Charlottesville, VA, pp. 2&ndash;10. Available at: <a href="https://doi.org/10.1145/310889.310900" target="_blank" rel="noopener">https://doi.org/10.1145/310889.310900</a> (Accessed: 3 October 2026).<br /><br />
+									Sutton, D. (2021) <em>Information risk management: a practitioner&rsquo;s guide</em>. 2nd edn. Swindon: BCS, The Chartered Institute for IT. Available at: <a href="https://www.oreilly.com/library/view/information-risk-management/9781780175751/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/information-risk-management/9781780175751/</a> (Accessed: 3 October 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
