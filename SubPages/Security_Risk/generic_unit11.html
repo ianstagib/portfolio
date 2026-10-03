@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 11 Reflection - Security and Risk Management</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../landing.html">Landing</a></li>
+							<li><a href="../../generic.html">Generic</a></li>
+							<li><a href="../../elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 11: Future Trends in Security and Risk Management</h1>
+								</header>
+								<span class="image main"><img src="../../images/pic07.jpg" alt="" /></span>
+								<p>This unit reviews current and emerging trends in security and risk management, drawing on economic theory, behavioural research, AI and automation, and asks which of them are likely to shape the field. The artefacts below are my evaluation of six trends, two notebooks that test the claims of the AI and economic theory readings, and my individual executive summary for Pampered Pets, which was submitted at the end of this unit, with the tutor&rsquo;s feedback and my evaluation of it against the team&rsquo;s status document from Unit 6.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 11 looked forward. The lecturecast set out emerging trends in the field, the solutions most likely to meet particular objectives and the factors driving the field&rsquo;s development. The required reading was Pineiro-Chousa et al.&rsquo;s (2017) options model of reputational risk, Fahimnia et al.&rsquo;s (2019) review of behavioural operations and supply chain management, Ridley&rsquo;s (2018) article on machine learning for autonomous cyber defence and Marks&rsquo;s (2019) guide to choosing a risk management framework. I also read the recommended chapters on reporting and communicating risk (Sutton, 2021, chs 8 and 9; Lyon, 2022) and on risk assessment in environmental management systems (Popov, Popov and Lyon, 2022). I evaluated six trends (Artefact 1), rebuilt Ridley&rsquo;s experiment (Artefact 2) and priced Pineiro-Chousa et al.&rsquo;s option positions (Artefact 3). The unit ended with the submission of my executive summary for Pampered Pets, which received 55% (Artefact 4).</p>
+
+								<h3>So what?</h3>
+								<p>The first thing I noticed was the age of the &lsquo;emerging&rsquo; trends. All four journal readings date from 2017 to 2019, and two have already been overtaken. Ridley&rsquo;s vision of an agent that learns to defend a network by trial and error has moved, in practice, towards systems that find and fix flaws in code: in DARPA&rsquo;s AI Cyber Challenge the finalists&rsquo; systems found 54 of 63 planted vulnerabilities and patched 43, at an average cost of about $152 per task (DARPA, 2025). Marks compares COBIT 5 with an information assurance standard that the NCSC no longer supports (Mackay, 2021), leaves out FAIR, the best-known quantitative framework (The Open Group, 2018), and then finds that none of the frameworks he compared uses quantitative factors. He quotes &lsquo;ISO/IEC 27005:2001&rsquo;, an edition that never existed (the first was published in 2008), through an endnote that leads to the NCSC, and credits the HMG standard to NIST. Even the reading list adds the issue&rsquo;s two guest editors as co-authors of Ridley&rsquo;s article. What this unit added is that a trend is a claim about the future, and a claim made in 2018 has to be read against what has happened since.</p>
+								<p>Ridley&rsquo;s article reports one experiment, an agent defending an 18-node network that kept about 16 nodes safe on average, and concludes that reinforcement learning &lsquo;can be used&rsquo; to build an autonomous defender. It never compares the agent with a simple rule. When I rebuilt the experiment, two of three trained agents matched his result at about 16.8 safe nodes, which suggests the rebuild is close to the original. The third, trained with the same settings and a different random seed, looked the same during training but managed only 12.7 in testing. A rule that a human analyst could write in one line, patch the compromised node with the most safe neighbours, kept 17.1 nodes safe, and a rule that isolates hubs and patches leaves kept 17.7, at a lower cost than the agents and with no training at all. The agents also never chose to isolate, because the reward charged 10 for isolating and only 5 for patching. That leaves them no answer to a faster attacker: in my tests, patching alone collapsed once the spreading probability passed about 0.2, while the rules that isolate held. Ridley reports the number of safe nodes while the agent was trained on safe nodes minus action costs, and the two measures rank the policies differently. That was the most useful finding of the unit for me: an autonomous defender optimises what it is paid for, so the reward is a risk decision in its own right and needs an owner. I am wary of overstating this, because my rebuild rests on assumptions about details the article leaves out.</p>
+								<p>Fahimnia et al. (2019) supply the question that Ridley does not ask. They find that &lsquo;decision making in practice continues to be heavily influenced by human judgment, even with regard to highly automated and supposedly objective systems&rsquo;, and frame the key question as when human judgement &lsquo;should be encouraged or discouraged&rsquo;. The review stops in June 2018, says nothing about security, rests its view of the future on a survey of ten authors that it calls &lsquo;likely biased&rsquo;, and gives both 439 and 448 as the number of articles screened. But it explained something from Unit 7. The input that drove the probability of a major quality failure in my executive summary was the quality control detection rate, a measure of how well staff spot faulty batches, with a rank correlation of &minus;0.88. Fahimnia et al. list quality and reliability management among the areas behavioural research has &lsquo;so far&rsquo; not explored. The most important number in my quantitative model was a human behaviour, and I had assumed it rather than measured it.</p>
+								<p>Pineiro-Chousa et al. (2017) bring options theory into reputational risk, treating environmental management as a premium paid for a call on reputational opportunities and a put against reputational threats. The paper never prices an option, so I priced its positions with the Black and Scholes (1973) model, using illustrative inputs. Two of the three claims in its Table 1 for voluntary disclosure held: the position becomes cheaper and its maximum loss falls. The third, a higher maximum reward, failed at every volatility I tried, because the premium saved is always less than the distance the strikes move apart. At a fair price every position has an expected result of zero, so the gain the paper describes must come from the market valuing a company&rsquo;s reputation differently once it can tell good practice from bad. That is an argument about information, and the option framing adds a vocabulary without prices. What I kept is the asymmetry: preparation is a premium paid before the event, and its value rises with the volatility of reputation. Pampered Pets&rsquo; high-profile customers make its reputation volatile, so the cheap premium is a quality and incident record that can be shown within days. The paper&rsquo;s scenario of mature mandatory reporting is also receding: the EU&rsquo;s Omnibus I limits sustainability reporting to companies with more than 1,000 employees and &euro;450 million turnover and drops the planned move to reasonable assurance (Mac Cormac et al., 2025). The mandatory disclosure that does apply to Pampered Pets is a personal data breach, which must be reported to the ICO &lsquo;not later than 72 hours after becoming aware of it&rsquo; (ICO, no date).</p>
+								<p>Marks&rsquo;s (2019) checklist was more useful applied to my own team&rsquo;s choice. Asked of the ISO 31000 and ISO/IEC 27005 pairing that Group 2 adopted, &lsquo;Is risk evaluated on a quantitative approach?&rsquo; gets a no (Group 2, 2025), and the questions on expertise and licensing get a yes for a four-person business. His advice to use &lsquo;the simplest framework that meets their requirements&rsquo; supports my Unit 5 conclusion: Cyber Essentials and the GDPR basics first, and a formal framework once the ERP and international supply chain justify it.</p>
+								<p>The recommended chapters on reporting changed how I read my tutor&rsquo;s feedback on the executive summary. It scored 10 out of 30 for criticality (&lsquo;There is no evident criticality&rsquo;), 8 out of 20 for sources (&lsquo;Very few works are cited&rsquo;) and lost a mark for &lsquo;over-reliance on images and tables&rsquo;. Reading this was uncomfortable, mostly because the group report had received almost the same comments seven weeks before I submitted: limitations and gaps &lsquo;should have been acknowledged&rsquo;, and &lsquo;very recent sources are expected&rsquo;. I had that feedback and did not apply it to my own work, probably because I treated the summary as a modelling exercise and the feedback as being about the group&rsquo;s writing. Sutton (2021) says a business case needs the proposed solution, why it would reduce the risk, and a financial breakdown over three to five years. My summary recommended an active-active, multi-region architecture with no cost at all; Unit 10 put it at about &pound;45,000 a year, against about &pound;3,400 for a design that met the requirements better. Lyon (2022) argues for heat maps and bow-ties because decision makers need to see the whole risk pathway, which seems to contradict the tutor. I think the difference is what the visuals carry. My eight tables held 308 of the summary&rsquo;s 1,079 words, and they carried results without the reasoning or doubts behind them, which is what the criticality criterion looks for. Lyon&rsquo;s own striped bow-tie shows a second risk: it multiplies severity, likelihood and a control factor and reports the percentage of risk reduced, arithmetic on ordinal scores that Cox (2008) warned against in Unit 2. Popov, Popov and Lyon (2022) present a 79% fall in the standard deviation of environmental significance scores as evidence of success, but one aspect scored at &minus;180 accounts for about 60% of the original variance.</p>
+								<p>My answer to the unit&rsquo;s question, set out in Artefact 1, is that AI and automation will be the most influential trend for research, provided its claims are tested against simple baselines and studied together with the question of when people should step in. For a business like Pampered Pets, dependence on a few cloud and software suppliers will matter sooner, and AI will arrive through their products.</p>
+
+								<h3>Now what?</h3>
+								<p>Five changes follow. First, before I accept that a new technique works, I will ask what simple rule it was compared with, and if there was none I will build one, as in Artefact 2. Second, when a model depends on people, I will treat their behaviour as an input to be measured; for Pampered Pets the seeded-defect test of quality control proposed in Unit 7 is now the most valuable single piece of data. Third, any system that acts on its own, from an automated response rule to a supplier&rsquo;s AI tool, will have its objective or thresholds written down and owned by a named person. Fourth, every recommendation I write for a decision maker will state in the text its cost over three to five years, its limits and what it does not cover, with tables kept for figures the reader needs to check; Artefact 4 is written this way. Fifth, my end-of-module e-portfolio will use the positions in Artefact 4 in place of the executive summary&rsquo;s recommendations. At work, I will ask suppliers of AI-based security tools what baseline their detection and response rates were measured against, and who sets the point at which the tool acts without a person.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: Evaluating Emerging Trends in Security and Risk Management</h2>
+								</header>
+								<p><em>Prepared for the Unit 11 objectives: describe the main emerging trends, explain their potential impact on research, and recommend which will be most influential. Artefacts 2 and 3 test two of the readings in detail.</em></p>
+
+								<h3>1. Six trends</h3>
+								<p>The required readings point to three newer trends: AI and automation, behavioural decision making, and economic theory applied to non-financial risk. Marks (2019) and the recommended chapters add two longer-running ones, framework convergence and risk communication, and Units 9 and 10 added a sixth: concentration on a small number of technology suppliers.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Trend</th>
+												<th>Evidence</th>
+												<th>For</th>
+												<th>Against</th>
+												<th>Likely influence</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>AI and automation in defence and attack</td><td>Ridley (2018); DARPA (2025); NCSC (2025)</td><td>Works at machine speed and scale; the NCSC expects the time from disclosure to exploitation, already &lsquo;days&rsquo;, to shrink further</td><td>Training can be unstable, someone has to set the objective, and the experiment tested here was never compared with a simple rule (Artefact 2); attackers gain the same tools</td><td>High on research; reaches small firms through suppliers&rsquo; products</td></tr>
+											<tr><td>Behavioural decision making and human&ndash;machine teaming</td><td>Fahimnia et al. (2019)</td><td>Explains why models and systems underperform in use; a growing habit of replication</td><td>Evidence mostly from laboratory experiments and surveys; the review ends in 2018 and does not cover security</td><td>High, as the condition for the first trend</td></tr>
+											<tr><td>Economic and financial theory for non-financial risk</td><td>Pineiro-Chousa et al. (2017)</td><td>Makes the timing and asymmetry of preparation explicit; links disclosure to reputation</td><td>No prices or data; one of its three main claims fails when priced (Artefact 3); mandatory reporting is being scaled back in the EU (Mac Cormac et al., 2025)</td><td>Moderate; more vocabulary than method</td></tr>
+											<tr><td>Framework convergence and integrated risk governance</td><td>Marks (2019); NIST (2024)</td><td>One process for business and technology risk; NIST CSF 2.0 adds a Govern function that ties cyber risk to enterprise risk</td><td>Frameworks multiply and guidance on choosing between them is thin; Marks&rsquo;s comparison was out of date within a few years</td><td>Moderate and steady</td></tr>
+											<tr><td>Risk communication and decision support</td><td>Sutton (2021); Lyon (2022)</td><td>Decisions, not assessments, change risk; business cases force cost and options into the open</td><td>Visual scoring tools invite arithmetic on ordinal scales (Cox, 2008); little evidence on which formats lead to better decisions</td><td>Moderate, and underrated</td></tr>
+											<tr><td>Concentration on a few cloud and software suppliers</td><td>CMA (2025); Regulation (EU) 2022/2554; Units 9 and 10</td><td>Recognises that risk now sits with a few providers; regulation such as DORA, applied since 17 January 2025, forces testing and exit planning</td><td>Rules aim at large and financial firms; small customers cannot negotiate terms</td><td>High in practice, including for small firms</td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<h3>2. Impact on research</h3>
+								<p>The trends are converging on one research problem: how to make decisions with systems that act faster than people can check them. Ridley&rsquo;s own list of hard problems (reasoning over missing and untrustworthy data, establishing human trust in automated systems and designing adaptive systems securely) is as much behavioural and economic as technical. Three consequences for research follow. Results will need baselines and replication, because a learned policy that beats nothing has shown very little (Artefact 2). Field data on how people use and override automated systems will become more valuable than further laboratory studies, which is the direction Fahimnia et al. (2019) propose for operations. And the objective an automated system optimises will need to be studied as a risk decision, since a defender rewarded for cheap actions behaves differently from one rewarded for safe nodes.</p>
+								<p>Economic theory will influence the field mainly through its concepts. Options thinking helps explain why preparation pays only if it exists before the event, but without prices or data it does not support decisions, and its main claims need testing before they are used (Artefact 3). Framework convergence and communication will keep changing practice without changing the research agenda much.</p>
+
+								<h3>3. Recommendation</h3>
+								<p>For research, I would recommend AI and automation as the most influential trend, on two conditions: that claims are tested against simple baselines, and that the behavioural question of when people should step in is studied with it. The NCSC&rsquo;s judgement of a &lsquo;digital divide&rsquo; between systems that keep pace with AI-enabled threats and a large proportion that do not (NCSC, 2025) suggests where the effects will fall. For practice in a business the size of Pampered Pets, supplier concentration will matter sooner. Its main systems will be rented, so its exposure to AI, both as threat and as defence, comes through the shop platform, email and accounting providers it chooses and the exit terms it accepts. The practical step is the same either way: choose suppliers whose security features are on by default, and keep a tested copy of the business&rsquo;s data outside any one of them, as recommended in Unit 10.</p>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Reproducing Ridley&rsquo;s Autonomous Cyber Defence Experiment</h2>
+								</header>
+								<p><em>Python notebook: unit11_ridley_autonomous_defence.ipynb. Rebuilds the experiment in Ridley (2018) from its description: the 18-node network in Figure 3, three node conditions, three actions costing 0, 5 and 10, spreading probability 0.15, random intrusion probability 0.01 and 100-turn episodes. The article&rsquo;s source code is an internal NSA report, so the order of play and the timing of a patch were assumed and are stated in the notebook. Every policy faces the same 1,000 test episodes.</em></p>
+
+								<h3>1. Checking the article</h3>
+								<p>The worked probabilities for spreading (0.25<sup>2</sup>, 0.375 and 0.75<sup>2</sup>) and intrusion (0.1<sup>3</sup>) are correct. The chance that a whole episode passes without any intrusion is printed as (0.98<sup>18</sup>)<sup>100</sup>, although the stated intrusion probability of 0.01 gives (0.99<sup>18</sup>)<sup>100</sup>. Both are effectively zero, so the conclusion stands.</p>
+
+								<h3>2. The trained agent against simple rules</h3>
+								<span class="image fit"><img src="artefacts/unit11/figures/u11_policies.png" alt="Two panels of horizontal bars for eight policies. Average safe nodes out of 18: do nothing 3.1, random 14.9, RL agents 12.7, 16.8 and 16.8, patch rule 17.1, isolate rule 17.5, hybrid rule 17.7; Ridley's reported range of 15.9 to 16.6 is shaded. Action cost per episode is highest for random actions and the isolate rule and lowest for the patch and hybrid rules." /></span>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Policy</th>
+												<th>Average safe nodes (of 18)</th>
+												<th>Action cost per episode</th>
+												<th>Reward per episode</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Do nothing</td><td>3.14</td><td>0</td><td>314</td></tr>
+											<tr><td>Random valid action</td><td>14.94</td><td>331</td><td>1,163</td></tr>
+											<tr><td>RL agent, seed 1 (&epsilon; = 0.05)</td><td>12.70</td><td>207</td><td>1,062</td></tr>
+											<tr><td>RL agent, seed 2 (&epsilon; = 0.05)</td><td>16.84</td><td>176</td><td>1,508</td></tr>
+											<tr><td>RL agent, seed 3 (&epsilon; = 0.05)</td><td>16.81</td><td>170</td><td>1,511</td></tr>
+											<tr><td>Patch rule</td><td>17.07</td><td>159</td><td>1,548</td></tr>
+											<tr><td>Isolate rule</td><td>17.47</td><td>266</td><td>1,480</td></tr>
+											<tr><td>Hybrid rule: isolate hubs, patch leaves</td><td>17.66</td><td>162</td><td>1,604</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>Two of the three agents land just above Ridley&rsquo;s reported 15.9 to 16.6, so the rebuild is close to the original. The third, with identical settings, did much worse in testing although its training looked the same as the others&rsquo; (section 3); the article found similar instability when a run 20 times longer scored lower. Left to choose, none of the agents ever isolated a node (the isolations at &epsilon; = 0.05 are random exploration), because under the article&rsquo;s costs isolating and then patching costs 15 against 5 for patching. Reward is safe nodes per turn minus action costs, summed over the episode, which is what the agents were trained on; the isolate rule protects more nodes than the agents but earns less reward. The patch rule and the hybrid rule protect more nodes at a lower cost, with no training.</p>
+
+								<h3>3. Training</h3>
+								<span class="image fit"><img src="artefacts/unit11/figures/u11_training.png" alt="Line chart of the 200-episode moving average of safe nodes during 10,000 training episodes for three seeds. All three rise together from about 14.8 to about 17 as exploration falls, below the hybrid rule's line at 17.7. Dots at the right show the test results of the final weights: about 16.8 for seeds 2 and 3 and 12.7 for seed 1." /></span>
+
+								<h3>4. When the attacker spreads faster</h3>
+								<span class="image fit"><img src="artefacts/unit11/figures/u11_spread.png" alt="Line chart of average safe nodes against spreading probability from 0.05 to 0.5. Doing nothing stays below 6. The patch rule falls from about 17.8 to below 4 as spreading passes about 0.2. The isolate and hybrid rules stay above 17 throughout." /></span>
+								<p>The article warns that above some spreading rate the agent &lsquo;cannot protect the network even if it performed the optimal actions&rsquo;. That holds for a defender that only patches. A defender that isolates the node it is about to fix holds the network at every rate tested, because isolation stops the spread at once. Whether that is worth the cost is a choice the reward makes on the defender&rsquo;s behalf.</p>
+								<p>The model shares the article&rsquo;s limits: all nodes are equally valuable, the attacker has no strategy, one action is allowed per turn, and the defender sees every node&rsquo;s condition, although Ridley&rsquo;s own first assumption is that the adversary &lsquo;can always get inside the system&rsquo; and can only be found by combining many sensors. The test of a learned defender should be the simplest rule an analyst would write, under the same conditions.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit11/unit11_ridley_autonomous_defence.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit11/unit11_ridley_autonomous_defence.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 3: Testing Pineiro-Chousa et al.&rsquo;s Options View of Reputational Risk</h2>
+								</header>
+								<p><em>Python notebook: unit11_options_reputation_check.ipynb. Prices the option positions described by Pineiro-Chousa et al. (2017) with the Black and Scholes (1973) model, using a reputation index of 100, a one-year horizon, no discounting and 30% volatility. Reputation is not traded, so the prices only test whether the paper&rsquo;s claims are consistent; they are not a valuation of reputation.</em></p>
+								<span class="image fit"><img src="artefacts/unit11/figures/u11_options.png" alt="Left: profit lines for a long straddle at 100 and a long strangle at 90 and 110 against the market valuation of reputation; the strangle does better only between about 91 and 109, where both lose. Right: bars comparing premium, maximum loss, profit at a valuation of 200 and probability of a positive result; the strangle is lower on all four, so the claim of a higher maximum reward is not confirmed." /></span>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Claim in the paper</th>
+												<th>Result when priced</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>The premium rises with the market&rsquo;s volatility</td><td>Confirmed: a straddle costs 8.0 at 10% volatility and 39.5 at 50%</td></tr>
+											<tr><td>Voluntary disclosure lowers the premium (Table 1)</td><td>Confirmed: 23.8 for the straddle, 15.2 for the strangle</td></tr>
+											<tr><td>Voluntary disclosure lowers the maximum loss (Table 1)</td><td>Confirmed: the maximum loss is the premium</td></tr>
+											<tr><td>Voluntary disclosure raises the maximum reward (Table 1)</td><td>Not confirmed: the strangle earns 1.3 less in both tails at 30% volatility, and less at every volatility tested; its chance of a positive result also falls from 41.8% to 39.2%</td></tr>
+											<tr><td>A B-company&rsquo;s net effort under mandatory reporting is &lsquo;around zero&rsquo; (Table 2)</td><td>Consistent: between &minus;1.9 and 0 for the strikes tested, and exactly zero at a single strike by put-call parity</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>At a fair price every position has an expected result of zero. If disclosure lowers the cost of environmental management and raises the reward, as the paper concludes, the benefit comes from the market valuing a company&rsquo;s reputation differently once it can tell good practice from bad, not from the shape of the option. The model also assumes that one company&rsquo;s reputational gain is another&rsquo;s loss, and that assurance providers take on a client&rsquo;s bad reputation; an assurer gives an opinion on reported information and may share liability, but customers judge the company.</p>
+								<p>For Pampered Pets the idea that survives is the asymmetry. Preparation, such as batch testing records, supplier audits and a drafted customer notice for a quality or data incident, is a premium paid in advance, and it is worth more the more volatile the business&rsquo;s reputation. With customers &lsquo;whose expectations amplify the reputational consequences of any failure&rsquo; (Stevens, 2026), the case for paying it is strong, and the 72-hour deadline for reporting a personal data breach (ICO, no date) means a company cannot wait to see how an incident develops before deciding what to say.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit11/unit11_options_reputation_check.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit11/unit11_options_reputation_check.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 4: Final Project: Executive Summary for Pampered Pets, and Evaluation against the Status Document</h2>
+								</header>
+								<p><em>Individual assessment submitted at the end of Unit 11 (Stevens, 2026). The status document is the team risk assessment submitted at the end of Unit 6 (Group 2, 2025).</em></p>
+								<p>The executive summary extended the team&rsquo;s qualitative assessment with quantitative modelling. It estimated the annual probability of quality failures with a Monte Carlo simulation and of supply chain disruption with a fault tree, proposed an active-active, multi-region cloud architecture to meet a 24/7 availability requirement with recovery time and recovery point objectives under one minute, and used a weighted sum to recommend Microsoft Azure as the platform, with vendor lock-in to be mitigated through containerisation, open APIs and portability testing.</p>
+								<ul class="actions">
+									<li><a href="docs/Executive_Summary.docx" class="button icon solid fa-download">Download the executive summary</a></li>
+								</ul>
+
+								<h3>Tutor feedback</h3>
+								<p>Feedback from Dr Maria Alvanou, 27 January 2026. Grade: 55% (pass). Strong point: main points covered. Point to develop further: criticality.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Criterion (weighting)</th>
+												<th>Mark</th>
+												<th>Tutor&rsquo;s comments</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Knowledge and understanding (30%)</td><td>18</td><td>Covers basic points but lacks the required depth. The justification for the methods chosen and the GDPR needed more specific explanation, supported by more theory.</td></tr>
+											<tr><td>Criticality (30%)</td><td>10</td><td>No evident criticality. Gaps should have been shown, and the proposed solutions themselves questioned.</td></tr>
+											<tr><td>Use of relevant sources (20%)</td><td>8</td><td>Very few works are cited.</td></tr>
+											<tr><td>Structure and presentation (10%)</td><td>9</td><td>Well written, but over-reliant on images and tables; more text was needed.</td></tr>
+											<tr><td>Academic integrity (10%)</td><td>10</td><td>No issues.</td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<h3>Evaluation against the status document</h3>
+								<p>Against the status document, the summary was a real step forward. The team report had rated every risk on a qualitative matrix and stated that it did not consider quantitative metrics because no monetary values were given (Group 2, 2025). The summary showed that probabilities could be estimated from bounded expert judgement, and it turned the team&rsquo;s general advice to &lsquo;partner with cloud providers&rsquo; into a specific architecture and platform choice.</p>
+								<p>Its weaknesses were the ones the tutor had already identified in the team report on 8 December 2025: limitations and gaps were not acknowledged, and few sources supported the argument. The summary cites four sources, one of them a LinkedIn article, and its regulatory section cites Article 5 of the EU GDPR from an unofficial website, when Pampered Pets is a UK business subject to the UK GDPR and the ICO. It also lost touch with the team&rsquo;s plan. The status document recommended phased digitalisation starting with security policy, training and the network; the summary went straight to a multi-region architecture that the business in the status document, with no security measures and data on two local computers, had no way to run. Units 7 to 10 tested each part of the summary in turn:</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Element</th>
+												<th>Executive summary</th>
+												<th>What later work found</th>
+												<th>Revised position</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Quality model (Monte Carlo)</td><td>Any quality event 21.6% a year, &plusmn;0.15%</td><td>Unit 7: the &plusmn; was simulation error; the experts&rsquo; ranges give 18.4% to 24.9%, and the quality control detection rate drives the result</td><td>Report ranges, and measure the detection rate with a seeded-defect test</td></tr>
+											<tr><td>Supply disruption (fault tree)</td><td>Short 18.7%, prolonged 6.0%</td><td>Unit 11: the gates were never shown. Both figures can be reproduced if an e-commerce outage has no failover branch and a warehouse outage whose failover fails counts as both short and prolonged. Events are assumed independent, while Unit 10 found that common-cause events matter most</td><td>Show the gates, and model common-cause events separately</td></tr>
+											<tr><td>Recovery objectives and architecture</td><td>Active-active, multi-region; RTO and RPO under one minute</td><td>Unit 9: no business impact analysis supported the objectives; the BIA gave a maximum tolerable outage of 72 hours. Unit 10: active-active cost about &pound;45,000 a year and left the same 28% five-year chance of losing the order data for good as the provider&rsquo;s defaults</td><td>Backup and restore, plus a copy every 15 minutes at a second provider under separate credentials, with daily reconciliation against payment records: a median of about &pound;3,400 a year, plus about &pound;800 for reconciliation</td></tr>
+											<tr><td>Platform choice (weighted sum)</td><td>Azure 4.35, AWS 4.20, Google Cloud 3.85</td><td>Unit 7: arithmetic errors (4.45, 4.30, 3.90), and the ranking depends on whether the lock-in criterion counts for or against a platform, and on the method used</td><td>State each criterion&rsquo;s direction; choose the provider on exit terms and recovery, not a weighted score alone</td></tr>
+											<tr><td>Vendor lock-in</td><td>Containerisation, open APIs, portability testing</td><td>Unit 10: measures for firms that build software; Pampered Pets will rent its systems</td><td>An exit plan: open-format exports, the domain kept with its registrar, and a restore at a second provider rehearsed twice a year</td></tr>
+											<tr><td>Regulation</td><td>GDPR principles (Article 5)</td><td>Units 5 and 6: the UK GDPR, PECR, PCI DSS and Cyber Essentials apply, each with named evidence</td><td>A register of obligations, including the ICO&rsquo;s 72-hour breach reporting</td></tr>
+											<tr><td>People and fraud</td><td>Not covered</td><td>Unit 8 modelled supplier impersonation fraud, a risk that the move to international suppliers adds</td><td>A call-back rule for any change to supplier bank details</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>The pattern across the table is that each number in the summary was presented without the assumption that produced it. Almost every correction came from asking what a figure measured and what it would cost, which are the questions a client and a marker both ask. The revised positions are the ones I will carry into the end-of-module e-portfolio.</p>
+							</div>
+						</section>
+
+						<section id="seven">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit11_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+Black, F. and Scholes, M. (1973) &lsquo;The pricing of options and corporate liabilities&rsquo;, <em>Journal of Political Economy</em>, 81(3), pp. 637&ndash;654. Available at: <a href="https://doi.org/10.1086/260062" target="_blank" rel="noopener">https://doi.org/10.1086/260062</a> (Accessed: 3 October 2026).<br /><br />
+									Competition and Markets Authority (CMA) (2025) <em>Cloud services market investigation: summary of final decision</em>, 31 July. London: CMA. Available at: <a href="https://assets.publishing.service.gov.uk/media/688b20e6ff8c05468cb7b120/summary_of_final_decision.pdf" target="_blank" rel="noopener">https://assets.publishing.service.gov.uk/media/688b20e6ff8c05468cb7b120/summary_of_final_decision.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Cox, L.A. (2008) &lsquo;What&rsquo;s wrong with risk matrices?&rsquo;, <em>Risk Analysis</em>, 28(2), pp. 497&ndash;512. Available at: <a href="https://doi.org/10.1111/j.1539-6924.2008.01030.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1539-6924.2008.01030.x</a> (Accessed: 3 October 2026).<br /><br />
+									Defense Advanced Research Projects Agency (DARPA) (2025) &lsquo;AI Cyber Challenge marks pivotal inflection point for cyber defense&rsquo;, <em>DARPA news</em>, 8 August. Available at: <a href="https://www.darpa.mil/news/2025/aixcc-results" target="_blank" rel="noopener">https://www.darpa.mil/news/2025/aixcc-results</a> (Accessed: 3 October 2026).<br /><br />
+									Fahimnia, B., Pournader, M., Siemsen, E., Bendoly, E. and Wang, C. (2019) &lsquo;Behavioral operations and supply chain management &ndash; a review and literature mapping&rsquo;, <em>Decision Sciences</em>, 50(6), pp. 1127&ndash;1183. Available at: <a href="https://doi.org/10.1111/deci.12369" target="_blank" rel="noopener">https://doi.org/10.1111/deci.12369</a> (Accessed: 3 October 2026).<br /><br />
+									Group 2 (2025) <em>A risk assessment report for Pampered Pets based on ISO/IEC 27005:2022 and ISO 31000:2018</em>. Unpublished team report, Security and Risk Management module. University of Essex Online.<br /><br />
+									Information Commissioner&rsquo;s Office (ICO) (no date) <em>Personal data breaches: a guide</em>. Wilmslow: ICO. Available at: <a href="https://ico.org.uk/for-organisations/report-a-breach/personal-data-breach/personal-data-breaches-a-guide/" target="_blank" rel="noopener">https://ico.org.uk/for-organisations/report-a-breach/personal-data-breach/personal-data-breaches-a-guide/</a> (Accessed: 3 October 2026).<br /><br />
+									Lyon, B. (2022) &lsquo;Communicate risk&rsquo;, in Popov, G., Lyon, B.K. and Hollcroft, B.D. <em>Risk assessment: a practical guide to assessing operational risks</em>. 2nd edn. Hoboken, NJ: John Wiley &amp; Sons, ch. 20. Available at: <a href="https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/</a> (Accessed: 3 October 2026).<br /><br />
+									Mac Cormac, S.H., Helmst&auml;dter, F., Tybus, J. and Bartels, T. (2025) &lsquo;EU Sustainability Omnibus I &ndash; &ldquo;Detailed Omnibus&rdquo; adopted: what the final CSRD/CSDDD deal means for companies&rsquo;, <em>Morrison Foerster client alert</em>, 22 December. Available at: <a href="https://www.mofo.com/resources/insights/251222-eu-sustainability-omnibus-i-detailed-omnibus" target="_blank" rel="noopener">https://www.mofo.com/resources/insights/251222-eu-sustainability-omnibus-i-detailed-omnibus</a> (Accessed: 3 October 2026).<br /><br />
+									Mackay, M. (2021) &lsquo;Cyber risk assessment in a post-IS1 world&rsquo;, <em>BCS, The Chartered Institute for IT</em>, 6 October. Available at: <a href="https://www.bcs.org/articles-opinion-and-research/cyber-risk-assessment-in-a-post-is1-world" target="_blank" rel="noopener">https://www.bcs.org/articles-opinion-and-research/cyber-risk-assessment-in-a-post-is1-world</a> (Accessed: 3 October 2026).<br /><br />
+									Marks, L. (2019) &lsquo;The optimal risk management framework: identifying the requirements and selecting the framework&rsquo;, <em>ISACA Journal</em>, 1, pp. 40&ndash;45. Available at: <a href="https://www.isaca.org/resources/isaca-journal/issues/2019/volume-1/the-optimal-risk-management-framework-identifying-the-requirements-and-selecting-the-framework" target="_blank" rel="noopener">https://www.isaca.org/resources/isaca-journal/issues/2019/volume-1/the-optimal-risk-management-framework-identifying-the-requirements-and-selecting-the-framework</a> (Accessed: 3 October 2026).<br /><br />
+									National Cyber Security Centre (NCSC) (2025) <em>Impact of AI on cyber threat from now to 2027</em>, 7 May. London: NCSC. Available at: <a href="https://www.ncsc.gov.uk/report/impact-ai-cyber-threat-now-2027" target="_blank" rel="noopener">https://www.ncsc.gov.uk/report/impact-ai-cyber-threat-now-2027</a> (Accessed: 3 October 2026).<br /><br />
+									National Institute of Standards and Technology (NIST) (2024) <em>The NIST Cybersecurity Framework (CSF) 2.0</em>. NIST Cybersecurity White Paper 29. Gaithersburg, MD: NIST. Available at: <a href="https://doi.org/10.6028/NIST.CSWP.29" target="_blank" rel="noopener">https://doi.org/10.6028/NIST.CSWP.29</a> (Accessed: 3 October 2026).<br /><br />
+									Pineiro-Chousa, J., Vizca&iacute;no-Gonz&aacute;lez, M., L&oacute;pez-Cabarcos, M.&Aacute;. and Romero-Castro, N. (2017) &lsquo;Managing reputational risk through environmental management and reporting: an options theory approach&rsquo;, <em>Sustainability</em>, 9(3), article 376. Available at: <a href="https://doi.org/10.3390/su9030376" target="_blank" rel="noopener">https://doi.org/10.3390/su9030376</a> (Accessed: 3 October 2026).<br /><br />
+									Popov, G., Popov, T. and Lyon, B. (2022) &lsquo;Risk assessment applications in Lean Six Sigma and environmental management systems&rsquo;, in Popov, G., Lyon, B.K. and Hollcroft, B.D. <em>Risk assessment: a practical guide to assessing operational risks</em>. 2nd edn. Hoboken, NJ: John Wiley &amp; Sons, ch. 18. Available at: <a href="https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/</a> (Accessed: 3 October 2026).<br /><br />
+									Regulation (EU) 2022/2554 of the European Parliament and of the Council of 14 December 2022 on digital operational resilience for the financial sector (DORA). <em>Official Journal of the European Union</em>, L 333, 27 December 2022. Available at: <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener">https://eur-lex.europa.eu/eli/reg/2022/2554/oj</a> (Accessed: 3 October 2026).<br /><br />
+									Ridley, A. (2018) &lsquo;Machine learning for autonomous cyber defense&rsquo;, <em>The Next Wave</em>, 22(1), pp. 7&ndash;14. Fort Meade, MD: National Security Agency. Available at: <a href="https://www.govinfo.gov/content/pkg/GPO-TNW-22-1-2018/pdf/GPO-TNW-22-1-2018.pdf" target="_blank" rel="noopener">https://www.govinfo.gov/content/pkg/GPO-TNW-22-1-2018/pdf/GPO-TNW-22-1-2018.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection in nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Stevens, I. (2026) <em>Quantitative risk assessment and digital resilience strategy for Pampered Pets: executive summary</em>. Unpublished assignment, Security and Risk Management module. University of Essex Online.<br /><br />
+									Sutton, D. (2021) <em>Information risk management: a practitioner&rsquo;s guide</em>. 2nd edn. Swindon: BCS, The Chartered Institute for IT. Chapter 8: Risk reporting and presentation; Chapter 9: Communication, consultation, monitoring and review. Available at: <a href="https://www.oreilly.com/library/view/information-risk-management/9781780175751/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/information-risk-management/9781780175751/</a> (Accessed: 3 October 2026).<br /><br />
+									The Open Group (2018) <em>Introducing The Open Group Open FAIR&trade; Risk Analysis Tool</em>. Available at: <a href="https://blog.opengroup.org/2018/03/29/introducing-the-open-group-open-fair-risk-analysis-tool/" target="_blank" rel="noopener">https://blog.opengroup.org/2018/03/29/introducing-the-open-group-open-fair-risk-analysis-tool/</a> (Accessed: 3 October 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
