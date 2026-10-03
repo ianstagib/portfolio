@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 12 Reflection - Security and Risk Management</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Ian Stevens</strong> <span>e-Portfolio</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="landing_srm.html">Security and Risk Management</a></li>
+							<li><a href="srm_eportfolio_summary.html">Module e-portfolio summary</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 12: The Great Debate &ndash; What Will Be the Most Influential Trend in SRM in the Next Five Years?</h1>
+								</header>
+								<span class="image main"><img src="../../images/pic08.jpg" alt="" /></span>
+								<p>The final unit of the module was a debate between two teams on which trend will shape security and risk management most over the next five years, followed by questions and a class vote. The artefacts below are the presentation I prepared for AI-enabled automation, a notebook that tests the claim the case rests on, my wiki entries for the two required readings, and my vote. The module as a whole is drawn together on the <a href="srm_eportfolio_summary.html">e-portfolio summary page</a>.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 12 asked each team to choose the trend it expected to be most influential in the next five years, present the case in ten minutes, defend it in discussion and then vote. The required reading was Marks&rsquo;s (2019) guide to choosing a risk management framework, which I had already used in Unit 11, and Nicol et al.&rsquo;s (2012) statement of five &lsquo;hard problems&rsquo; for a science of security. I prepared a ten-slide presentation arguing that AI-enabled automation will be the most influential trend (Artefact 1), built a model to test the empirical claim behind it (Artefact 2), completed wiki entries for both readings (Artefact 3) and recorded my vote (Artefact 4). I did not keep notes of the discussion itself, which I regret, so these artefacts record my preparation and my position rather than the exchange in the seminar.</p>
+
+								<h3>So what?</h3>
+								<p>Preparing to argue a side changed how I used evidence. My Unit 11 recommendation was hedged: AI and automation for research, provided the claims were tested, and supplier concentration for a small business. A debate rewards a clear motion, and the obvious way to open was the most striking figure I had found, Mandiant&rsquo;s estimate that the mean time from disclosure to exploitation fell to &lsquo;an estimated -7 days&rsquo; in 2025 (Kutscher, 2026). Building the model in Artefact 2 made me less comfortable with that number. Charrier and Weiner (2024) show that 70% of the vulnerabilities exploited in 2023 were zero-days and 30% n-days, so the headline average is taken over two different populations. Holding the 2023 n-day timings fixed, the average moves from +5 to &minus;7 days by changing only the share of zero-days and how early they are found. The negative mean is real, but on its own it does not show that attackers are turning published patches into exploits faster. I kept the figure on slide 3 and conceded the point on slide 8. Nicol et al. (2012) set the standard I had nearly ignored: a security metric should be &lsquo;quantifiable, feasible, repeatable, and objective&rsquo; and &lsquo;must be validated&rsquo;. An average over a changing mix is none of these. It is the same failure I found in my own executive summary in Unit 7, a number reported without saying what it measured.</p>
+								<p>What the model did support was stronger than the headline. Even at 2023 speed, a business that patches when someone gets round to it, with the 32-day median that Verizon (2025) found for edge devices, loses the race for about 55% of n-days. The Cyber Essentials 14-day rule cuts this to about 26%, automatic updates to about 10% and a supplier-managed service to about 6%. Keeping losses to one n-day in ten needs every patch installed within about two days now, and within half a day if exploitation becomes four times faster. That changed my understanding of what &lsquo;influential&rsquo; means here. AI matters to risk management less because defenders buy AI tools than because speed forces decisions to be made in advance and handed to automated rules: update settings, blocking thresholds, a provider&rsquo;s patch process. That links directly to my Unit 11 rebuild of Ridley&rsquo;s (2018) experiment, where an agent rewarded for cheap actions never isolated a node and a one-line rule beat it. Once decisions are delegated, the reward or threshold is the risk decision, and someone has to own it. The model also showed the limit of the argument: with seven in ten exploits arriving before any patch exists, patching reaches at most 30% of the problem, and the rest depends on containment and recovery, which is why the Unit 10 recommendation of a copy at a second provider under separate credentials still stands.</p>
+								<p>Nicol et al.&rsquo;s paper was more useful as a lens on my own module than as a forecast. Its selection criteria included each problem&rsquo;s &lsquo;likelihood of benefiting from emphasis on scientific research methods and improved measurement capabilities&rsquo;, so the list describes what researchers can study rather than what organisations fear most, and it has almost nothing on economics, regulation or dependence on suppliers. Scala et al. (2019) make a related criticism from the risk side: most sponsored cybersecurity research overlooks risk, and risk analysis should be built into each of the five problems. Read that way, my quantitative work in Units 7 to 11 was a series of small attempts at the metrics problem, the social engineering model in Unit 8 an attempt at the human behaviour problem, and the disaster recovery work in Units 9 and 10 an attempt at resilient architectures. Each attempt ran into the obstacle Nicol et al. describe: low-level numbers exist, but a defensible assessment of a whole system does not follow from them.</p>
+								<p>Marks (2019) helped with the rebuttals. His comparison found that none of the five frameworks he reviewed described roles and responsibilities or offered a RACI chart. If decisions move into automated rules, that gap matters more, not less. NIST CSF 2.0 now has a Govern function with a category for roles, responsibilities and authorities (NIST, 2024), which is where I argued ownership of automated decisions should be written down. That let me answer the governance case by treating it as the way AI&rsquo;s influence is managed rather than as a rival trend.</p>
+								<p>I also had to deal with my own earlier view. In Unit 11 I argued that supplier concentration would affect Pampered Pets sooner than AI, and arguing the other side felt at first like abandoning that. Writing the opposing case on slide 7 resolved it: the two answer different questions, and for a small firm AI arrives through its suppliers&rsquo; products and patch processes. Writing the concessions first was the most valuable part of the preparation. The tutor&rsquo;s comments on both of my assessed pieces said that limitations and gaps had not been acknowledged (Group 2, 2025; Stevens, 2026). A debate makes that weakness costly in real time, because the other side will name the gaps if you do not. A class poll can reward the better presentation rather than the better evidence, and I tried to make my case one that would survive a sceptical question about any of its numbers.</p>
+
+								<h3>Now what?</h3>
+								<p>Five changes follow. First, before I use a trend statistic I will ask what population it averages over and report the parts separately where I can, as I would now with time-to-exploit. Second, I will treat every automated decision as a risk decision: at work I intend to start a short register of automated rules, such as automatic blocking thresholds and update settings, each with a named owner and a review date. Third, for Pampered Pets the model gives a quantitative reason for advice I made in Unit 6: automatic updates on every device, rented services patched by the provider wherever possible, and the old warehouse PC replaced or isolated. Fourth, in any argued piece I will write the strongest opposing case and my concessions before the argument itself. Fifth, I will keep brief notes of discussions and meetings as evidence; their absence is the main gap in this unit&rsquo;s record and in the team section of my end-of-module e-portfolio.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: Debate Presentation &ndash; AI-Enabled Automation</h2>
+								</header>
+								<p><em>A ten-slide PowerPoint deck with speaker notes, timed at about ten minutes. Motion: &lsquo;AI-enabled automation will be the most influential trend in security and risk management to 2031&rsquo;.</em></p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Slide</th>
+												<th>Message</th>
+												<th>Evidence</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>Motion</td><td>&ndash;</td></tr>
+											<tr><td>2</td><td>AI changes the speed of risk, so it changes who makes risk decisions: speed, scale and delegation</td><td>Summary of slides 3 to 6</td></tr>
+											<tr><td>3</td><td>Mean time-to-exploit fell from 63 days (2018&ndash;19) to 5 days (2023) and an estimated &minus;7 days (2025); 70% of 2023 exploits were zero-days</td><td>Charrier and Weiner (2024); Kutscher (2026)</td></tr>
+											<tr><td>4</td><td>Attackers already automate campaigns: an AI agent carried out 80&ndash;90% of one espionage campaign; access hand-offs fell to a median of 22 seconds</td><td>Anthropic (2025); Kutscher (2026); NCSC (2025)</td></tr>
+											<tr><td>5</td><td>Only automated patching keeps pace as exploitation speeds up</td><td>Artefact 2</td></tr>
+											<tr><td>6</td><td>Automation turns three of Nicol et al.&rsquo;s hard problems (metrics, human behaviour, resilient architectures) into everyday risk management</td><td>Nicol et al. (2012); Unit 11 rebuild of Ridley (2018)</td></tr>
+											<tr><td>7</td><td>Rival trends (supplier concentration, regulation and governance, human factors, post-quantum cryptography) are real but driven by automation</td><td>CMA (2025); Regulation (EU) 2022/2554; NIST (2024); Verizon (2025)</td></tr>
+											<tr><td>8</td><td>Concessions: headline metrics mix populations, few AI claims are tested against simple baselines, AI attackers still make mistakes</td><td>Artefact 2; Unit 11; Anthropic (2025)</td></tr>
+											<tr><td>9</td><td>Vote for automation and for governing it: measure it, own it, survive it</td><td>&ndash;</td></tr>
+											<tr><td>10</td><td>Sources</td><td>&ndash;</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit12/figures/u12_slide02.png" alt="Slide 2: 'Our case: AI changes the speed of risk, so it changes who makes risk decisions'. Three cards: Speed, exploitation now runs ahead of patching; Scale, attackers already automate most of a campaign; Delegation, when people cannot act in time, risk decisions are written in advance into rules, thresholds and rewards." /></span>
+								<span class="image fit"><img src="artefacts/unit12/figures/u12_slide07.png" alt="Slide 7: 'The rival trends are real, but each is being driven by automation'. A table of four rival trends with why each matters and why automation is the bigger influence: supplier and cloud concentration, regulation and integrated governance, human factors, and post-quantum cryptography." /></span>
+								<p>The strongest argument against the motion is the one I made myself in Unit 11: for a business like Pampered Pets, dependence on a few cloud and software suppliers will matter sooner. The answer on slide 7 is that the two are not rivals. A small retailer will meet AI-enabled attacks, and AI-enabled defence, through the email, shop and accounting services it rents, so the supplier&rsquo;s speed of response becomes the customer&rsquo;s exposure. Post-quantum migration was the hardest rival to dismiss on importance, but it is a planned change over a decade and will not alter most risk decisions within five years.</p>
+								<ul class="actions">
+									<li><a href="docs/Unit12_Great_Debate_Slides.pptx" class="button icon solid fa-download" download>Download the slides (PowerPoint)</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Racing the Exploit &ndash; Does Patching at Human Speed Still Work?</h2>
+								</header>
+								<p><em>Python notebook: unit12_patch_race.ipynb. Uses the timing of the 41 n-days in Charrier and Weiner (2024), joined into an empirical curve, to estimate how often a vulnerability is exploited before a patch is installed under four patching policies, and repeats the test with exploitation two, four and eight times faster. The policy delays and the speed-ups are assumptions and scenarios, not measurements.</em></p>
+
+								<h3>1. What the headline average measures</h3>
+								<span class="image fit"><img src="artefacts/unit12/figures/u12_tte.png" alt="Left: cumulative share of 2023 n-days exploited against days since disclosure, rising through the published points 12% at 1 day, 29% at 7, 56% at 30 and 95% at 180; a lognormal fit misses the first and last points and is rejected. Right: overall mean time-to-exploit against the zero-day share for zero-days exploited 10, 18 and 30 days before disclosure; with the n-day curve fixed, the lines cross both the 2023 mean of 5 days and the 2025 estimate of minus 7 days." /></span>
+								<p>The n-days in the curve average about 60 days. If the reported 2023 mean of 5 days was taken over all 138 vulnerabilities, the zero-days must have been exploited about 18 days before disclosure on average; that is my inference, not a published figure. With the n-day curve fixed, a larger or earlier set of zero-days takes the mean below &minus;7 days. The headline should be reported as two numbers: the n-day curve and the zero-day share.</p>
+
+								<h3>2. The patching race</h3>
+								<span class="image fit"><img src="artefacts/unit12/figures/u12_race.png" alt="Line chart of the share of n-days exploited before the patch is installed against exploitation speed relative to 2023, from 1 to 10 times. Manual patching rises from 55% to above 90%; the Cyber Essentials 14-day rule from 26% to about 63%; automatic updates from 10% to about 30%; supplier-managed SaaS from 6% to about 22%." /></span>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Policy (delay from patch release to install)</th>
+												<th>2023 speed</th>
+												<th>&times;2</th>
+												<th>&times;4</th>
+												<th>&times;8</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Manual (lognormal, median 32 days)</td><td>54.8%</td><td>67.6%</td><td>80.1%</td><td>90.1%</td></tr>
+											<tr><td>Cyber Essentials (0&ndash;14 days)</td><td>26.2%</td><td>36.0%</td><td>47.6%</td><td>58.9%</td></tr>
+											<tr><td>Automatic updates (0&ndash;2 days)</td><td>10.0%</td><td>14.0%</td><td>20.2%</td><td>27.7%</td></tr>
+											<tr><td>Supplier-managed SaaS (0&ndash;1 day)</td><td>6.2%</td><td>9.9%</td><td>14.0%</td><td>20.2%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>Share of n-days exploited before the patch is installed. To keep this at or below 10%, every patch has to be installed within about 1.9 days at 2023 speed, 1.0 day at twice the speed and 0.5 days at four times.</p>
+
+								<h3>3. How much patching can reach</h3>
+								<span class="image fit"><img src="artefacts/unit12/figures/u12_exposure.png" alt="Stacked bars per 100 exploited vulnerabilities for the four policies at 2023 speed and at four times the speed. 70 in every bar are zero-days for which no fix existed. At 2023 speed the number patched in time is 13 for manual, 22 for Cyber Essentials, 27 for automatic and 28 for SaaS; at four times the speed it is 6, 16, 24 and 26." /></span>
+								<p>With the 2023 mix, 70 of every 100 exploited vulnerabilities were zero-days, so even perfect patching protects against at most 30. The remaining exposure has to be handled by limiting what a compromised component can reach, detecting it and restoring from a copy it cannot touch, which is Nicol et al.&rsquo;s (2012) resilient architectures problem and the approach recommended for Pampered Pets in Unit 10.</p>
+								<p>The limits are significant. The curve rests on 41 vulnerabilities tracked by one vendor, mostly in enterprise products, and first exploitation in the wild is not the same as exploitation of a particular small business, which usually comes later through mass scanning. The 365-day end point of the curve and the delay models are my assumptions, and treating exploitation and patching as independent ignores that the most publicised flaws tend to be patched and exploited fastest.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit12/unit12_patch_race.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit12/unit12_patch_race.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 3: Wiki Entries for the Future Trends Reading</h2>
+								</header>
+								<p><em>Entries for the module wiki started in Unit 11, completing the two required readings for Unit 12.</em></p>
+
+								<h3>Nicol, Sanders, Scherlis and Williams (2012) &ndash; Science of Security Hard Problems: A Lablet Perspective</h3>
+								<p><strong>Summary.</strong> Written by the leads of the three NSA-funded Science of Security Lablets at Illinois, Carnegie Mellon and North Carolina State, the paper selects five problems for their &lsquo;level of technical challenge, their potential operational significance, and their likelihood of benefiting from emphasis on scientific research methods and improved measurement capabilities&rsquo;, and sets out for each what is known and what research is needed.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Hard problem</th>
+												<th>Statement (2012)</th>
+												<th>Where it stands now</th>
+												<th>Where it appeared in this module</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Scalability and composability</td><td>Build secure systems with known properties from components with known properties, without re-analysing every component</td><td>Still open; most small firms now assemble their systems from rented services whose internals they cannot analyse at all</td><td>Vendor lock-in and supplier dependence (Unit 10)</td></tr>
+											<tr><td>Policy-governed secure collaboration</td><td>Express and enforce rules for handling data between users in different authority domains</td><td>Largely handled through law and contract rather than technology</td><td>UK and EU GDPR transfers and processor contracts for Pampered Pets (Unit 6)</td></tr>
+											<tr><td>Security-metrics-driven evaluation, design, development and deployment</td><td>Metrics and models that predict or confirm whether a system preserves its security properties in a given context</td><td>Low-level scores remain unreliable: 68% of experienced CVSS users changed at least one severity rating when they re-scored the same vulnerabilities (Wunder et al., 2024); headline trend metrics mix populations (Artefact 2)</td><td>Monte Carlo, Bayesian and multi-criteria models (Units 7 and 8)</td></tr>
+											<tr><td>Resilient architectures</td><td>Architectures that deliver required service in the face of compromised components</td><td>Now mainstream as zero trust, which assumes no implicit trust based on network location (Rose et al., 2020)</td><td>Business impact analysis and disaster recovery design (Units 9 and 10)</td></tr>
+											<tr><td>Understanding and accounting for human behaviour</td><td>Models of users and adversaries that support design and analysis of secure systems</td><td>Human judgement still shapes supposedly automated systems (Fahimnia et al., 2019); AI is changing the attacker side</td><td>Social engineering model (Unit 8); behavioural operations and autonomous defence (Unit 11)</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><strong>Critique.</strong> The paper is clear and its problem statements have aged well, but its selection rule favours problems that suit academic research methods. Economics, regulation and dependence on suppliers, three things that drove most of the decisions in my Pampered Pets work, appear only indirectly. It invokes Kelvin&rsquo;s &lsquo;If you cannot measure it, you cannot improve it&rsquo; and admits that &lsquo;the challenge is to produce a quantitative assessment of the security of a system as a whole&rsquo;. Fourteen years on, that is still the challenge. Scala et al. (2019) argue that most sponsored research on these problems overlooks risk considerations and that risk analysis should be built into each of them, which is the gap this module tries to fill from the other side. For the debate, the paper&rsquo;s value is that AI-enabled automation touches four of the five problems at once.</p>
+
+								<h3>Marks (2019) &ndash; The Optimal Risk Management Framework</h3>
+								<p><strong>Summary.</strong> Marks compares COBIT 5, NIST SP 800-37 Rev. 2, OCTAVE Allegro, ENISA guidance and the UK government&rsquo;s former Information Assurance Standards 1 and 2, and lists questions for choosing between them, concluding that practitioners &lsquo;should use the simplest framework that meets their requirements&rsquo;.</p>
+								<p><strong>Critique.</strong> As I noted in Unit 11, the comparison was out of date within a few years, leaves out FAIR and contains citation errors. For the debate, its most useful finding is a gap: none of the frameworks compared describes roles and responsibilities or offers a RACI chart, and none uses quantitative factors to evaluate risk. Automated decision making makes the first gap more serious, because an automated rule or threshold needs a named owner. NIST CSF 2.0 has since added a Govern function that covers roles, responsibilities and authorities (NIST, 2024), which is where that ownership belongs.</p>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 4: My Vote</h2>
+								</header>
+								<p><strong>Vote: AI-enabled automation, in attack and defence.</strong></p>
+								<p>It is the trend that changes the clock every other risk process runs on. The evidence that exploitation has accelerated is strong, even allowing for the way the headline metric mixes zero-days and n-days, and the consequence for defenders follows directly: decisions that used to be taken by people in days now have to be written in advance into rules that act in hours. That moves risk management from assessing risks to designing and owning the rules that respond to them. Supplier concentration was the strongest alternative, and for a four-person business such as Pampered Pets it is the channel through which this trend will arrive.</p>
+								<p><strong>What would change my vote:</strong> evidence that n-day exploitation is not getting faster once zero-days are separated out, or independent tests showing that AI-based defensive tools do no better than simple rules in real use. Either would suggest that the trend is louder than it is influential.</p>
+							</div>
+						</section>
+
+						<section id="seven">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit12_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Anthropic (2025) &lsquo;Disrupting the first reported AI-orchestrated cyber espionage campaign&rsquo;, <em>Anthropic news</em>, 13 November. Available at: <a href="https://www.anthropic.com/news/disrupting-AI-espionage" target="_blank" rel="noopener">https://www.anthropic.com/news/disrupting-AI-espionage</a> (Accessed: 3 October 2026).<br /><br />
+									Charrier, C. and Weiner, R. (2024) &lsquo;How low can you go? An analysis of 2023 time-to-exploit trends&rsquo;, <em>Google Cloud blog: threat intelligence</em>, 15 October. Available at: <a href="https://cloud.google.com/blog/topics/threat-intelligence/time-to-exploit-trends-2023" target="_blank" rel="noopener">https://cloud.google.com/blog/topics/threat-intelligence/time-to-exploit-trends-2023</a> (Accessed: 3 October 2026).<br /><br />
+									Competition and Markets Authority (CMA) (2025) <em>Cloud services market investigation: summary of final decision</em>, 31 July. London: CMA. Available at: <a href="https://assets.publishing.service.gov.uk/media/688b20e6ff8c05468cb7b120/summary_of_final_decision.pdf" target="_blank" rel="noopener">https://assets.publishing.service.gov.uk/media/688b20e6ff8c05468cb7b120/summary_of_final_decision.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Fahimnia, B., Pournader, M., Siemsen, E., Bendoly, E. and Wang, C. (2019) &lsquo;Behavioral operations and supply chain management &ndash; a review and literature mapping&rsquo;, <em>Decision Sciences</em>, 50(6), pp. 1127&ndash;1183. Available at: <a href="https://doi.org/10.1111/deci.12369" target="_blank" rel="noopener">https://doi.org/10.1111/deci.12369</a> (Accessed: 3 October 2026).<br /><br />
+									Group 2 (2025) <em>A risk assessment report for Pampered Pets based on ISO/IEC 27005:2022 and ISO 31000:2018</em>. Unpublished team report, Security and Risk Management module. University of Essex Online.<br /><br />
+									Kutscher, J. (2026) &lsquo;M-Trends 2026: data, insights, and strategies from the frontlines&rsquo;, <em>Google Cloud blog: threat intelligence</em>, 23 March. Available at: <a href="https://cloud.google.com/blog/topics/threat-intelligence/m-trends-2026" target="_blank" rel="noopener">https://cloud.google.com/blog/topics/threat-intelligence/m-trends-2026</a> (Accessed: 3 October 2026).<br /><br />
+									Marks, L. (2019) &lsquo;The optimal risk management framework: identifying the requirements and selecting the framework&rsquo;, <em>ISACA Journal</em>, 1, pp. 40&ndash;45. Available at: <a href="https://www.isaca.org/resources/isaca-journal/issues/2019/volume-1/the-optimal-risk-management-framework-identifying-the-requirements-and-selecting-the-framework" target="_blank" rel="noopener">https://www.isaca.org/resources/isaca-journal/issues/2019/volume-1/the-optimal-risk-management-framework-identifying-the-requirements-and-selecting-the-framework</a> (Accessed: 3 October 2026).<br /><br />
+									National Cyber Security Centre (NCSC) (2025) <em>Impact of AI on cyber threat from now to 2027</em>, 7 May. London: NCSC. Available at: <a href="https://www.ncsc.gov.uk/report/impact-ai-cyber-threat-now-2027" target="_blank" rel="noopener">https://www.ncsc.gov.uk/report/impact-ai-cyber-threat-now-2027</a> (Accessed: 3 October 2026).<br /><br />
+									NCSC (2026) <em>Cyber Essentials: requirements for IT infrastructure, v3.3</em>. London: National Cyber Security Centre. Available at: <a href="https://www.ncsc.gov.uk/files/cyber-essentials-requirements-for-it-infrastructure-v3-3.pdf" target="_blank" rel="noopener">https://www.ncsc.gov.uk/files/cyber-essentials-requirements-for-it-infrastructure-v3-3.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									National Institute of Standards and Technology (NIST) (2024) <em>The NIST Cybersecurity Framework (CSF) 2.0</em>. NIST Cybersecurity White Paper 29. Gaithersburg, MD: NIST. Available at: <a href="https://doi.org/10.6028/NIST.CSWP.29" target="_blank" rel="noopener">https://doi.org/10.6028/NIST.CSWP.29</a> (Accessed: 3 October 2026).<br /><br />
+									Nicol, D.M., Sanders, W.H., Scherlis, W.L. and Williams, L.A. (2012) <em>Science of security hard problems: a lablet perspective</em>. Science of Security Virtual Organization, 27 November. Available at: <a href="https://sos-vo.org/node/6394" target="_blank" rel="noopener">https://sos-vo.org/node/6394</a> (Accessed: 3 October 2026).<br /><br />
+									Regulation (EU) 2022/2554 of the European Parliament and of the Council of 14 December 2022 on digital operational resilience for the financial sector (DORA). <em>Official Journal of the European Union</em>, L 333, 27 December 2022. Available at: <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener">https://eur-lex.europa.eu/eli/reg/2022/2554/oj</a> (Accessed: 3 October 2026).<br /><br />
+									Ridley, A. (2018) &lsquo;Machine learning for autonomous cyber defense&rsquo;, <em>The Next Wave</em>, 22(1), pp. 7&ndash;14. Fort Meade, MD: National Security Agency. Available at: <a href="https://www.govinfo.gov/content/pkg/GPO-TNW-22-1-2018/pdf/GPO-TNW-22-1-2018.pdf" target="_blank" rel="noopener">https://www.govinfo.gov/content/pkg/GPO-TNW-22-1-2018/pdf/GPO-TNW-22-1-2018.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection in nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Rose, S., Borchert, O., Mitchell, S. and Connelly, S. (2020) <em>Zero trust architecture</em>. NIST Special Publication 800-207. Gaithersburg, MD: National Institute of Standards and Technology. Available at: <a href="https://doi.org/10.6028/NIST.SP.800-207" target="_blank" rel="noopener">https://doi.org/10.6028/NIST.SP.800-207</a> (Accessed: 3 October 2026).<br /><br />
+									Scala, N.M., Reilly, A.C., Goethals, P.L. and Cukier, M. (2019) &lsquo;Risk and the five hard problems of cybersecurity&rsquo;, <em>Risk Analysis</em>, 39(10), pp. 2119&ndash;2126. Available at: <a href="https://doi.org/10.1111/risa.13309" target="_blank" rel="noopener">https://doi.org/10.1111/risa.13309</a> (Accessed: 3 October 2026).<br /><br />
+									Stevens, I. (2026) <em>Quantitative risk assessment and digital resilience strategy for Pampered Pets: executive summary</em>. Unpublished assignment, Security and Risk Management module. University of Essex Online.<br /><br />
+									Verizon (2025) <em>2025 Data Breach Investigations Report</em>. Basking Ridge, NJ: Verizon Business. Available at: <a href="https://www.verizon.com/business/resources/reports/2025-dbir-data-breach-investigations-report.pdf" target="_blank" rel="noopener">https://www.verizon.com/business/resources/reports/2025-dbir-data-breach-investigations-report.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Wunder, J., Kurtz, A., Eichenm&uuml;ller, C., Gassmann, F. and Benenson, Z. (2024) &lsquo;Shedding light on CVSS scoring inconsistencies: a user-centric study on evaluating widespread security vulnerabilities&rsquo;, in <em>2024 IEEE Symposium on Security and Privacy (SP)</em>. San Francisco, CA: IEEE, pp. 1102&ndash;1121. Available at: <a href="https://doi.org/10.1109/SP54263.2024.00058" target="_blank" rel="noopener">https://doi.org/10.1109/SP54263.2024.00058</a> (Accessed: 3 October 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Ian Stevens</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
