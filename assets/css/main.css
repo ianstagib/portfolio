@@ -3953,3 +3953,9 @@ input, select, textarea {
 			opacity: 1;
 			visibility: visible;
 		}
+/* SRM unit thumbnails: let spotlight images fill the full height of their column */
+	.spotlights > section > .image img {
+		height: 100%;
+		object-fit: cover;
+		object-position: center center;
+	}
