@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 8 Reflection - Security and Risk Management</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../landing.html">Landing</a></li>
+							<li><a href="../../generic.html">Generic</a></li>
+							<li><a href="../../elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 8: Implementing Quantitative Risk Models</h1>
+								</header>
+								<span class="image main"><img src="../../images/pic04.jpg" alt="" /></span>
+								<p>This unit puts quantitative risk modelling into practice. It uses Monte Carlo simulation, Bayes&rsquo; theorem, attack trees and Markov models on real problems, reviews case studies of their use in project management and safety estimation, and asks how to choose between the techniques and how far their results can be trusted. The artefacts below are my answers to the seminar questions on Aijaz and Nazir&rsquo;s (2024) model of social engineering threats, a notebook that tries to reproduce their published results, and a quantitative model of supplier impersonation fraud at Pampered Pets.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 7 introduced quantitative risk models. Unit 8 asked me to build one of a real situation and to judge how far it could be trusted. The required reading was Eckstein and Riedmueller&rsquo;s (2002) paper on YASAI, an Excel add-in for teaching Monte Carlo simulation. I had already rebuilt Fizell&rsquo;s (2022) Monte Carlo tutorial in Unit 7, so I spent most of the recommended reading time on Aijaz and Nazir&rsquo;s (2024) attack tree and Markov model of social engineering threats, and on Zografopoulos et al.&rsquo;s (2021) survey of threat modelling and risk assessment in cyber-physical energy systems. For the seminar I answered four questions on Aijaz and Nazir. Then I tried to reproduce their results in Python, and finally I built a model of supplier impersonation fraud for Pampered Pets from the spoofing row of our team&rsquo;s STRIDE table (Group 2, 2025). The seminar answers and the two notebooks are the artefacts below.</p>
+
+								<h3>So what?</h3>
+								<p>Eckstein and Riedmueller (2002) wrote YASAI because commercial add-ins got in the way of teaching. Students spent their time on dialog boxes and installation problems when they should have been learning how simulation works. Their answer was to put almost everything into cell formulas: random draws, the cells to be recorded and the scenarios to be compared. A printout of the formulas and the output report then documents the whole model. That made me think about my executive summary, which listed its inputs but never said how they were combined, so that in Unit 7 I had to reconstruct its structure before I could check it (Stevens, 2026). I worked in Python, not Excel, but for the same reason: a notebook keeps the code, the results and the explanation together under version control. The paper has clear limits. YASAI is a 2002 teaching tool, slower than the commercial packages and without charts, and its evidence of success is one semester of classroom use in which students reported fewer problems than they had with @Risk. That shows the add-in was easier to use, not that students learned more. One default stayed with me, though. YASAI uses the same random seed for every scenario, which is the standard way to compare options with common random numbers. I used it in Artefact 3, and it let me say that a call-back check beat staff training in every one of 20,000 input sets, a stronger claim than a comparison of two averages from separate runs.</p>
+								<p>Aijaz and Nazir&rsquo;s (2024) idea is appealing. They split each social engineering attack into a channel (email, phone or face to face) and a persuasion principle such as authority, use an attack tree to estimate how often a combination occurs and a four-state Markov chain to estimate how often it succeeds. Rebuilding it took the shine off. The occurrence probabilities did reproduce, all ten of them, but only once I counted the channel twice in every scenario with two principles, which the authors seem to acknowledge as their &lsquo;repeated labelling&rsquo; problem. The inputs are shares of past attacks that add up to one, not likelihoods, and their finding that occurrence falls when more principles are used follows from multiplying numbers below one. The success probabilities did not reproduce at all. None of 512 ways of mapping the inputs to the chain matched them, and the published order of the scenarios contradicts the inputs. More fundamentally, in their chain the attacker always succeeds in the end, so the stationary probability of success measures how quickly that happens, and it changes from 10.1% to 5.7% when only the authors&rsquo; arbitrary restart rule is altered. They estimated it by simulation, although it can be calculated exactly, and a walk of 1,000 steps carries noise of about &plusmn;2.5 points, which is larger than most of the differences between their scenarios. The authors call their approach more grounded than methods that rely on assumptions, yet their own tables describe the frequencies and effectiveness values as assumed. The frequency data come from Bullée et al. (2018), who analysed 74 scenarios taken from four books written by social engineers, so they describe the attacks that worked and were written up, not attacks in general. What bothered me most was that I found these faults in a published paper far faster than I had found the ones in my own executive summary in Unit 7. Being able to reproduce a number is the minimum test before relying on it, and peer review had not applied that test here.</p>
+								<p>Zografopoulos et al. (2021) widened the picture. Their threat model describes an adversary by knowledge, access, specificity and resources, which fits the supplier fraudster in Artefact 3 well: remote, targeted, with limited knowledge and modest resources. It also reminded me that Pampered Pets does not need to fear a nation state to face a real threat. Their risk assessment is less convincing. Risk is threat probability multiplied by damage, but damage is a sum of objective priorities from 1 to 4 multiplied by impacts rated low, medium or high and scored 1 to 3. A survey in IEEE Access that sets out to quantify risk still does arithmetic on ordinal scores, which is the problem Cox (2008) identified in risk matrices and the one I raised about Jbair et al. (2022) in Unit 4.</p>
+								<p>Building my own model was where the unit&rsquo;s outcome of selecting the appropriate technique became concrete. The STRIDE row rated spoofing by phishing as medium likelihood and high risk (Group 2, 2025), but it could not say which step of the attack to break. An absorbing Markov chain with states where the attack really fails gave a probability of success for a single attempt, and a two-stage Monte Carlo carried the uncertainty in my inputs through to the result. Requiring every change of supplier bank details to be confirmed by phoning a number already on file cut the median annual probability of a diverted payment from 37% to 7%. Training reduced it only to 28%, with a range that includes no effect at all, which is consistent with Lain, Kostiainen and &#268;apkun&rsquo;s (2022) finding that embedded phishing training did not make employees more resilient. The rate of convincing attempts drove the result far more than any behavioural input. Checking the model against national data was uncomfortable. An estimated 3% of UK businesses were victims of fraud that resulted from a cyber breach or attack in the last year (DSIT and Home Office, 2026), and my model with no controls was more than ten times higher. I could not defend the 37%, and I had to accept that the most precise-looking number in the notebook was the weakest. The ranking of the controls survived every input set, though, because the attempt rate scales every option equally. I also tested the memoryless assumption that my executive summary had given as a reason to rate Markov models low. Adding one step of memory changed the result by about 10%, so that objection was a reason to test the method, not to reject it.</p>
+
+								<h3>Now what?</h3>
+								<p>Four changes follow. First, before I rely on a quantitative result from a paper or a supplier, I will try to reproduce at least one of its numbers, and if I cannot, I will say so wherever I cite it. Second, in any state-based model I will ask which states the attack cannot come back from, because a probability of success only means something if the attack can fail. Third, before presenting an absolute probability I will compare it with an external benchmark such as the Cyber Security Breaches Survey. Where it does not survive that check, I will present the ranking of controls, which is usually more robust, and name the input that needs measuring. Fourth, I will keep using common random numbers when comparing options. For Pampered Pets I will recommend two cheap measures for phase 1 of the team&rsquo;s plan: a call-back rule for any change to supplier bank details, and a simple log of suspicious supplier emails to replace my assumed attempt rate with data. I will carry both into the evaluation of the final project in my end-of-module e-portfolio. At work, I will check whether our own process for changing a supplier&rsquo;s bank details depends on the person who received the request.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: Seminar Activity: Modelling Social Engineering Threats</h2>
+								</header>
+								<p><em>Answers prepared for the Unit 8 seminar on Aijaz and Nazir (2024). Where an answer draws on my attempt to reproduce the paper, the evidence is in Artefact 2.</em></p>
+
+								<h3>1. What are the main challenges in modelling and evaluating the outcomes of social engineering threats, and how does this study attempt to address them?</h3>
+								<p>The authors describe the field as being in its infancy when it comes to rigorous modelling and evaluation. Four challenges stand out. First, the target is a person, and whether an attack works depends on the victim&rsquo;s demographics, workload and culture and on the attacker&rsquo;s skill and resources, which the authors list but leave out of their model. Second, good data are scarce. Most attempts are never reported, failures leave no record, and the attacks that are written up are the successful ones. The authors admit that the published evidence they use &lsquo;is insufficient to rely on&rsquo;. Third, there was no agreed way of representing the steps of an attack. Fourth, whether an attack happens and whether it succeeds are different questions that are easily run together.</p>
+								<p>The study responds by breaking each threat into atomic parts, a modality and one or more persuasion principles, and by giving each part an occurrence probability and an effectiveness probability taken from published studies (Bullée et al., 2018; Mouton, Leenen and Venter, 2016). An attack tree then gives the attack occurrence probability (AOP), and a Markov chain with Disconnect, Connect, Persuade and Success states gives the attack success probability (ASP). The method is applied to ten scenarios. Keeping occurrence and success apart is the paper&rsquo;s most useful idea. The data problem, however, is moved, not solved: the tables call their values &lsquo;assumed&rsquo;, and the occurrence values are shares of attacks that add up to one. The ten scenarios are built from the same tables, so applying the method to them shows that it runs, not that its outputs match what happens in practice. A comparison with observed outcomes, such as click rates in phishing simulations, would be needed for that.</p>
+
+								<h3>2. How do persuasion principles and modalities contribute to the success of SETs, and why is it important to analyse them systematically?</h3>
+								<p>Persuasion principles explain why a target complies. The paper uses the six principles that Bullée et al. (2018) take from Cialdini: authority, commitment, reciprocity, liking, scarcity and conformity (social proof). Each is a mental shortcut that people normally rely on, such as doing what someone senior asks or returning a favour, and an attacker triggers it to cut short careful thought. The modality decides how many people can be reached and how persuasive the contact is. In Table 1 email is the most common channel but the least effective, face to face is rare but the most effective, and voice calls sit between them. An attacker trades reach against persuasiveness, which is why bulk phishing is cheap and usually fails, while a phone call from someone claiming to be IT support is rarer and often works.</p>
+								<p>A systematic analysis makes the human factor concrete enough to compare and to defend against. Bullée et al. (2018) found that authority was used considerably more often than any other principle, which tells an organisation where to start. A defence aimed at a principle is more precise than general awareness training: if authority is the main lever, a rule that any request for money, credentials or data is checked through an independent channel, whoever appears to be asking, removes it. Defences can also be aimed at a channel, for example a call-back for any bank detail change requested by email. The analysis has limits. Bullée et al.&rsquo;s scenarios come from four books by social engineers about attacks that worked, so they show which principles appear in success stories, not how often each succeeds. Most of the effectiveness figures in Table 2 have no stated source, and authority&rsquo;s effectiveness (0.63) is identical to its occurrence share.</p>
+
+								<h3>3. What role do the Attack Tree Model and Markov Chain Model play in estimating the AOP and ASP of SETs?</h3>
+								<p>The attack tree describes how an attack is put together. The root is the attacker&rsquo;s goal and the leaves are the modality and principles, joined by AND and OR gates. AOP is calculated from the bottom up: an OR gate takes the largest of its children and an AND gate their product, so email (0.5) with authority (0.63) gives 31.5%. The Markov chain describes how an attack unfolds. Its transition probabilities depend on the effectiveness of the modality and principle, Success is made non-absorbing by sending it back to every state with probability 1/4, and ASP is the stationary probability of Success, estimated by Monte Carlo simulation. The authors conclude that single-principle attacks are more likely to occur but less likely to succeed, and that combining principles lowers occurrence and raises success. Face to face with authority (16%) and a voice call using authority and commitment (18%) have the highest ASPs.</p>
+								<p>In principle the two models are complementary: the tree tells you how common a combination is and the chain how it progresses. My reproduction in Artefact 2 found that only the tree&rsquo;s numbers can be checked. All ten AOPs reproduce, but only if the modality is counted once for each principle. No mapping of the inputs reproduces the ASPs. The stationary probability measures how fast an attack reaches Success in a chain where it always gets there eventually, and it depends on the authors&rsquo; restart rule. Neither number has a time base, and impact and risk are left out of scope, so AOP and ASP can rank scenarios against each other but cannot yet be turned into a likelihood of loss for an organisation.</p>
+
+								<h3>4. In what ways can the findings of this study support the development of effective policy frameworks for mitigating social engineering threats in information systems?</h3>
+								<p>The study supports policy in three ways. First, it gives a structure for prioritising: channels with a high occurrence, such as email, call for technical and procedural controls, while principles with a high effectiveness, such as authority, call for rules that work whoever appears to be asking. Second, the states of the Markov chain map onto control points. Filtering, caller verification and a report button act at Connect. Training about specific principles and agreed scripts for refusing act at Persuade. Verification, multi-factor authentication and separation of duties act before Success. A policy framework can be checked by asking whether every transition has a control. Third, it argues for training built around persuasion principles instead of generic awareness sessions.</p>
+								<p>I would not set policy thresholds from the paper&rsquo;s numbers, for the reasons given above. A better policy would require the organisation to collect its own data, such as reported suspicious messages and the results of phishing exercises, and to feed them into the model. Lain, Kostiainen and &#268;apkun (2022) showed that employees reporting suspicious emails can work as a fast collective detector, and found that embedded training could make staff more susceptible, not less. Phishing exercises also raise ethical questions about deceiving staff, so the policy should say how they are run and how results are used. For Pampered Pets, Artefact 3 points to three policy statements: every change of supplier bank details is confirmed by phoning a number already on file; suspicious messages are reported and logged; and, where four staff allow it, the owner approves any payment to a new account.</p>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Reproducing Aijaz and Nazir&rsquo;s Model</h2>
+								</header>
+								<p><em>Python notebook: unit8_aijaz_nazir_reproduction.ipynb. All inputs are the values printed in Tables 1 and 2 of the paper; the targets are its Table 3.</em></p>
+
+								<h3>1. Attack tree: the occurrence probabilities</h3>
+								<p>The paper&rsquo;s Algorithm 1 (OR takes the maximum, AND the product) reproduces every published AOP, but in the three scenarios with two persuasion principles only if each principle has its own copy of the modality leaf, as in the paper&rsquo;s Figure 2.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Case</th>
+												<th>Modality</th>
+												<th>Principles</th>
+												<th>Published AOP</th>
+												<th>Modality counted once</th>
+												<th>Modality counted per principle</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>Email</td><td>Authority</td><td>31.5%</td><td>31.5%</td><td>31.5%</td></tr>
+											<tr><td>4</td><td>Voice call</td><td>Authority</td><td>25.2%</td><td>25.2%</td><td>25.2%</td></tr>
+											<tr><td>7</td><td>Face to face</td><td>Authority</td><td>6.3%</td><td>6.3%</td><td>6.3%</td></tr>
+											<tr><td>8</td><td>Voice call or email</td><td>Authority, reciprocity</td><td>1.7%</td><td>3.5%</td><td>1.7%</td></tr>
+											<tr><td>9</td><td>Voice call</td><td>Authority, commitment</td><td>1.1%</td><td>2.8%</td><td>1.1%</td></tr>
+											<tr><td>10</td><td>Email</td><td>Commitment, reciprocity</td><td>0.3%</td><td>0.6%</td><td>0.3%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>Cases 2, 3, 5 and 6 also reproduce exactly. The occurrence values in each table sum to 1, so they are shares of past attacks, not likelihoods for an organisation. Case 9 only reproduces with voice call alone, although the text of the scenario lists voice call and email.</p>
+
+								<h3>2. Markov chain: the success probabilities</h3>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Test</th>
+												<th>Result</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Case 1 with &alpha; = modality effectiveness and &beta; = &gamma; = principle effectiveness, solved exactly</td><td>10.1% (published 12.0%)</td></tr>
+											<tr><td>512 mappings of the inputs to &alpha;, &beta; and &gamma;, tested against the seven single-principle cases</td><td>None reproduces the column; the best is 1.5 points out on average</td></tr>
+											<tr><td>Published order against the inputs</td><td>Commitment (0.29) scores above reciprocity (0.41) with both email and voice; email with authority scores above voice call with authority</td></tr>
+											<tr><td>Probability of eventual success in the original chain</td><td>1.0, because failures return to Disconnect</td></tr>
+											<tr><td>Changing only the restart rule after Success</td><td>10.1% (paper&rsquo;s 1/4 rule), 5.7% (restart to Disconnect), 7.9% (restart to Connect)</td></tr>
+											<tr><td>Spread of Monte Carlo estimates, 1,000-step walk</td><td>7.5% to 12.5% for a true value of 10.1%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit8/figures/u8_asp_noise.png" alt="Scatter of 400 Monte Carlo estimates of the same success probability for walks of 100, 1,000 and 10,000 steps. Estimates range from about 1% to 22% at 100 steps and 7.5% to 12.5% at 1,000 steps, narrowing around the exact value of 10.1% at 10,000 steps." /></span>
+								<p>With a restart to Disconnect, the stationary probability equals 1 / (1 + expected steps to success), so it measures how quickly an attack succeeds, not how likely it is to work.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit8/unit8_aijaz_nazir_reproduction.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit8/unit8_aijaz_nazir_reproduction.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 3: A Quantitative Model of Supplier Impersonation Fraud at Pampered Pets</h2>
+								</header>
+								<p><em>Python notebook: unit8_pampered_pets_invoice_fraud_model.ipynb. Turns the spoofing row of our team&rsquo;s STRIDE table (phishing emails against email, invoices and supplier trust) into a quantitative model. Every input is an assumption made for this exercise; the case study gives no figures for payments or email volumes.</em></p>
+
+								<h3>1. The model</h3>
+								<p>An email that appears to come from one of Pampered Pets&rsquo; overseas suppliers asks for the next invoice to be paid to a new account, using the authority principle. A single attempt is an absorbing Markov chain: Delivered, Engaged and Persuaded are transient states, and the attack ends either in Paid or in Stopped (ignored, refused or caught). An ignored email may be followed up. The annual number of attempts is Poisson, and 20,000 input sets are drawn from triangular ranges before each year is simulated. All four control options use the same random numbers, as YASAI does by default (Eckstein and Riedmueller, 2002).</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Input (assumed)</th>
+												<th>Range: min, most likely, max</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Convincing impersonation emails reaching the inbox per year</td><td>0.5, 2, 6</td></tr>
+											<tr><td>Staff member engages with an email</td><td>0.20, 0.40, 0.60</td></tr>
+											<tr><td>Attacker follows up an ignored email</td><td>0.20, 0.40, 0.60</td></tr>
+											<tr><td>Engaged staff member accepts the new bank details</td><td>0.20, 0.40, 0.60</td></tr>
+											<tr><td>Change caught before payment: no formal check / call-back to a known number</td><td>0, 0.10, 0.30 / 0.70, 0.90, 0.97</td></tr>
+											<tr><td>Training multiplier on engagement and acceptance (above 1 means training makes things worse)</td><td>0.60, 0.85, 1.05</td></tr>
+											<tr><td>Value of a diverted payment (GBP)</td><td>1,500, 4,000, 15,000</td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<h3>2. Comparing controls</h3>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Option</th>
+												<th>Success per attempt (median)</th>
+												<th>P(at least one diverted payment in a year): median (5th&ndash;95th percentile)</th>
+												<th>Expected annual loss</th>
+												<th>95th percentile annual loss</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>No controls</td><td>17.6%</td><td>37% (16%&ndash;64%)</td><td>&pound;3,425</td><td>&pound;14,624</td></tr>
+											<tr><td>Training only</td><td>12.6%</td><td>28% (11%&ndash;54%)</td><td>&pound;2,487</td><td>&pound;12,468</td></tr>
+											<tr><td>Call-back check only</td><td>2.7%</td><td>7% (2%&ndash;18%)</td><td>&pound;562</td><td>&pound;5,291</td></tr>
+											<tr><td>Training and call-back</td><td>1.9%</td><td>5% (1%&ndash;14%)</td><td>&pound;415</td><td>&pound;3,649</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit8/figures/u8_controls.png" alt="Box plots of the annual probability of a diverted payment for four options. No controls has a median of 37%, training only 28%, call-back check only 7% and training with call-back 5%. A dashed line marks the estimated 3% of UK businesses that were victims of cyber-facilitated fraud." /></span>
+								<p>Because the options share random numbers they can be compared input set by input set: the call-back check beats training alone in 100% of the 20,000 input sets. Its median reduction in the annual probability is 81%, against 23% for training.</p>
+
+								<h3>3. Sensitivity, the national benchmark and a Bayesian update</h3>
+								<span class="image fit"><img src="artefacts/unit8/figures/u8_sensitivity.png" alt="Bar chart of rank correlations with the annual probability under no controls: attempts per year 0.83, acceptance of new details 0.39, engagement 0.31, follow-up 0.12 and catching the change without a check minus 0.13." /></span>
+								<p>The attempt rate drives the result (rank correlation 0.83). Against an estimated 3% of UK businesses that were victims of cyber-facilitated fraud (DSIT and Home Office, 2026), the no-controls median is more than ten times higher; matching 3% would need one convincing attempt about every six years. The absolute figures are therefore not defensible, but the ranking of controls does not depend on the attempt rate.</p>
+								<span class="image fit"><img src="artefacts/unit8/figures/u8_lambda_update.png" alt="Density chart of the attempt rate: the triangular expert prior from 0.5 to 6, the posterior with the expert prior peaking near 2 and the posterior with an open prior peaking below 1, after one hypothetical logged attempt in a year." /></span>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Attempt rate (hypothetical data: one attempt logged in a year)</th>
+												<th>Mean (5th&ndash;95th percentile)</th>
+												<th>P(loss in a year), no controls, median</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Expert prior, no data</td><td>2.8 (1.1&ndash;5.0)</td><td>37%</td></tr>
+											<tr><td>Expert prior after the log</td><td>2.2 (1.0&ndash;3.9)</td><td>30%</td></tr>
+											<tr><td>Open prior after the log</td><td>1.5 (0.3&ndash;3.6)</td><td>19%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>A one-step memory for follow-up emails, with their effect halved or raised by half, changed the success probability per attempt by about 10% either way (16.9% to 20.6%), so the memoryless chain is adequate for this scenario.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit8/unit8_pampered_pets_invoice_fraud_model.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit8/unit8_pampered_pets_invoice_fraud_model.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit8_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Aijaz, M. and Nazir, M. (2024) &lsquo;Modelling and analysis of social engineering threats using the attack tree and the Markov model&rsquo;, <em>International Journal of Information Technology</em>, 16(2), pp. 1231&ndash;1238. Available at: <a href="https://doi.org/10.1007/s41870-023-01540-z" target="_blank" rel="noopener">https://doi.org/10.1007/s41870-023-01540-z</a> (Accessed: 3 October 2026).<br /><br />
+									Bull&eacute;e, J.-W.H., Montoya, L., Pieters, W., Junger, M. and Hartel, P. (2018) &lsquo;On the anatomy of social engineering attacks: a literature-based dissection of successful attacks&rsquo;, <em>Journal of Investigative Psychology and Offender Profiling</em>, 15(1), pp. 20&ndash;45. Available at: <a href="https://doi.org/10.1002/jip.1482" target="_blank" rel="noopener">https://doi.org/10.1002/jip.1482</a> (Accessed: 3 October 2026).<br /><br />
+									Cox, L.A. (2008) &lsquo;What&rsquo;s wrong with risk matrices?&rsquo;, <em>Risk Analysis</em>, 28(2), pp. 497&ndash;512. Available at: <a href="https://doi.org/10.1111/j.1539-6924.2008.01030.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1539-6924.2008.01030.x</a> (Accessed: 3 October 2026).<br /><br />
+									Department for Science, Innovation and Technology (DSIT) and Home Office (2026) <em>Cyber security breaches survey 2025/2026</em>. Official statistics. Available at: <a href="https://www.gov.uk/government/statistics/cyber-security-breaches-survey-20252026/cyber-security-breaches-survey-20252026" target="_blank" rel="noopener">https://www.gov.uk/government/statistics/cyber-security-breaches-survey-20252026/cyber-security-breaches-survey-20252026</a> (Accessed: 3 October 2026).<br /><br />
+									Downey, A.B. (2021) <em>Think Bayes: Bayesian statistics in Python</em>. 2nd edn. Sebastopol, CA: O&rsquo;Reilly Media. Available at: <a href="https://allendowney.github.io/ThinkBayes2/" target="_blank" rel="noopener">https://allendowney.github.io/ThinkBayes2/</a> (Accessed: 3 October 2026).<br /><br />
+									Eckstein, J. and Riedmueller, S.T. (2002) &lsquo;YASAI: yet another add-in for teaching elementary Monte Carlo simulation in Excel&rsquo;, <em>INFORMS Transactions on Education</em>, 2(2), pp. 12&ndash;26. Available at: <a href="https://doi.org/10.1287/ited.2.2.12" target="_blank" rel="noopener">https://doi.org/10.1287/ited.2.2.12</a> (Accessed: 3 October 2026).<br /><br />
+									Fizell, Z. (2022) &lsquo;How to create a Monte Carlo simulation using Python&rsquo;, <em>Towards Data Science</em>, 8 February. Available at: <a href="https://towardsdatascience.com/how-to-create-a-monte-carlo-simulation-using-python-c24634a0978a/" target="_blank" rel="noopener">https://towardsdatascience.com/how-to-create-a-monte-carlo-simulation-using-python-c24634a0978a/</a> (Accessed: 3 October 2026).<br /><br />
+									Group 2 (2025) <em>A risk assessment report for Pampered Pets based on ISO/IEC 27005:2022 and ISO 31000:2018</em>. Unpublished team report, Security and Risk Management module. University of Essex Online.<br /><br />
+									Jbair, M., Ahmad, B., Maple, C. and Harrison, R. (2022) &lsquo;Threat modelling for industrial cyber physical systems in the era of smart manufacturing&rsquo;, <em>Computers in Industry</em>, 137, p. 103611. Available at: <a href="https://doi.org/10.1016/j.compind.2022.103611" target="_blank" rel="noopener">https://doi.org/10.1016/j.compind.2022.103611</a> (Accessed: 3 October 2026).<br /><br />
+									Lain, D., Kostiainen, K. and &#268;apkun, S. (2022) &lsquo;Phishing in organizations: findings from a large-scale and long-term study&rsquo;, in <em>2022 IEEE Symposium on Security and Privacy (SP)</em>. San Francisco, CA: IEEE, pp. 842&ndash;859. Available at: <a href="https://doi.org/10.3929/ethz-b-000588856" target="_blank" rel="noopener">https://doi.org/10.3929/ethz-b-000588856</a> (Accessed: 3 October 2026).<br /><br />
+									Mouton, F., Leenen, L. and Venter, H.S. (2016) &lsquo;Social engineering attack examples, templates and scenarios&rsquo;, <em>Computers &amp; Security</em>, 59, pp. 186&ndash;209. Available at: <a href="https://doi.org/10.1016/j.cose.2016.03.004" target="_blank" rel="noopener">https://doi.org/10.1016/j.cose.2016.03.004</a> (Accessed: 3 October 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection in nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Stevens, I. (2026) <em>Quantitative risk assessment and digital resilience strategy for Pampered Pets: executive summary</em>. Unpublished assignment, Security and Risk Management module. University of Essex Online.<br /><br />
+									Zografopoulos, I., Ospina, J., Liu, X. and Konstantinou, C. (2021) &lsquo;Cyber-physical energy systems security: threat modeling, risk assessment, resources, metrics, and case studies&rsquo;, <em>IEEE Access</em>, 9, pp. 29775&ndash;29818. Available at: <a href="https://doi.org/10.1109/ACCESS.2021.3058403" target="_blank" rel="noopener">https://doi.org/10.1109/ACCESS.2021.3058403</a> (Accessed: 3 October 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
