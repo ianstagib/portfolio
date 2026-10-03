@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 10 Reflection - Security and Risk Management</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../landing.html">Landing</a></li>
+							<li><a href="../../generic.html">Generic</a></li>
+							<li><a href="../../elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 10: Practical Applications and Issues in DR Implementations</h1>
+								</header>
+								<span class="image main"><img src="../../images/pic06.jpg" alt="" /></span>
+								<p>This unit covers the practical side of disaster recovery (DR): how RPO and RTO values shape a DR solution, typical designs for each level of standby, their limitations, the advantages and disadvantages of Disaster-Recovery-as-a-Service (DRaaS), and the challenges of vendor lock-in, resilience and network security. The artefacts below are my seminar answers on vendor lock-in and cloud security, and a notebook that designs a DR solution for Pampered Pets against the recovery objectives set in Unit 9.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 9 set recovery objectives; Unit 10 asked how to meet them and what the usual designs leave out. The lecturecast linked RPO and RTO values to cold, warm and hot standby, set out typical designs for each and discussed their limits, including those of DRaaS. The required reading was Alhazmi and Malaiya&rsquo;s (2013) cost framework for cloud-based DR, Kumar&rsquo;s (2024) seminar paper on cloud vendor lock-in and Corbari et al.&rsquo;s (2024) article on mission thread analysis; I had read the recommended Zografopoulos et al. (2021) for Unit 8. For the seminar I answered two questions on lock-in and cloud security (Artefact 1). I then used Alhazmi and Malaiya&rsquo;s equations and a mission thread to compare six DR designs for Pampered Pets against the requirements from my Unit 9 business impact analysis (Artefact 2).</p>
+
+								<h3>So what?</h3>
+								<p>Alhazmi and Malaiya (2013) give a usable structure: a plan&rsquo;s annual cost is its initial cost, running cost and expected cost of disasters, and the RTO is built from the recovery steps the standby has not already done, from provisioning hardware to switching the IP address. They also warn that a cloud DR site shared by many customers in one region &lsquo;may be overwhelmed&rsquo; if they all fail over at once. Checking the paper was less reassuring. The tier table they reproduce does not support their claim that a higher tier &lsquo;would exponentially reduce RTO&rsquo;: tier 4 recovers more slowly than tier 3, and tiers 1 to 3 have the same RPO. Equation 3, read literally, charges every disaster both the cost of recovering and the cost of failing to recover. When I ran it on my full model it recommended the provider defaults, the one design with no independent copy, in 99.9% of input sets, because a design&rsquo;s ability to recover no longer changes its cost. With the two costs weighted by the probability of recovery, that share fell below 7%. Like Andrade et al. (2017) in Unit 9, they assume that &lsquo;backup reliability is 1&rsquo;, and their only cost input is a table of revenue lost per hour in 2000, with retail at $1,107,274, about 75,000 times my estimate for Pampered Pets. The table is credited to reference 15, a vendor web page, while references 14 and 16 are never cited, so the numbering seems to have slipped.</p>
+								<p>That made three readings in a row with a sourcing fault. Hollcroft and Lyon (2022) left &lsquo;(Citation, year)&rsquo; in a published chapter, Kumar (2024) cites &lsquo;[src2]&rsquo; and &lsquo;[src20]&rsquo;, which do not resolve, and Corbari et al. (2024) say that defending data in AWS takes &lsquo;X months&rsquo; of training and in Azure &lsquo;Y months&rsquo;. I doubt the literature has got worse; I am reading it more closely than at the start of the module, and slips like these show how carefully the rest was checked. Kumar&rsquo;s paper is useful for its typology of lock-in (technical, data, service, certification, contract, economic and network) and for showing how contracts make leaving hard through auto-renewal, termination charges and SLA breaches paid in service credits. But it is a supervised seminar paper published by OSSBIG, an Austrian group that promotes open source, and it ends by endorsing four open-source products without comparing them with anything. Its claim that the GDPR &lsquo;mandates the storage&rsquo; of personal data in the EU is wrong: the regulation restricts transfers unless there is an adequacy decision or appropriate safeguards (ICO, no date). It also misses the EU Data Act, which from 12 September 2025 limits notice to switch provider to two months and bans switching charges from 12 January 2027 (Regulation (EU) 2023/2854). Opara-Martins, Sahandi and Tian (2016) and the CMA (2025) make the case for lock-in as a real cost on much firmer evidence (see Artefact 1).</p>
+								<p>The uncomfortable part was recognising my own executive summary in Kumar&rsquo;s list. It said that vendor lock-in &lsquo;should be mitigated through containerisation, open APIs, and portability testing&rsquo; (Stevens, 2026). Those are measures for organisations that write their own software. Pampered Pets would rent a shop platform, email and accounting, and containers do not move its order data, its staff identities or its domain name. In Unit 7 I found that my lock-in criterion was ambiguous; the deeper problem is that I scored lock-in when I should have managed it as a risk with an exit plan. The notebook also tested Kumar&rsquo;s multi-cloud answer. Running live in two providers removed every infrastructure breach but cost a median of about &pound;77,000 a year and still missed the data-disaster RPO about half the time, because replication copies the damage to both clouds.</p>
+								<p>Corbari et al. (2024) write for US Army cyber defenders, their evidence comes from classified operations a reader cannot check, and their worked example is fictional by design. Even so, their central idea transferred better than anything else this unit: mission relevant terrain includes everything a mission needs, and it &lsquo;may exist external to&rsquo; the organisation&rsquo;s own network. Mapping &lsquo;take and fulfil an online order&rsquo; this way showed that every one of the six steps depends on the main cloud provider and that only the warehouse PC is under Pampered Pets&rsquo; control. It gave three design rules that a list of RTOs would have missed. The admin identities are a hidden single point, because losing them locks staff out of the shop, email and backups at once. The domain&rsquo;s DNS has to stay with the registrar, or the means of moving to another provider disappears with the provider. And the payment provider already holds an independent record of every paid order. Their remark about separate AWS and Azure training also points to a kind of lock-in that Kumar leaves out: skills. With four staff, the person who knows how to rebuild elsewhere is as much a constraint as the data.</p>
+								<p>The notebook changed my view of what a DR design is for. With a 36-hour RTO, a regional outage never breached the requirements in any design, because it can be waited out. The second region in my executive summary&rsquo;s active-active design therefore protects against the one event that did not need it, at about &pound;45,000 a year, and leaves the five-year chance of losing the order data for good at 28%, the same as the provider defaults. The events that matter are common-cause ones that take out every region of a provider together: a provider-wide outage, an attacker with admin credentials, or the loss of the account. This is the &lsquo;geographical correlation factor&rsquo; that Alhazmi and Malaiya say needs modelling but leave out. In 2024 a blank parameter in a Google Cloud tool deleted UniSuper&rsquo;s private cloud across both of the geographies it used for redundancy, and the joint statement credits backups &lsquo;with an additional service provider&rsquo; for the recovery (UniSuper and Google Cloud, 2024), although Google&rsquo;s own account stresses backups in Google Cloud Storage that survived the deletion (Google Cloud, 2024). Backup and restore inside one provider (D3) was the cheapest design on expected cost in 70% of input sets. Adding a copy every 15 minutes at a second provider under separate credentials (D4) cost a median of about &pound;670 a year more and cut the five-year chance of an unrecoverable loss from 6% to almost nothing, a difference that expected cost, the only output of Alhazmi and Malaiya&rsquo;s framework, cannot show. DRaaS (D5) met the requirements about as well at more than twice the cost, and added a supplier with a full copy of the data that, in half my input sets, runs on the same provider.</p>
+								<p>The least expected result concerned detection. No design met the 24-hour RPO for data disasters in more than about half of cases, because damage is often noticed late, and data entered after the damage is lost whatever the backup interval. A daily reconciliation of shop orders against the payment provider&rsquo;s records raised D4 to over 99%. At about &pound;800 a year it does not pay for itself in expected loss; it is what makes the requirement achievable, and whether that is worth &pound;800 is for the owner to decide. The security question led to the same place. Most of what goes wrong in the cloud is on the customer&rsquo;s side of the shared responsibility model: misconfiguration and identity management head the Cloud Security Alliance&rsquo;s (2024) list, and in the 2024 Snowflake campaign about 165 organisations were notified as potentially exposed after an attacker logged in with stolen passwords to accounts without MFA (Mandiant, 2024). Providers fail too; the Cyber Safety Review Board found the 2023 Storm-0558 intrusion into Microsoft&rsquo;s cloud &lsquo;preventable&rsquo; (DHS, 2024). In the notebook the attacker with admin credentials and the data disaster are the same event, so separate credentials for the backup copy are a security control and a DR control at once.</p>
+
+								<h3>Now what?</h3>
+								<p>Five changes follow. First, before designing recovery for any service I will map its mission thread, including what the organisation uses as well as what it owns, and look at identity and DNS first. Second, I will ask what could take out the primary and the copy together, not how far apart they are, and model those common-cause events separately. Third, I will report the probability of an unrecoverable loss next to the expected cost, and test any cost equation on a small case with a known answer before relying on it. Fourth, I will treat vendor lock-in as a risk with an exit plan: open-format exports, the domain kept with the registrar, exit terms read before signing, and a restore at a second provider that doubles as an exit rehearsal. Fifth, in my end-of-module e-portfolio I will replace the executive summary&rsquo;s active-active recommendation and its &lsquo;containerisation&rsquo; mitigation with D4 and daily reconciliation, building on Unit 9&rsquo;s backup and restore conclusion. At work, I will check whether our DR copies can be deleted with the same admin credentials as production, and whether anyone has tried recovering to another provider.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: Seminar Activity: Vendor Lock-in and Cloud Security</h2>
+								</header>
+								<p><em>Answers prepared for the Unit 10 seminar on Kumar (2024) and Corbari et al. (2024). Where an answer draws on the Pampered Pets design, the evidence is in Artefact 2.</em></p>
+
+								<h3>1. What are some of the main vendor lock-in issues the authors identify? How would you mitigate them?</h3>
+								<p>Kumar (2024) defines lock-in as reliance on a provider that makes it &lsquo;expensive and impossible&rsquo; to move without major cost and disruption, and sorts the causes into three groups. The organisational obstacles are proprietary standards, poor interoperability and portability, and security controls built around one provider&rsquo;s architecture. The technical obstacles are deep integration with the provider&rsquo;s tools, applications and data formats that only work on one platform, and proprietary APIs. The legal obstacles are data governance and contracts. Contracts favour the provider through long commitments, auto-renewal, early termination charges and long notice periods, and SLAs are measured over long periods and compensated with service credits instead of a right to leave. The paper also notes fees for moving data out and the need for an exit strategy that covers data retrieval, retention and destruction. The dangers follow from these: price rises once switching is expensive, less room to adopt new technology, exposure to the provider&rsquo;s own failures, compliance problems when data moves, and security that depends on the vendor&rsquo;s pace. Kumar also lists seven types of lock-in: technical, data, service, certification, contract, economic and network. Corbari et al. (2024) do not write about lock-in, but two of their points bear on it. Protection has to cover terrain the organisation uses but does not own, and defending data in AWS and in Azure needs separate training, which is lock-in through skills.</p>
+								<p>Independent evidence supports the main claims. Opara-Martins, Sahandi and Tian (2016) found in a survey of 114 participants that lock-in gets worse as more computing moves from on-premise to the cloud. The CMA (2025) found that egress fees are &lsquo;a key commercial barrier&rsquo; to switching and multi-cloud, and that differences in features and interfaces, latency and staff skills make interoperability harder. Kumar&rsquo;s section on data overstates the GDPR, which restricts transfers outside the UK or EU but does not require local storage (ICO, no date), and it does not mention the EU Data Act&rsquo;s switching rights, which have applied since 12 September 2025 (Regulation (EU) 2023/2854). Those rights protect customers in the EU, so a UK business such as Pampered Pets cannot rely on them.</p>
+								<p>Kumar&rsquo;s mitigations are proactive exit planning, multi-cloud, containers, infrastructure as code, open data formats and loosely coupled applications. All are sensible, but most suit organisations that build their own software, and multi-cloud swaps lock-in for operational overhead, as the paper admits. I would mitigate in proportion to the business, asking for each dependency how long it would take and what it would cost to leave. For Pampered Pets that gives the following:</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Type of lock-in</th>
+												<th>How it would affect Pampered Pets</th>
+												<th>Mitigation</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Data</td><td>Order and customer records held in the shop platform&rsquo;s own format</td><td>Exports every 15 minutes in open formats (CSV, SQL dump) to a second provider, with an import tested twice a year</td></tr>
+											<tr><td>Network</td><td>If the provider hosts the domain&rsquo;s DNS, the shop cannot be pointed anywhere else when the provider fails</td><td>Keep the domain and DNS with an independent registrar, with short time-to-live values</td></tr>
+											<tr><td>Identity (persona)</td><td>Staff and admin accounts held by the main provider, so losing the account also locks staff out of email and backups</td><td>Separate credentials and MFA for the backup provider, and a break-glass account not held by the main provider</td></tr>
+											<tr><td>Contract and economic</td><td>Auto-renewal, termination charges, multi-year commitments, unclear terms for returning data</td><td>Read exit, data return and deletion terms before signing; prefer monthly terms until the platform has proved itself</td></tr>
+											<tr><td>Technical and service</td><td>Platform-specific apps, themes and integrations</td><td>Use them where they save money, but list each one in a one-page exit plan with the alternative</td></tr>
+											<tr><td>Skills</td><td>One person knows how the platform is set up</td><td>A written runbook, and the twice-yearly restore at the second provider carried out by someone else</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>The test of these measures is the exit itself. In Artefact 2 the rebuild at a second provider is also an exit rehearsal, and a tested rebuild within a day or so is much stronger evidence of portability than a container image that has never been moved.</p>
+
+								<h3>2. What are some security concerns with the modern cloud? How can these be mitigated?</h3>
+								<p>The first concern is the customer&rsquo;s side of shared responsibility. The Cloud Security Alliance&rsquo;s (2024) survey puts misconfiguration and inadequate change control first, followed by identity and access management, insecure interfaces and APIs, an inadequate cloud security strategy and insecure third-party resources. The 2024 Snowflake campaign shows how ordinary the cause can be. About 165 organisations were notified as potentially exposed after an attacker logged in with usernames and passwords taken by infostealer malware, some stolen years earlier and never changed. The accounts had no MFA and no network allow lists, and at least 79.7% of the credentials used had been exposed before (Mandiant, 2024). The mitigations are basic but have to be applied everywhere: phishing-resistant MFA on every account, rotating credentials, restricting admin access to known networks and devices, keeping configuration under change control, and logging and alerting (NCSC, no date, principles 9 to 13). For Pampered Pets this matters more because staff use their own phones on the shop Wi-Fi (Group 2, 2025), and those phones would be the obvious devices for MFA codes.</p>
+								<p>The second concern is the provider&rsquo;s own security, which the customer cannot see or fix. The Cyber Safety Review Board found that the 2023 Storm-0558 intrusion into Microsoft&rsquo;s email service was &lsquo;preventable&rsquo; and pointed to a culture that &lsquo;deprioritized enterprise security investments&rsquo; (DHS, 2024). The customer can only choose providers whose assurance can be checked against the NCSC&rsquo;s (no date) fourteen cloud security principles and design so that one provider&rsquo;s failure does not lose everything. The third concern is concentration. Outages, faulty updates and administrative errors at one provider reach thousands of customers at once, as the CrowdStrike and us-east-1 events discussed in Unit 9 and the deletion of UniSuper&rsquo;s private cloud showed (Microsoft, 2024; AWS, 2025; UniSuper and Google Cloud, 2024). The mitigation is a copy outside that provider, under credentials it does not control. The fourth is data protection. Personal data sent outside the UK needs an adequacy decision or appropriate safeguards (ICO, no date), so the region and any support access by the provider have to be checked. The fifth is network security. Management consoles and APIs are reachable from the internet by default, and DRaaS adds a replication link and a supplier with a full copy of the data. Admin access should be restricted to known networks, replication encrypted, and the DR supplier&rsquo;s access kept to the minimum and tested like any other supplier&rsquo;s.</p>
+								<p>Corbari et al. (2024) add a way to decide where to start. Mapping the mission thread first shows which systems the business cannot work without, wherever they are hosted, so limited effort goes to those. For Pampered Pets that means the admin identities, the order database and the domain, in that order.</p>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Designing a DR Solution for Pampered Pets against RPO and RTO Requirements</h2>
+								</header>
+								<p><em>Python notebook: unit10_pampered_pets_dr_design.ipynb. Uses the cost equations and RTO decomposition of Alhazmi and Malaiya (2013), corrected where Section 1 shows it is needed, and the mission thread analysis of Corbari et al. (2024). Every figure is an assumption made for this exercise; the business inputs are the same as in Unit 9, and &lsquo;provider A&rsquo; and &lsquo;provider B&rsquo; are placeholders, not products. 20,000 input sets, with common random numbers across designs.</em></p>
+
+								<h3>1. Checking Alhazmi and Malaiya&rsquo;s model</h3>
+								<span class="image fit"><img src="artefacts/unit10/figures/u10_tiers.png" alt="Two panels of horizontal range bars for the seven recovery tiers in Alhazmi and Malaiya's Table 2. In the RTO panel tier 4 (12 to 24 hours) is highlighted because it is slower than tier 3 (2 to 24 hours). In the RPO panel tiers 1, 2 and 3 share the same range of 2 to 24 hours." /></span>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Element of the paper</th>
+												<th>What the check found</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Table 2 and the claim that a higher tier &lsquo;would exponentially reduce RTO&rsquo;</td><td>Tier 4 is slower to recover than tier 3, and tiers 1 to 3 have the same RPO (2 to 24 hours).</td></tr>
+											<tr><td>Equation 3: C<sub>d</sub> = &Sigma; p<sub>i</sub>(C<sub>r,i</sub> + C<sub>u,i</sub>)</td><td>Charges every disaster both the recovery cost and the unrecoverable cost. In a two-design example, the design that cannot recover wins as printed (&pound;2,700 against &pound;3,600) and loses once the two costs are weighted by the probability of recovery (&pound;2,600 against &pound;1,100).</td></tr>
+											<tr><td>Assumption that &lsquo;backup reliability is 1&rsquo;</td><td>Replaced: an untested restore fails the first time with probability 10&ndash;40%, a tested one 2&ndash;10%.</td></tr>
+											<tr><td>Table 3: retail loses $1,107,274 an hour (2000)</td><td>About 75,000 times the modelled median of &pound;14.74 an hour for Pampered Pets. The table is credited to reference 15; references 14 and 16 are never cited.</td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<h3>2. Requirements</h3>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Requirement</th>
+												<th>Target</th>
+												<th>Source</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>R1</td><td>RTO for the online shop and order data</td><td>36 h</td><td>Unit 9 BIA: MTPD 72 h, RTO at most half</td></tr>
+											<tr><td>R2</td><td>RPO after an infrastructure event (outage, account loss)</td><td>15 min</td><td>Unit 9 BIA for customer and order data</td></tr>
+											<tr><td>R3</td><td>RPO after a data disaster (ransomware, deletion, corruption)</td><td>24 h</td><td>New: replication is not a backup</td></tr>
+											<tr><td>R4</td><td>At least one copy that production admin credentials cannot delete</td><td>Rule</td><td>NCSC (2019); Unit 9</td></tr>
+											<tr><td>R5</td><td>Restore tested end to end at least twice a year</td><td>Rule</td><td>Unit 9: trust an RTO only once tested</td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<h3>3. Mission thread: what does taking an online order depend on?</h3>
+								<span class="image fit"><img src="artefacts/unit10/figures/u10_mission_thread.png" alt="Grid of six process steps against ten components, coloured by who controls each component. Provider A (shop application, order database, email and identities) is needed by every step; payment also needs the payment provider. Only the warehouse PC is controlled by Pampered Pets." /></span>
+								<p>Following Corbari et al. (2024), the mission process thread (the steps) is separated from the mission engineering threads (the components and data paths that carry each step). Every step needs provider A, and only the warehouse PC is under Pampered Pets&rsquo; control. Three design rules follow: identities need a break-glass route that does not depend on provider A; the domain and DNS stay with the registrar; and the payment provider&rsquo;s records are an independent copy of every paid order, usable for re-keying and for detecting missing or altered orders.</p>
+
+								<h3>4. Designs and whether they meet the requirements</h3>
+								<p>Four kinds of event are modelled: an outage of one region of provider A, an outage of the whole of provider A, a data disaster through the admin plane, and the loss of the account at provider A. The figures are the probability that, when an event of that kind happens, service returns within the RTO and data loss stays within the RPO for that kind of event.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Design</th>
+												<th>Regional outage</th>
+												<th>Provider-wide outage</th>
+												<th>Data disaster</th>
+												<th>Account loss</th>
+												<th>P(unrecoverable loss in 5 years), median</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>D1 Provider defaults (one region, backups in the same account)</td><td>100%</td><td>92%</td><td>21%</td><td>0%</td><td>27.9%</td></tr>
+											<tr><td>D2 Active-active in two regions of A (executive summary)</td><td>100%</td><td>92%</td><td>21%</td><td>0%</td><td>27.9%</td></tr>
+											<tr><td>D3 Backup and restore in A, with an immutable vault</td><td>100%</td><td>92%</td><td>36%</td><td>0%</td><td>6.4%</td></tr>
+											<tr><td>D4 D3 plus a copy every 15 minutes at provider B under separate credentials</td><td>100%</td><td>97%</td><td>52%</td><td>95%</td><td>0.0%</td></tr>
+											<tr><td>D5 DRaaS vendor</td><td>100%</td><td>96%</td><td>52%</td><td>100%</td><td>0.0%</td></tr>
+											<tr><td>D6 Multi-cloud active-active across A and B</td><td>100%</td><td>100%</td><td>52%</td><td>100%</td><td>0.0%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit10/figures/u10_breaches.png" alt="Stacked horizontal bars of expected events per decade in which a requirement is missed. D1 and D2 are about 1.0, mostly data disasters with some account loss and provider-wide outages; D3 0.84; D4 0.50; D5 0.50; D6 0.45, almost all from data disasters. Regional outages contribute nothing." /></span>
+
+								<h3>5. Cost against the risk of losing the data for good</h3>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Design</th>
+												<th>Running and set-up a year (median)</th>
+												<th>Expected disaster cost C<sub>d</sub> (median)</th>
+												<th>Total C<sub>T</sub> (median)</th>
+												<th>Cheapest in</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>D1 Provider defaults</td><td>&pound;63</td><td>&pound;5,678</td><td>&pound;5,744</td><td>6.6%</td></tr>
+											<tr><td>D2 Active-active in A</td><td>&pound;38,246</td><td>&pound;5,587</td><td>&pound;44,896</td><td>0%</td></tr>
+											<tr><td>D3 Backup and restore in A</td><td>&pound;1,391</td><td>&pound;1,339</td><td>&pound;2,802</td><td>69.8%</td></tr>
+											<tr><td>D4 D3 plus independent copy at B</td><td>&pound;3,030</td><td>&pound;383</td><td>&pound;3,444</td><td>23.5%</td></tr>
+											<tr><td>D5 DRaaS vendor</td><td>&pound;7,822</td><td>&pound;362</td><td>&pound;8,321</td><td>0%</td></tr>
+											<tr><td>D6 Multi-cloud active-active</td><td>&pound;76,491</td><td>&pound;96</td><td>&pound;76,602</td><td>0%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit10/figures/u10_cost_risk.png" alt="Scatter plot of expected total annual cost on a log scale against the probability of an unrecoverable loss within five years. D1 and D2 sit at about 28%, at about 5,700 and 45,000 pounds. D3 is at about 6% and 2,800 pounds. D4, D5 and D6 are at about 0% and cost about 3,400, 8,300 and 77,000 pounds." /></span>
+								<p>D4 costs a median of &pound;670 a year more than D3 and removes the 6% five-year chance of losing the order data through the loss of the account. With Equation 3 as printed, the provider defaults would be the cheapest design in 99.9% of input sets.</p>
+
+								<h3>6. Detection</h3>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Design</th>
+												<th>Data disasters meeting R1 and R3</th>
+												<th>With daily reconciliation against payment records</th>
+												<th>Breaches per decade</th>
+												<th>With reconciliation</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>D3 Backup and restore in A</td><td>36.1%</td><td>72.5%</td><td>0.84</td><td>0.50</td></tr>
+											<tr><td>D4 D3 plus independent copy at B</td><td>51.9%</td><td>99.5%</td><td>0.50</td><td>0.05</td></tr>
+											<tr><td>D5 DRaaS vendor</td><td>52.0%</td><td>99.5%</td><td>0.50</td><td>0.06</td></tr>
+											<tr><td>D6 Multi-cloud active-active</td><td>52.0%</td><td>99.5%</td><td>0.45</td><td>0.00</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>Data entered after corruption begins is lost whatever the backup interval, so the data-disaster RPO depends on how quickly the damage is noticed. Reconciliation costs a median of about &pound;800 a year and saves D4 only a few pounds of expected loss; its value is that it makes R3 achievable. The recommended design is D4 with daily reconciliation, the domain and DNS kept with the registrar, and the rebuild at provider B tested twice a year as both a DR test and an exit rehearsal.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit10/unit10_pampered_pets_dr_design.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit10/unit10_pampered_pets_dr_design.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit10_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Alhazmi, O.H. and Malaiya, Y.K. (2013) &lsquo;Evaluating disaster recovery plans using the cloud&rsquo;, <em>2013 Proceedings Annual Reliability and Maintainability Symposium (RAMS)</em>. IEEE, pp. 1&ndash;6. Available at: <a href="https://www.cs.colostate.edu/~malaiya/p/DisasterRecovery2013.pdf" target="_blank" rel="noopener">https://www.cs.colostate.edu/~malaiya/p/DisasterRecovery2013.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Andrade, E., Nogueira, B., Matos, R., Callou, G. and Maciel, P. (2017) &lsquo;Availability modeling and analysis of a disaster-recovery-as-a-service solution&rsquo;, <em>Computing</em>, 99(10), pp. 929&ndash;954. Available at: <a href="https://doi.org/10.1007/s00607-017-0539-8" target="_blank" rel="noopener">https://doi.org/10.1007/s00607-017-0539-8</a> (Accessed: 3 October 2026).<br /><br />
+									AWS (2025) <em>Summary of the Amazon DynamoDB service disruption in the Northern Virginia (US-EAST-1) Region</em>. Seattle, WA: Amazon Web Services. Available at: <a href="https://aws.amazon.com/message/101925/" target="_blank" rel="noopener">https://aws.amazon.com/message/101925/</a> (Accessed: 3 October 2026).<br /><br />
+									Cloud Security Alliance (2024) <em>Top threats to cloud computing 2024</em>. Seattle, WA: Cloud Security Alliance. Available at: <a href="https://cloudsecurityalliance.org/artifacts/top-threats-to-cloud-computing-2024" target="_blank" rel="noopener">https://cloudsecurityalliance.org/artifacts/top-threats-to-cloud-computing-2024</a> (Accessed: 3 October 2026).<br /><br />
+									Competition and Markets Authority (CMA) (2025) <em>Cloud services market investigation: summary of final decision</em>, 31 July. London: CMA. Available at: <a href="https://assets.publishing.service.gov.uk/media/688b20e6ff8c05468cb7b120/summary_of_final_decision.pdf" target="_blank" rel="noopener">https://assets.publishing.service.gov.uk/media/688b20e6ff8c05468cb7b120/summary_of_final_decision.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Corbari, G.I., Khatod, N., Popiak, J.F. and Sinclair, P. (2024) &lsquo;Mission thread analysis: establishing a common framework in a multi-discipline domain to enhance defensive cyberspace operations&rsquo;, <em>The Cyber Defense Review</em>, 9(1), pp. 37&ndash;54. Available at: <a href="https://www.jstor.org/stable/48770663" target="_blank" rel="noopener">https://www.jstor.org/stable/48770663</a> (Accessed: 3 October 2026).<br /><br />
+									Department of Homeland Security (DHS) (2024) &lsquo;Cyber Safety Review Board releases report on Microsoft Online Exchange incident from summer 2023&rsquo;, <em>DHS press release</em>, 2 April. Available at: <a href="https://www.dhs.gov/news/2024/04/02/cyber-safety-review-board-releases-report-microsoft-online-exchange-incident-summer" target="_blank" rel="noopener">https://www.dhs.gov/news/2024/04/02/cyber-safety-review-board-releases-report-microsoft-online-exchange-incident-summer</a> (Accessed: 3 October 2026).<br /><br />
+									Google Cloud (2024) &lsquo;Details of Google Cloud GCVE incident&rsquo;, <em>Google Cloud blog</em>, 24 May. Available at: <a href="https://cloud.google.com/blog/products/infrastructure/details-of-google-cloud-gcve-incident" target="_blank" rel="noopener">https://cloud.google.com/blog/products/infrastructure/details-of-google-cloud-gcve-incident</a> (Accessed: 3 October 2026).<br /><br />
+									Group 2 (2025) <em>A risk assessment report for Pampered Pets based on ISO/IEC 27005:2022 and ISO 31000:2018</em>. Unpublished team report, Security and Risk Management module. University of Essex Online.<br /><br />
+									Hollcroft, B. and Lyon, B. (2022) &lsquo;Business continuity plan&rsquo;, in Popov, G., Lyon, B.K. and Hollcroft, B.D. <em>Risk assessment: a practical guide to assessing operational risks</em>. 2nd edn. Hoboken, NJ: John Wiley &amp; Sons, ch. 19. Available at: <a href="https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/risk-assessment-2nd/9781119755920/</a> (Accessed: 3 October 2026).<br /><br />
+									Information Commissioner&rsquo;s Office (ICO) (no date) <em>International transfers</em>. Wilmslow: ICO. Available at: <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/" target="_blank" rel="noopener">https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/</a> (Accessed: 3 October 2026).<br /><br />
+									Kumar, A. (2024) <em>Cloud vendor lock-in: identify, strategies and mitigate</em>. Seminar paper, supervised by F. Waldhofer and H. Wehnes, 10 September. OSSBIG Austria. Available at: <a href="https://www.ossbig.at/wp-content/uploads/2024/09/CAN_Final_Report-VendorLock-In.pdf" target="_blank" rel="noopener">https://www.ossbig.at/wp-content/uploads/2024/09/CAN_Final_Report-VendorLock-In.pdf</a> (Accessed: 3 October 2026).<br /><br />
+									Mandiant (2024) &lsquo;UNC5537 targets Snowflake customer instances for data theft and extortion&rsquo;, <em>Google Cloud blog</em>, 10 June. Available at: <a href="https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion" target="_blank" rel="noopener">https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion</a> (Accessed: 3 October 2026).<br /><br />
+									Microsoft (2024) &lsquo;Helping our customers through the CrowdStrike outage&rsquo;, <em>The Official Microsoft Blog</em>, 20 July. Available at: <a href="https://blogs.microsoft.com/blog/2024/07/20/helping-our-customers-through-the-crowdstrike-outage/" target="_blank" rel="noopener">https://blogs.microsoft.com/blog/2024/07/20/helping-our-customers-through-the-crowdstrike-outage/</a> (Accessed: 3 October 2026).<br /><br />
+									National Cyber Security Centre (NCSC) (2019) &lsquo;Offline backups in an online world&rsquo;, <em>NCSC blog</em>, 13 August. Available at: <a href="https://www.ncsc.gov.uk/blog-post/offline-backups-in-an-online-world" target="_blank" rel="noopener">https://www.ncsc.gov.uk/blog-post/offline-backups-in-an-online-world</a> (Accessed: 3 October 2026).<br /><br />
+									National Cyber Security Centre (NCSC) (no date) <em>The cloud security principles</em>. London: NCSC. Available at: <a href="https://www.ncsc.gov.uk/collection/cloud/the-cloud-security-principles" target="_blank" rel="noopener">https://www.ncsc.gov.uk/collection/cloud/the-cloud-security-principles</a> (Accessed: 3 October 2026).<br /><br />
+									Opara-Martins, J., Sahandi, R. and Tian, F. (2016) &lsquo;Critical analysis of vendor lock-in and its impact on cloud computing migration: a business perspective&rsquo;, <em>Journal of Cloud Computing</em>, 5, article 4. Available at: <a href="https://doi.org/10.1186/s13677-016-0054-z" target="_blank" rel="noopener">https://doi.org/10.1186/s13677-016-0054-z</a> (Accessed: 3 October 2026).<br /><br />
+									Regulation (EU) 2023/2854 of the European Parliament and of the Council of 13 December 2023 on harmonised rules on fair access to and use of data and amending Regulation (EU) 2017/2394 and Directive (EU) 2020/1828 (Data Act). <em>Official Journal of the European Union</em>, L, 22 December 2023. Available at: <a href="https://eur-lex.europa.eu/eli/reg/2023/2854/oj" target="_blank" rel="noopener">https://eur-lex.europa.eu/eli/reg/2023/2854/oj</a> (Accessed: 3 October 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection in nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Stevens, I. (2026) <em>Quantitative risk assessment and digital resilience strategy for Pampered Pets: executive summary</em>. Unpublished assignment, Security and Risk Management module. University of Essex Online.<br /><br />
+									UniSuper and Google Cloud (2024) &lsquo;A joint statement from UniSuper and Google Cloud&rsquo;, <em>UniSuper media centre</em>, 8 May. Available at: <a href="https://www.unisuper.com.au/about-us/media-centre/2024/a-joint-statement-from-unisuper-and-google-cloud" target="_blank" rel="noopener">https://www.unisuper.com.au/about-us/media-centre/2024/a-joint-statement-from-unisuper-and-google-cloud</a> (Accessed: 3 October 2026).<br /><br />
+									Zografopoulos, I., Ospina, J., Liu, X. and Konstantinou, C. (2021) &lsquo;Cyber-physical energy systems security: threat modeling, risk assessment, resources, metrics, and case studies&rsquo;, <em>IEEE Access</em>, 9, pp. 29775&ndash;29818. Available at: <a href="https://doi.org/10.1109/ACCESS.2021.3058403" target="_blank" rel="noopener">https://doi.org/10.1109/ACCESS.2021.3058403</a> (Accessed: 3 October 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>

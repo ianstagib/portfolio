@@ -122,6 +122,7 @@ input, select, textarea {
 		font-weight: 300;
 		letter-spacing: 0.025em;
 		line-height: 1.65;
+		overflow-wrap: break-word;
 	}
 
 		@media screen and (max-width: 1680px) {
@@ -1772,8 +1773,8 @@ input, select, textarea {
 	header.major {
 		width: -moz-max-content;
 		width: -webkit-max-content;
-		width: -ms-max-content;
 		width: max-content;
+		max-width: 100%;
 		margin-bottom: 2em;
 	}
 
@@ -2276,6 +2277,8 @@ input, select, textarea {
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
+		flex-wrap: wrap;
+		row-gap: 1em;
 		cursor: default;
 		list-style: none;
 		margin-left: -1em;

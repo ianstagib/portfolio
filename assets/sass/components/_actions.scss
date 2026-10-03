@@ -8,6 +8,8 @@
 
 	ul.actions {
 		@include vendor('display', 'flex');
+		flex-wrap: wrap;
+		row-gap: 1em;
 		cursor: default;
 		list-style: none;
 		margin-left: (_size(element-margin) * -0.5);
