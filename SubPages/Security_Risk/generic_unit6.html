@@ -48,7 +48,7 @@
 									<h1>Unit 6: The Practical Implications of Security and Risk Standards</h1>
 								</header>
 								<span class="image main"><img src="../../images/pic02.jpg" alt="" /></span>
-								<p>This unit puts security and risk standards into practice. It reviews GDPR case studies and the main standards websites, and uses them to decide which regulations and standards apply to a particular organisation, how compliance could be checked, and what a business would need to do to meet the standards that apply to its industry, such as the GDPR for personal data or PCI DSS for card payments.</p>
+								<p>This unit puts security and risk standards into practice. It reviews GDPR case studies and the main standards websites, and uses them to decide which regulations and standards apply to a particular organisation, how compliance could be checked, and what a business would need to do to meet the standards that apply to its industry, such as the GDPR for personal data or PCI DSS for card payments. The unit closed with the submission of our team&rsquo;s risk assessment report for Pampered Pets, which is stored below as an artefact.</p>
 							</div>
 						</section>
 
@@ -60,29 +60,116 @@
 								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
 
 								<h3>What?</h3>
-								<p>Unit 6 put the standards register from Unit 5 to work. The required reading was S&oslash;rensen&rsquo;s (2018) editorial on whether digitalisation is an opportunity or a risk, read alongside Sutton&rsquo;s (2021) appendices on information risk controls and HM Government cyber security guidance and Kirvan&rsquo;s (2025) overview of security frameworks. For the seminar I worked through the ICO&rsquo;s UK GDPR guidance (ICO, no date), the PCI Security Standards Council&rsquo;s overview of its standards (PCI Security Standards Council, no date) and a guide to HIPAA (Johnson, 2026), and then answered four questions about Pampered Pets: which standards apply, how I would check whether they were being met, what I would recommend, and what I had assumed. My answers form the artefact below. To test them against a real enforcement decision I also read the ICO&rsquo;s penalty notice against Ticketmaster UK (ICO, 2020).</p>
+								<p>Unit 6 put the standards register from Unit 5 to work, and it ended with our team submitting its risk assessment report for Pampered Pets (Group 2, 2025). The required reading was S&oslash;rensen&rsquo;s (2018) editorial on whether digitalisation is an opportunity or a risk, read alongside Sutton&rsquo;s (2021) appendices on information risk controls and HM Government cyber security guidance and Kirvan&rsquo;s (2025) overview of security frameworks. For the seminar I worked through the ICO&rsquo;s UK GDPR guidance (ICO, no date), the PCI Security Standards Council&rsquo;s overview of its standards (PCI Security Standards Council, no date) and a guide to HIPAA (Johnson, 2026), and then answered four questions about Pampered Pets: which standards apply, how I would check whether they were being met, what I would recommend, and what I had assumed. To test my answers against a real enforcement decision I also read the ICO&rsquo;s penalty notice against Ticketmaster UK (ICO, 2020). The team report and my seminar answers are the two artefacts below.</p>
 
 								<h3>So what?</h3>
-								<p>S&oslash;rensen (2018) writes from the side of a competition authority, but her question is the one our group report tried to answer for Pampered Pets. She credits digitalisation with new business models, new competitors and better or cheaper products, and warns that pricing algorithms can make collusion easier and that network effects and access to data can raise barriers to entry. Two of her points carry over to security. Her call for &lsquo;compliance by design&rsquo; in pricing algorithms is the same idea as data protection by design in Article 25 of the GDPR: the obligation is built into the system, not inspected for afterwards. She also suggests that GDPR data portability could matter for potential competition. For a small retailer up against large online sellers I think that cuts both ways, since it lowers the cost of winning a customer and of losing one. Our report treated the GDPR as a cost of going online. S&oslash;rensen made me see it as part of the market Pampered Pets is about to enter.</p>
-								<p>Deciding which standards apply was harder than the seminar brief suggests. Its examples, a company that would &lsquo;most likely&rsquo; be subject to the GDPR or &lsquo;most likely&rsquo; need to meet PCI DSS, hide most of the work, which is establishing facts the case study never gives. The scenario does not say that Pampered Pets is in the UK; I inferred it from the royal customer. Whether the EU GDPR applies as well as the UK GDPR depends on whether the new website offers goods to people in the EU (Regulation (EU) 2016/679, art. 3(2)), and if it does, the business needs a representative in the EU (art. 27). HIPAA turned out to be the useful negative case. It covers US health plans, healthcare clearinghouses and healthcare providers, along with their business associates (HHS, no date), and a dog&rsquo;s diet sheet is nobody&rsquo;s protected health information. Ruling a standard out and saying why is part of the answer, which is why the assumptions in section 4 matter as much as the register in section 1. Source quality mattered too. The HIPAA guide set for the seminar is a commercial site (Johnson, 2026), so I checked its statement of scope against the US Department of Health and Human Services before relying on it.</p>
-								<p>Working out how to check compliance showed me that the standards give very different levels of assurance. A small merchant validates PCI DSS by completing a self-assessment questionnaire. Cyber Essentials is a self-assessment signed off by a board member and marked by an assessor, with independent technical testing only at the Plus level (NCSC, no date). The UK GDPR has no routine audit at all, and in practice the ICO examines security after something has gone wrong. The January 2025 change to SAQ A shows where self-assessment is weakest. Two payment page script requirements were removed from the questionnaire, and in their place the merchant must confirm that its site is not susceptible to attacks from scripts that could affect its e-commerce systems (PCI Security Standards Council, 2025). For a business whose IT is currently two PCs and a stock spreadsheet, that is a technical judgement the owners cannot make unaided. A control has become an attestation, and responsibility for it now sits with the party least able to assess it.</p>
+								<p>S&oslash;rensen (2018) writes from the side of a competition authority, but her question is the one our team report tried to answer for Pampered Pets. She credits digitalisation with new business models, new competitors and better or cheaper products, and warns that pricing algorithms can make collusion easier and that network effects and access to data can raise barriers to entry. Two of her points carry over to security. Her call for &lsquo;compliance by design&rsquo; in pricing algorithms is the same idea as data protection by design in Article 25 of the GDPR: the obligation is built into the system, not inspected for afterwards. She also suggests that GDPR data portability could matter for potential competition. For a small retailer up against large online sellers I think that cuts both ways, since it lowers the cost of winning a customer and of losing one. Our report touched on regulation only as a risk to be managed, in bullets such as &lsquo;ensure that digitalization aligns with regulations and laws&rsquo; (Group 2, 2025). S&oslash;rensen made me see data protection as part of the market Pampered Pets is about to enter.</p>
+								<p>Deciding which standards apply was harder than the seminar brief suggests. Its examples, a company that would &lsquo;most likely&rsquo; be subject to the GDPR or &lsquo;most likely&rsquo; need to meet PCI DSS, hide most of the work, which is establishing facts the case study never gives. The assignment brief does not say which country Pampered Pets is in. I have assumed the UK because Hashington-on-the-Water reads as an English town and the business files VAT returns, but VAT would fit Ireland or any other EU state just as well. The brief also points outwards: the new investor, Orla O&rsquo;dour, is Irish and wants to expand the business&rsquo;s reach internationally. If the website sells to customers in Ireland or elsewhere in the EU, the EU GDPR applies as well as the UK GDPR (Regulation (EU) 2016/679, art. 3(2)), and the business needs a representative in the EU (art. 27). The brief does not say how customers pay either, only that they pay in store, so whether PCI DSS applies today is itself an assumption. HIPAA turned out to be the useful negative case. It covers US health plans, healthcare clearinghouses and healthcare providers, along with their business associates (HHS, no date), and a dog&rsquo;s diet sheet is nobody&rsquo;s protected health information. Ruling a standard out and saying why is part of the answer, which is why the assumptions in section 4 of the seminar artefact matter as much as the register in section 1. Source quality mattered too. The HIPAA guide set for the seminar is a commercial site (Johnson, 2026), so I checked its statement of scope against the US Department of Health and Human Services before relying on it.</p>
+								<p>Working out how to check compliance showed me that the standards give very different levels of assurance. A small merchant validates PCI DSS by completing a self-assessment questionnaire. Cyber Essentials is a self-assessment signed off by a board member and marked by an assessor, with independent technical testing only at the Plus level (NCSC, no date). The UK GDPR has no routine audit at all, and in practice the ICO examines security after something has gone wrong. The January 2025 change to SAQ A shows where self-assessment is weakest. Two payment page script requirements were removed from the questionnaire, and in their place the merchant must confirm that its site is not susceptible to attacks from scripts that could affect its e-commerce systems (PCI Security Standards Council, 2025). For a business of four people whose IT is two PCs, a spreadsheet and a shared wireless hub, that is a technical judgement the owners cannot make unaided. A control has become an attestation, and responsibility for it now sits with the party least able to assess it.</p>
 								<p>The Ticketmaster case shows what is at stake in that judgement. Ticketmaster placed a third-party chatbot on its payment pages, attackers compromised the chatbot supplier, and the altered script scraped customers&rsquo; names, card numbers, expiry dates and CVV numbers. Around 9.4 million customers in the EEA were notified, 1.5 million of them in the UK. The ICO fined the company &pound;1.25 million for breaching Articles 5(1)(f) and 32, finding among other things that it had not assessed the risk of running the chatbot on a payment page and had not used available measures such as Subresource Integrity (ICO, 2020). What surprised me was how far the ICO relied on PCI DSS, setting out failures against its requirements on risk assessment and on managing third-party service providers. A contractual standard became evidence of what the law means by &lsquo;appropriate&rsquo; security. My Unit 5 register put law and contract in separate rows, but in an enforcement case they are read together. Sutton (2021) warns that &lsquo;it is often wrongly assumed that a single control of any kind is sufficient to resolve a risk&rsquo;. Ticketmaster is a case in point: whatever controls it had elsewhere, nothing on the payment page checked its supplier&rsquo;s code before it ran.</p>
+								<p>Reading the team report again after the seminar was uncomfortable, because the seminar exposed what it leaves out. The report has real strengths. Its two data flow diagrams show clearly how the e-commerce platform, online orders database, ERP and international suppliers widen the attack surface, and its Gantt chart puts security policy, staff training and the network upgrade in the first phase, before any website goes live (Group 2, 2025). But the only standards it names are ISO 31000 and ISO/IEC 27005, which are guidance and impose no obligations. The GDPR is never named, and PCI DSS does not appear at all, even though the digitalised data flow adds an online orders database and a sales channel that will take payments. Regulatory non-compliance is rated low likelihood and medium impact but given an overall level of high, which our own matrix does not support, and the obligation is not low likelihood anyway, because emailed orders mean the business already holds customer data. The STRIDE table also lists five categories and leaves out elevation of privilege, although the status-quo table records poor access control. The brief recommended bullet points to stay within 1,000 words, and I think the bullets hid these gaps: &lsquo;ensure that digitalization aligns with regulations and laws&rsquo; reads like a mitigation but gives Cathy nothing to act on. A standards register like the one in the seminar artefact would have fitted in one table and done far more work. The review table in the first artefact sets out where each gap sits.</p>
+								<p>Our tutor&rsquo;s feedback, returned after the unit, both confirmed and corrected that self-assessment. The report gained full marks for knowledge and understanding and for structure and presentation, with the diagrams singled out, but lost marks on application (18 out of 25) and criticality (15 out of 25). On application, the tutor wrote that examples or case studies would have helped a client who is not an expert to understand the risks and assess themselves, and that some sources were too old for a technology topic. On criticality, she wanted us to acknowledge the limitations and gaps in our own mitigation plans. My critique had concentrated on missing standards, which the feedback did not mention. The tutor read the report from the client&rsquo;s side and asked whether Cathy could use it, and that is the more useful test. Both comments hit the report&rsquo;s weakest claims. The 24% saving rested on Van Hoek, Vos and Commandeur (1999), a study of postponement strategies in European supply chains that says little about a four-person retailer buying ingredients abroad today, and the conclusion repeated the 50%, 24% and 33% figures as likely outcomes without any caveat. Mitigations such as &lsquo;get cyber insurance&rsquo; and &lsquo;partner with cloud providers&rsquo; came with no word on what they would leave uncovered or what they would cost. Unit 6 showed what the missing case studies could have done: the Ticketmaster penalty notice explains the risk of a third-party script on a payment page in a way a client can follow, which no likelihood rating in our matrix could.</p>
 
 								<h3>Now what?</h3>
-								<p>Three things will change in how I work. First, every standards register I write will now come with a scope statement and a list of assumptions, and those assumptions will be the first thing I confirm with the client. For Pampered Pets the most important open question is whether the website will sell to customers in the EU. Second, I will give each requirement a named piece of evidence and a method of verification, so that a review shows whether a control works and not only whether it exists. The gap analysis in section 2 is written this way. Third, I will treat third-party code and services as part of the organisation&rsquo;s attack surface. The payment, analytics, chat and marketing scripts on a shop page are what failed at Ticketmaster, and they are what SAQ A eligibility now depends on.</p>
-								<p>Following through on my Unit 5 plan to read the Cyber Essentials requirements also changed my advice. Version 3.3, dated April 2026, requires multi-factor authentication (MFA) for every cloud service and keeps staff-owned phones in scope wherever they are used to access organisational data (NCSC, 2026). That catches two weaknesses from our status-quo assessment, staff smartphones sharing the business Wi-Fi and the absence of MFA, so they move from good practice to conditions of certification. I have not yet seen how colleagues scoped the same case, so after the seminar I will compare their registers with mine, paying most attention to assumptions that differ from my own, and update the artefact.</p>
+								<p>Four things will change in how I work. First, every standards register I write will now come with a scope statement and a list of assumptions, and those assumptions will be the first thing I confirm with the client. For Pampered Pets the most important open questions are where the business is established, how customers pay, and whether the website will sell into the EU, which the Irish investor&rsquo;s plans make likely. Second, I will give each requirement a named piece of evidence and a method of verification, so that a review shows whether a control works and not only whether it exists. The gap analysis in section 2 of the seminar artefact is written this way. Third, I will treat third-party code and services as part of the organisation&rsquo;s attack surface. The payment, analytics, chat and marketing scripts on a shop page are what failed at Ticketmaster, and they are what SAQ A eligibility now depends on. Fourth, when a word limit forces bullet points, I will spend the words on obligations and specific actions and put applicable laws and standards in a table, so that &lsquo;comply with regulations&rsquo; never stands in for a mitigation again.</p>
+								<p>Following through on my Unit 5 plan to read the Cyber Essentials requirements also changed my advice. Version 3.3, dated April 2026, requires multi-factor authentication (MFA) for every cloud service, keeps staff-owned phones in scope wherever they are used to access organisational data, and requires unsupported software to be removed or isolated from the internet (NCSC, 2026). That catches three weaknesses described in the brief and our status-quo assessment: staff smartphones sharing the shop&rsquo;s wireless network with both business PCs, Harry&rsquo;s old networked warehouse computer, and the absence of any security measures such as MFA. They move from good practice to conditions of certification.</p>
+								<p>The tutor&rsquo;s feedback adds three actions to my development plan. First, for any claim about technology or markets I will look for evidence from the last few years and say so when an older source is the best available. Second, I will support each major risk with one short, real case that a non-specialist client can relate to, as Ticketmaster does for payment page scripts in Artefact 2. Third, every mitigation I recommend will state what it does not cover, what it costs a small business, and which assumption it depends on. I have applied this to my own seminar answers by adding the limitations at the end of section 3 of Artefact 2, and I will use the same checks on my individual work for the rest of the module.</p>
 							</div>
 						</section>
 
 						<section id="three">
 							<div class="inner">
 								<header class="major">
-									<h2>Artefact: Seminar Activity: Security Standards for Pampered Pets</h2>
+									<h2>Artefact 1: Team Risk Assessment Report (Group 2)</h2>
 								</header>
-								<p><em>Answers prepared before the Unit 6 seminar, applying the ICO, PCI Security Standards Council, HIPAA and HM Government sources to the Pampered Pets case from the group risk assessment and the executive summary.</em></p>
+								<p><em>Submitted by Group 2 at the end of Unit 6 for the team assessment, which carries 20% of the module mark and a 1,000-word limit. The brief asked for a risk assessment of Pampered Pets as it stands and of the proposed digitalisation, and a recommendation between the two.</em></p>
+								<p>The report adopts ISO 31000:2018 and ISO/IEC 27005:2022 as its methodology. For the status quo it gives a data flow diagram, a qualitative risk table mapped to the confidentiality, integrity and availability triad, a risk matrix and a list of mitigations. For digitalisation it draws a second data flow diagram with an e-commerce platform, online orders database, ERP and international suppliers, answers the brief&rsquo;s three questions on growth of up to 50%, supply chain savings of up to 24% and the loss of up to 33% of customers, and models threats with STRIDE. It recommends phased digitalisation over four phases: security policy, training and network upgrade; website and e-commerce; ERP and supplier integration; and ongoing monitoring and audit (Group 2, 2025).</p>
+
+								<h3>Tutor feedback</h3>
+								<p>Group feedback from Dr Maria Alvanou, 8 December 2025. Strong point: understanding. Points for further development: criticality and sources.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Criterion (weighting)</th>
+												<th>Mark</th>
+												<th>Tutor&rsquo;s comments</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Knowledge and understanding (25%)</td>
+												<td>25</td>
+												<td>Excellent understanding of risk in both stages, as well as mitigation advice.</td>
+											</tr>
+											<tr>
+												<td>Application of knowledge and understanding (25%)</td>
+												<td>18</td>
+												<td>Somewhat weak. Examples or case studies would have helped the clients, who are not always experts, to understand the risks, assess themselves and follow the assessment. Some sources were quite old; very recent sources are expected in the technology area.</td>
+											</tr>
+											<tr>
+												<td>Criticality (25%)</td>
+												<td>15</td>
+												<td>Limitations and gaps should have been acknowledged, including in the mitigation plans suggested.</td>
+											</tr>
+											<tr>
+												<td>Structure and presentation (25%)</td>
+												<td>25</td>
+												<td>No problems. The diagrams and visualisations helped the audience understand.</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<h3>Review against Unit 6</h3>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Point in the report</th>
+												<th>Unit 6 view</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Methodology: ISO 31000 and ISO/IEC 27005</td>
+												<td>Suitable process guidance, but neither creates obligations. The report has no register of the laws and contracts that apply; see section 1 of Artefact 2.</td>
+											</tr>
+											<tr>
+												<td>Regulatory non-compliance: low likelihood, medium impact, rated high</td>
+												<td>Inconsistent with the report&rsquo;s own matrix. Emailed orders mean the UK GDPR applies today, so the likelihood is not low.</td>
+											</tr>
+											<tr>
+												<td>Digitalised data flow diagram</td>
+												<td>Adds an online orders database and a sales channel but no payment provider or trust boundary for card data, so PCI DSS scope cannot be read from it.</td>
+											</tr>
+											<tr>
+												<td>STRIDE table with five categories</td>
+												<td>Elevation of privilege is missing, although the status-quo table notes poor access control.</td>
+											</tr>
+											<tr>
+												<td>Mitigations such as &lsquo;ensure that digitalization aligns with regulations and laws&rsquo;, cyber insurance and CMMI level 2</td>
+												<td>Too general to act on. Section 3 of Artefact 2 turns them into specific steps tied to the UK GDPR, PECR, PCI DSS and Cyber Essentials.</td>
+											</tr>
+											<tr>
+												<td>Gantt chart: security policy, training and network upgrade in phase 1</td>
+												<td>The right order. The ICO fee, records of processing and the in-store PCI DSS check fit phase 1; the SAQ A eligibility check belongs in phase 2.</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Seminar Activity: Security Standards for Pampered Pets</h2>
+								</header>
+								<p><em>Answers prepared for the Unit 6 seminar, applying the ICO, PCI Security Standards Council, HIPAA and HM Government sources to the Pampered Pets assignment brief and our team&rsquo;s risk assessment report.</em></p>
 
 								<h3>1. Which standards apply to Pampered Pets?</h3>
-								<p>Pampered Pets is a small pet food retailer that sells mostly in store, takes card payments and is planning an e-commerce site, an ERP and a CRM hosted in Microsoft Azure. Its customers include high-profile individuals. The table records each standard reviewed for the seminar and whether it applies.</p>
+								<p>Pampered Pets is a pet food retailer with four staff that does 90% of its business face to face. A few customers email their orders, are emailed back when the goods are ready, and pay when they collect them. Sales and purchases are recorded on a front desk PC and deliveries on an old networked PC in the warehouse, and both share the shop&rsquo;s wireless network with the staff&rsquo;s smartphones. Our team report proposes an e-commerce platform, an online orders database, an ERP and international suppliers, funded by an Irish investor who wants the business to reach customers abroad. The table records each standard reviewed for the seminar and whether it applies.</p>
 								<div class="table-wrapper">
 									<table>
 										<thead>
@@ -96,12 +183,12 @@
 											<tr>
 												<td>UK GDPR and Data Protection Act 2018</td>
 												<td>Yes (law)</td>
-												<td>The business processes customer, delivery, CRM and staff personal data and is established in the UK. It applies to data about overseas customers too, because it follows the controller, not the customer. A data protection fee is payable to the ICO unless an exemption applies (ICO, 2026b).</td>
+												<td>The business holds customer names and email addresses from emailed orders, sales records, and supplier and staff data, and is assumed to be established in the UK. The law applies to data about overseas customers too, because it follows the controller, not the customer. A data protection fee is payable to the ICO unless an exemption applies (ICO, 2026b).</td>
 											</tr>
 											<tr>
 												<td>EU GDPR</td>
-												<td>Only if selling into the EU</td>
-												<td>Applies to a non-EU business that offers goods to people in the EU (art. 3(2)), which would also require an EU representative (art. 27).</td>
+												<td>Likely, once the website sells into the EU</td>
+												<td>Applies to a non-EU business that offers goods to people in the EU (art. 3(2)), which also requires an EU representative (art. 27). The investor&rsquo;s aim of international reach makes this likely.</td>
 											</tr>
 											<tr>
 												<td>PECR, as amended by the Data (Use and Access) Act 2025</td>
@@ -110,13 +197,13 @@
 											</tr>
 											<tr>
 												<td>PCI DSS v4.0.1</td>
-												<td>Yes (contract with the acquirer)</td>
-												<td>Card terminals are already used in store, and the website will take card payments. The self-assessment questionnaire (SAQ) depends on the terminal type and on how the online payment page is built (PCI Security Standards Council, 2024; no date).</td>
+												<td>Yes, wherever cards are accepted (contract with the acquirer)</td>
+												<td>The brief says only that customers pay in store, so card acceptance there is assumed. The e-commerce platform will take card payments. The self-assessment questionnaire (SAQ) depends on the terminal type and on how the online payment page is built (PCI Security Standards Council, 2024; no date).</td>
 											</tr>
 											<tr>
 												<td>Cyber Essentials (HMG guidance, Sutton Appendix G)</td>
 												<td>Voluntary, recommended</td>
-												<td>The most usable piece of HM Government guidance for a small private firm. Gives a checkable baseline for the &lsquo;appropriate&rsquo; security that Article 32 requires (NCSC, 2026).</td>
+												<td>The most usable piece of HM Government guidance for a small private firm. Gives a checkable baseline for the &lsquo;appropriate&rsquo; security that Article 32 requires, and Alice as owner could sign off the self-assessment (NCSC, 2026).</td>
 											</tr>
 											<tr>
 												<td>ISO/IEC 27001 and the controls in Sutton Appendix D</td>
@@ -142,24 +229,28 @@
 										</thead>
 										<tbody>
 											<tr>
-												<td>Customer accounts and delivery addresses collected by the new website</td>
-												<td>Art. 5 principles; Art. 6(1)(b) processing necessary for a contract; Art. 13 privacy information at the point of collection</td>
+												<td>Customers emailing orders and staff emailing them back when goods are ready (current)</td>
+												<td>Art. 6(1)(b) processing necessary for a contract; Art. 5(1)(e) storage limitation for old order emails; Art. 32 security of the mailbox and any device it is read on</td>
 											</tr>
 											<tr>
-												<td>Marketing emails and CRM-based offers</td>
+												<td>Customer accounts and orders collected by the new e-commerce platform</td>
+												<td>Art. 5 principles; Art. 6(1)(b); Art. 13 privacy information at the point of collection</td>
+											</tr>
+											<tr>
+												<td>Marketing emails to customers</td>
 												<td>Art. 6(1)(f) legitimate interests or consent, with PECR reg. 22 deciding when consent is needed for email; Art. 21 right to object to direct marketing</td>
 											</tr>
 											<tr>
-												<td>Azure, ERP, CRM and payment providers handling data for the business</td>
-												<td>Art. 28 processor contracts; Chapter V if data is transferred outside the UK</td>
+												<td>Cloud, e-commerce, ERP and payment providers handling data for the business</td>
+												<td>Art. 28 processor contracts</td>
 											</tr>
 											<tr>
-												<td>Security of shop systems, PCs and Wi-Fi</td>
+												<td>Data shared with international suppliers through the ERP</td>
+												<td>Chapter V safeguards if personal data, such as staff contact details or customer delivery details, leaves the UK</td>
+											</tr>
+											<tr>
+												<td>Security of the shop PCs, warehouse PC and wireless network</td>
 												<td>Art. 32 security appropriate to the risk; Art. 25 data protection by design and by default</td>
-											</tr>
-											<tr>
-												<td>Records about high-profile customers</td>
-												<td>Art. 32 again: a leak would be more harmful, so the same data needs tighter access control</td>
 											</tr>
 											<tr>
 												<td>Staff sickness records</td>
@@ -178,7 +269,7 @@
 								</div>
 
 								<h3>2. Evaluating Pampered Pets against the standards</h3>
-								<p>The current position comes from the status-quo assessment in the group report. The third column is how I would check compliance, and each check names the evidence an assessor would expect to see.</p>
+								<p>The current position comes from the assignment brief and the status-quo assessment in our team report. The third column is how I would check compliance, and each check names the evidence an assessor would expect to see.</p>
 								<div class="table-wrapper">
 									<table>
 										<thead>
@@ -191,8 +282,8 @@
 										<tbody>
 											<tr>
 												<td>UK GDPR Art. 30 records of processing</td>
-												<td>None known</td>
-												<td>Ask for the record and walk it against the data flow diagrams in the group report; every flow should appear</td>
+												<td>None; the report&rsquo;s data flow diagrams are the nearest equivalent</td>
+												<td>Ask for the record and walk it against the two data flow diagrams; every flow should appear</td>
 											</tr>
 											<tr>
 												<td>Data protection fee</td>
@@ -201,18 +292,23 @@
 											</tr>
 											<tr>
 												<td>Art. 13 privacy information</td>
-												<td>No notice in store; none yet for the website</td>
-												<td>Read the notices where data is collected and test the website sign-up journey</td>
+												<td>None for emailed orders; none yet for the website</td>
+												<td>Read the notices where data is collected and test the website sign-up journey once it exists</td>
+											</tr>
+											<tr>
+												<td>Emailed orders</td>
+												<td>Not covered in the report</td>
+												<td>Find out where the order mailbox is read, including on phones, and how long order emails are kept</td>
 											</tr>
 											<tr>
 												<td>Art. 32 security / Cyber Essentials</td>
-												<td>No formal security, no backups, staff phones on the business Wi-Fi, ageing PCs</td>
-												<td>Use the Cyber Essentials question set as the gap tool. Inspect the router and Wi-Fi set-up, patch levels and accounts, and watch a test restore from backup</td>
+												<td>No security measures (team report); staff phones on the same wireless network as both PCs; old warehouse PC</td>
+												<td>Use the Cyber Essentials question set as the gap tool. Inspect the wireless hub set-up, patch levels and support status of both PCs and user accounts, and check whether any backup exists and can be restored</td>
 											</tr>
 											<tr>
 												<td>Art. 28 processor contracts</td>
 												<td>None in place yet</td>
-												<td>Review the data processing terms for Azure, the ERP, the CRM and the payment provider</td>
+												<td>Review the data processing terms for the cloud, e-commerce, ERP and payment providers as each is chosen</td>
 											</tr>
 											<tr>
 												<td>Art. 33 and 34 breach handling</td>
@@ -221,22 +317,22 @@
 											</tr>
 											<tr>
 												<td>PECR cookies and marketing</td>
-												<td>Online marketing planned</td>
+												<td>Online presence planned</td>
 												<td>Load the site in a clean browser and check which cookies are set before consent; check marketing lists record where each opt-in came from</td>
 											</tr>
 											<tr>
 												<td>PCI DSS in store</td>
-												<td>Card terminals in use</td>
-												<td>Confirm the SAQ type and last attestation of compliance with the acquirer; check terminals are inspected for tampering (Req. 9.5.1) and kept off the staff and guest Wi-Fi</td>
+												<td>Payment method not stated in the brief</td>
+												<td>Confirm with Cathy how customers pay. If cards are taken, confirm the SAQ type and last attestation of compliance with the acquirer, check terminals are inspected for tampering (Req. 9.5.1) and kept off the network the staff phones use</td>
 											</tr>
 											<tr>
 												<td>PCI DSS online</td>
-												<td>Website not yet built</td>
+												<td>E-commerce platform proposed</td>
 												<td>List every script on the page that hosts or redirects to the payment form and confirm the site meets the SAQ A eligibility criteria (PCI Security Standards Council, 2025)</td>
 											</tr>
 											<tr>
 												<td>Third-party service providers</td>
-												<td>No due diligence</td>
+												<td>No due diligence; the report recommends partnering with cloud providers</td>
 												<td>Look for a list of providers, their PCI DSS status and contract security clauses (Req. 12.8), the gap the ICO found at Ticketmaster (ICO, 2020)</td>
 											</tr>
 										</tbody>
@@ -244,52 +340,63 @@
 								</div>
 
 								<h3>3. Recommendations</h3>
-								<p>Sutton (2021) groups controls at strategic, tactical and operational levels and stresses that most risks need more than one. The recommendations below are ordered by when they are needed, not by standard, because several of them satisfy more than one obligation at once.</p>
-								<p><strong>Now, before the website launches</strong></p>
+								<p>Sutton (2021) groups controls at strategic, tactical and operational levels and stresses that most risks need more than one. The recommendations below make the general mitigations in our team report specific, and they are ordered to fit its four-phase plan, not by standard, because several of them satisfy more than one obligation at once.</p>
+								<p><strong>Phase 1: before the website launches</strong></p>
 								<ul>
-									<li>Pay the ICO data protection fee, write the record of processing and publish a privacy notice for the shop and the loyalty scheme.</li>
-									<li>Prepare for Cyber Essentials v3.3: turn on MFA for every cloud account, move staff and guest devices onto a separate network from the PCs and card terminals, replace or remove unsupported PCs, apply critical and high-risk updates within 14 days and enforce passwords of at least 12 characters (NCSC, 2026).</li>
+									<li>Pay the ICO data protection fee, write the record of processing and publish a privacy notice covering emailed orders.</li>
+									<li>Keep order emails in a business mailbox protected by MFA, not on personal devices, and delete them after a set period.</li>
+									<li>Prepare for Cyber Essentials v3.3: turn on MFA for every cloud account, move staff phones onto a separate network from the PCs and any card terminals, replace the old warehouse PC or isolate it from the internet if it is no longer supported, apply critical and high-risk updates within 14 days and enforce passwords of at least 12 characters (NCSC, 2026).</li>
 									<li>Set up automatic backups and test a restore, so that the backup control can be shown to work and not just to exist.</li>
 									<li>Write a one-page breach procedure naming who decides on ICO notification and how the 72-hour clock is tracked.</li>
-									<li>Ask the acquirer which SAQ applies to the in-store terminals and whether a validated point-to-point encryption (P2PE) solution is available, which would reduce the in-store scope (PCI Security Standards Council, no date).</li>
+									<li>If cards are taken in store, ask the acquirer which SAQ applies and whether a validated point-to-point encryption (P2PE) solution is available, which would reduce the in-store scope (PCI Security Standards Council, no date).</li>
 								</ul>
-								<p><strong>At website launch</strong></p>
+								<p><strong>Phase 2: website and e-commerce</strong></p>
 								<ul>
-									<li>Take payments through a hosted payment page from a PCI DSS validated provider so that card numbers never reach Pampered Pets&rsquo; systems.</li>
+									<li>Take payments through a hosted payment page from a PCI DSS validated provider so that card numbers never reach Pampered Pets&rsquo; systems, and add the provider and its trust boundary to the data flow diagram.</li>
 									<li>Keep third-party scripts off the pages around checkout, use Subresource Integrity and a Content Security Policy for those that remain, and review the list before every change. This addresses the SAQ A eligibility criterion and the failure found at Ticketmaster (ICO, 2020).</li>
 									<li>Only set non-essential cookies with consent unless a PECR exemption applies, and record the source of every marketing opt-in.</li>
-									<li>Sign Article 28 terms with each processor and host in Azure&rsquo;s UK regions, so that customer data does not leave the UK by default.</li>
-									<li>Restrict access to the records of high-profile customers and leave their names off warehouse picking lists.</li>
+									<li>Sign Article 28 terms with each processor and choose UK hosting where the provider offers it, so that customer data does not leave the UK by default.</li>
 								</ul>
-								<p><strong>Later</strong></p>
+								<p><strong>Phase 3 and later</strong></p>
 								<ul>
+									<li>Before connecting international suppliers to the ERP, check whether any personal data will be shared and, if so, put Chapter V transfer safeguards in place.</li>
+									<li>If the business sells into the EU, as the investor intends, appoint an EU representative and review the EU GDPR position before launch.</li>
 									<li>Move to Cyber Essentials Plus for independent testing, then consider ISO/IEC 27001 once the ERP and international supply chain are in place, as set out in Unit 5.</li>
-									<li>If the business decides to sell into the EU, appoint an EU representative and review the EU GDPR position before launch.</li>
+								</ul>
+								<p><strong>Limitations of these recommendations</strong></p>
+								<ul>
+									<li>Cyber Essentials checks five technical controls at one point in time and, at the basic level, relies on the business&rsquo;s own answers. It says nothing about how staff handle customer data in emailed orders, which the GDPR items have to cover.</li>
+									<li>A hosted payment page moves card data off Pampered Pets&rsquo; systems but not responsibility for the shop page that links to it, and SAQ A eligibility depends on a judgement about scripts that the owners will need outside help to make.</li>
+									<li>MFA and longer passwords make stolen passwords far less useful but do not stop every phishing attack, so staff awareness training is still needed.</li>
+									<li>Each item takes time in a business of four people, and most will fall to Alice or Cathy. The plan assumes the investor&rsquo;s funding covers outside help with set-up and with the annual Cyber Essentials renewal.</li>
+									<li>The advice depends on the assumptions in section 4. If Pampered Pets were in fact established in Ireland, for example, the Irish Data Protection Commission would be the regulator instead of the ICO, and the PECR items would be governed by Irish law.</li>
 								</ul>
 
 								<h3>4. Assumptions</h3>
 								<ul>
-									<li>Pampered Pets is established in the UK, which I inferred from the royal customer, and has fewer than 250 staff.</li>
-									<li>In-store card payments use terminals supplied by the acquirer, and the business does not store card numbers anywhere.</li>
+									<li>Pampered Pets is established in the UK. The brief does not say so; Hashington-on-the-Water reads as an English town and the business files VAT returns, although VAT alone would fit Ireland or another EU state too.</li>
+									<li>Customers pay by card in store using terminals supplied by an acquirer, and the business does not store card numbers. The brief says only that customers pay in store.</li>
 									<li>Online payments will use a hosted payment page, not a payment form built into the site.</li>
-									<li>The website will sell to UK customers at first, and no decision has been made about selling into the EU.</li>
-									<li>Azure will host the new systems, as recommended in the executive summary, and the ERP and CRM suppliers will act as processors.</li>
-									<li>The business holds no special category data about customers, but staff records include sickness absence.</li>
+									<li>The website will sell to UK customers first, and the investor&rsquo;s plans make EU sales likely later.</li>
+									<li>The e-commerce platform, ERP and email will be run by cloud providers acting as processors, in line with the report&rsquo;s recommendation to partner with cloud providers.</li>
+									<li>The business holds no special category data about customers, but its staff records may include sickness absence.</li>
 									<li>Pampered Pets has no public sector contracts, so the HM Government requirements for suppliers do not apply.</li>
 								</ul>
 							</div>
 						</section>
 
-						<section id="four">
+						<section id="five">
 							<div class="inner">
 								<ul class="actions">
 									<li><a href="docs/Unit6_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+									<li><a href="docs/Group2_Risk_Assessment_Report.docx" class="button icon solid fa-download">Download team report</a></li>
 								</ul>
 
 								<h3>References</h3>
 								<p>
 									Data Protection Act 2018, c. 12. Available at: <a href="https://www.legislation.gov.uk/ukpga/2018/12/contents" target="_blank" rel="noopener">https://www.legislation.gov.uk/ukpga/2018/12/contents</a> (Accessed: 3 October 2026).<br /><br />
 									Data (Use and Access) Act 2025, c. 18. Available at: <a href="https://www.legislation.gov.uk/ukpga/2025/18/contents" target="_blank" rel="noopener">https://www.legislation.gov.uk/ukpga/2025/18/contents</a> (Accessed: 3 October 2026).<br /><br />
+									Group 2 (2025) <em>A risk assessment report for Pampered Pets based on ISO/IEC 27005:2022 and ISO 31000:2018</em>. Unpublished team report, Security and Risk Management module. University of Essex Online.<br /><br />
 									HHS (no date) <em>Covered entities and business associates</em>. Washington, DC: US Department of Health and Human Services. Available at: <a href="https://www.hhs.gov/hipaa/for-professionals/covered-entities/index.html" target="_blank" rel="noopener">https://www.hhs.gov/hipaa/for-professionals/covered-entities/index.html</a> (Accessed: 3 October 2026).<br /><br />
 									ICO (2020) <em>Penalty notice: Ticketmaster UK Limited</em>, 13 November. Wilmslow: Information Commissioner&rsquo;s Office. Available at: <a href="https://edpb.europa.eu/sites/default/files/article-60-final-decisions/uk_2020-11_personal_data_breach_decisionpublic_final.pdf" target="_blank" rel="noopener">https://edpb.europa.eu/sites/default/files/article-60-final-decisions/uk_2020-11_personal_data_breach_decisionpublic_final.pdf</a> (Accessed: 3 October 2026).<br /><br />
 									ICO (2026a) &lsquo;Statement on the commencement of the Data (Use and Access) Act (DUAA)&rsquo;, 5 February. Available at: <a href="https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2026/02/statement-on-the-commencement-of-the-data-use-and-access-act-duaa/" target="_blank" rel="noopener">https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2026/02/statement-on-the-commencement-of-the-data-use-and-access-act-duaa/</a> (Accessed: 3 October 2026).<br /><br />
@@ -307,7 +414,8 @@
 									Regulation (EU) 2016/679 (United Kingdom General Data Protection Regulation), as retained in UK law. Available at: <a href="https://www.legislation.gov.uk/eur/2016/679/contents" target="_blank" rel="noopener">https://www.legislation.gov.uk/eur/2016/679/contents</a> (Accessed: 3 October 2026).<br /><br />
 									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection in nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
 									S&oslash;rensen, B.T. (2018) &lsquo;Digitalisation: an opportunity or a risk?&rsquo;, <em>Journal of European Competition Law &amp; Practice</em>, 9(6), pp. 349&ndash;350. Available at: <a href="https://doi.org/10.1093/jeclap/lpy038" target="_blank" rel="noopener">https://doi.org/10.1093/jeclap/lpy038</a> (Accessed: 3 October 2026).<br /><br />
-									Sutton, D. (2021) <em>Information risk management: a practitioner&rsquo;s guide</em>. 2nd edn. Swindon: BCS, The Chartered Institute for IT. Appendix D: Information risk controls; Appendix G: HMG cyber security guidelines. Available at: <a href="https://www.oreilly.com/library/view/information-risk-management/9781780175751/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/information-risk-management/9781780175751/</a> (Accessed: 3 October 2026).
+									Sutton, D. (2021) <em>Information risk management: a practitioner&rsquo;s guide</em>. 2nd edn. Swindon: BCS, The Chartered Institute for IT. Appendix D: Information risk controls; Appendix G: HMG cyber security guidelines. Available at: <a href="https://www.oreilly.com/library/view/information-risk-management/9781780175751/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/information-risk-management/9781780175751/</a> (Accessed: 3 October 2026).<br /><br />
+									Van Hoek, R.I., Vos, B. and Commandeur, H.R. (1999) &lsquo;Restructuring European supply chains by implementing postponement strategies&rsquo;, <em>Long Range Planning</em>, 32(5), pp. 505&ndash;518. Available at: <a href="https://doi.org/10.1016/S0024-6301(99)00071-0" target="_blank" rel="noopener">https://doi.org/10.1016/S0024-6301(99)00071-0</a> (Accessed: 3 October 2026).
 								</p>
 							</div>
 						</section>
