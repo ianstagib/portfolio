@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 7 Reflection - Security and Risk Management</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../landing.html">Landing</a></li>
+							<li><a href="../../generic.html">Generic</a></li>
+							<li><a href="../../elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 7: An Introduction to the Concepts of Quantitative Risk Modelling</h1>
+								</header>
+								<span class="image main"><img src="../../images/pic03.jpg" alt="" /></span>
+								<p>This unit introduces quantitative risk modelling. It reviews probabilistic approaches such as Monte Carlo simulation and methods based on Bayes&rsquo; theorem, and multi-criteria decision-making techniques such as TOPSIS, AHP and ANP, together with the principles and antipatterns of each and how to choose between them. The two risk modelling activities, a Monte Carlo simulation in Python and the first two chapters of Think Bayes, are stored below as artefacts, together with a review of the quantitative model in my Pampered Pets executive summary that applies both methods.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 7 moved from qualitative scales to quantitative risk modelling. The lecturecast set out the two broad families of method, probabilistic models such as Monte Carlo simulation and Bayesian approaches, and multi-criteria decision-making (MCDM) techniques such as TOPSIS, AHP and ANP, and when each should be used. The required reading was Metropolis&rsquo;s (1987) account of how the Monte Carlo method began, Asadabadi, Chang and Saberi&rsquo;s (2019) critique of AHP and ANP, and Hargreaves&rsquo;s (2021) chapter on quantitative risk assessment in enterprise risk management (ERM). I also read Wunder et al.&rsquo;s (2024) study of CVSS scoring, the first two chapters of Downey&rsquo;s (2021) <em>Think Bayes</em> and Aven and Thekdi&rsquo;s (2025) chapter on risk perception. For the risk modelling activities I rebuilt Fizell&rsquo;s (2022) Monte Carlo dice game in Python and worked through the chapter 1 and 2 exercises in <em>Think Bayes</em>. I then turned both methods on the quantitative model in my own executive summary for Pampered Pets (Stevens, 2026). The three notebooks are the artefacts below.</p>
+
+								<h3>So what?</h3>
+								<p>Metropolis (1987) describes a method born of necessity. Fermi had used statistical sampling in Rome in the 1930s to predict the results of neutron experiments, without ever publishing it. The idea returned after the war, when Ulam realised that the new electronic computers could revive statistical sampling and von Neumann worked out how ENIAC could trace the histories of individual neutrons. What I took from this is that Monte Carlo is a tool for problems with no workable formula. Fizell&rsquo;s dice game is not one of them. Six of the 36 outcomes win, so the win probability is 1/6 and the expected ending balance is $833.33, and both can be written down before rolling ten million dice. My simulation matched them (0.1667 and $833.75). The exact check was still worth doing, because it found what the tutorial&rsquo;s two averages leave out. The ending balance is five times the number of wins, so the player only finishes in profit with more than 200 wins in 1,000 rolls, which happens in about 1 game in 400. For a risk decision that tail is the answer that matters, and an average on its own hides it.</p>
+								<p>Applying the same check to my executive summary was uncomfortable. Its Monte Carlo model sampled six annual probabilities from triangular distributions and reported, from 300,000 runs, a 4.6% annual chance of a major quality failure with a 95% interval of &plusmn;0.08% (Stevens, 2026). Once I had rebuilt the model, I could see that a triangular draw followed by a single yes-or-no event has the same probability as using the distribution&rsquo;s mean. The published figures can be calculated in three lines, and the ranges the experts gave never reach the output. The &plusmn;0.08% is sampling error from the simulation, and it would shrink with more runs however uncertain the inputs were. When I let the input ranges through in a two-stage model, the annual probability of a major failure spread from about 2.8% to 6.4%. In Unit 2 I wrote that the triangular model was less objective than its tidy percentages suggested. The problem was worse than that, because the tidy percentages hid the uncertainty altogether. It is the false precision I criticised in risk matrices (Cox, 2008) and in Jbair et al.&rsquo;s (2022) scores in Unit 4, and I had built it into my own quantitative work. Hargreaves&rsquo;s (2021) chapter builds up from simple risk maps to aggregating probabilities and impacts, and then to sensitivities and scenarios. My executive summary had neither, and a simple rank correlation now shows that the quality control detection rate drives most of the uncertainty about major failures.</p>
+								<p><em>Think Bayes</em> changed how I see the Bayesian methods my executive summary rejected as complex and data-hungry. Chapter 1 shows that conditional probability is not commutative, which has a direct security reading. With illustrative figures of a 95% detection rate, a 2% false alarm rate and one malicious event in 1,000, fewer than 5% of alerts are real attacks, so a control judged on its detection rate alone will look far better than it is. The Linda exercise showed the conjunction fallacy (Tversky and Kahneman, 1983) in real survey data. Being a banker and a liberal Democrat is about a ninth as likely as being a banker, even though it fits Linda&rsquo;s description better. Attack scenarios behave the same way: the most detailed chain of events in a threat model feels the most convincing and is the least likely, which is a reminder that the perceptions of whoever supplies the estimates become part of the model. The Monty Hall variation taught me that a likelihood is a model of how the evidence was produced, so the same observation can mean different things. For Pampered Pets, a Bayes table needs only a prior and a little evidence. A hypothetical test in which quality control caught 11 of 20 faulty batches would lower the expected detection rate from 0.67 to 0.63 and raise the expected probability of a major failure from 4.6% to 5.1%. The exercise also exposed a flaw in my inputs. The triangular prior has a hard floor at 50%, so the model can never learn that detection is worse than the experts assumed, whereas an open prior given the same test points to anywhere between 37% and 71%. A full Bayesian network of the supply chain would still be too much for a business of four people. But Wang, Neil and Fenton (2020), whom I cited in Unit 2, were right that Bayesian updating suits limited data, and rejecting it outright was a mistake.</p>
+								<p>Asadabadi, Chang and Saberi (2019) argue that AHP can rank options in a way no reasonable manager would accept. In their supplier example AHP chose a supplier that was slightly cheaper but strongly unacceptable on delivery, partly because Saaty&rsquo;s 1 to 9 scale cannot express small differences and so forces inconsistency, which decision makers then remove by adjusting their judgements until they pass the consistency test. They recommend a simple weighted model instead. That is what my executive summary used, so at first I felt vindicated. Rechecking the table in code changed that. Every published score was 0.05 to 0.10 too low. More seriously, the criterion &lsquo;vendor lock-in risk&rsquo; gave Azure the highest rating without saying whether a high rating meant more risk or less. Read as a risk, the same ratings make AWS the winner by 4.30 to 4.25, and when the weights are varied at random AWS comes first about two times in three. TOPSIS keeps Azure first under both readings, so the recommendation depends on the direction of one criterion and on the aggregation method, and the report discussed neither. Asadabadi, Chang and Saberi rest their case on a single constructed example, which is thin support for the claim that managers avoid MCDM because they notice ranking errors. Their warning still applies to my table, though: a reader who noticed that Azure scored best on lock-in risk could reasonably distrust the whole recommendation.</p>
+								<p>Wunder et al. (2024) add a warning about the numbers that go into quantitative models. When 59 experienced CVSS users scored the same vulnerabilities again nine months later, 68% of them changed a severity rating, and Attack Vector, User Interaction and Scope were the least consistently assessed metrics. In Unit 4 I concluded that CVSS measures severity, not risk. It now seems that even the severity is less repeatable than its decimal score implies, and a model that feeds CVSS scores into a simulation inherits that variation without showing it. Taken together, the unit gave me a clearer basis for choosing a technique: Monte Carlo for combining uncertain inputs where no simple formula exists, Bayesian updating for revising an estimate as evidence arrives, and MCDM for choosing between options, not for estimating probabilities. My executive summary matched methods to problems sensibly. Its weaknesses were in the execution and in what it claimed for the results.</p>
+
+								<h3>Now what?</h3>
+								<p>Four changes follow. First, before I simulate anything I will write down the formula. If an exact answer exists I will use it and keep the simulation as a check, and whenever I quote an interval I will say what it measures. Where inputs are expert ranges I will run a two-stage model and report percentiles, not a &plusmn; figure. Second, every model will carry a sensitivity analysis showing which estimate drives the answer, following Hargreaves&rsquo;s (2021) emphasis on sensitivities and scenarios. Third, I will treat a bounded distribution as a strong claim that needs justifying, and prefer priors that leave room for the evidence to surprise me. For Pampered Pets this means recommending a seeded-defect test of quality control, the cheapest way to improve the estimate that matters most. Fourth, every decision table will state the direction of each criterion, be calculated in code, and be tested against a second method and against changes in the weights. I will carry the corrected platform scores and quality figures into my end-of-module e-portfolio. The notebooks are kept in version control with this e-portfolio, which extends my Unit 4 plan for threat models to calculations as well. At work, the next time a supplier presents a risk score or a simulated loss figure, I will ask what its interval measures and where its inputs came from.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: Monte Carlo Simulation of a Dice Game</h2>
+								</header>
+								<p><em>Risk modelling activity 1, based on Fizell (2022). Python notebook: unit7_monte_carlo_dice_game.ipynb.</em></p>
+								<p>A player starts with $1,000, bets $1 on each roll of two dice and is paid four times the bet when the dice match. The game is played for 1,000 rolls and simulated 10,000 times. I rebuilt the simulation with Fizell&rsquo;s inputs so that the results could be compared with his, then added an exact check, the spread of outcomes, a test of different payouts and a test of how the Monte Carlo error shrinks as the number of runs grows.</p>
+								<span class="image fit"><img src="artefacts/unit7/figures/u7_dice_game.png" alt="Left: balance paths of 100 simulated games, drifting down from 1,000 dollars. Right: histogram of ending balances for 10,000 games, centred near 830 dollars, with almost none above the 1,000 dollar starting balance." /></span>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Result</th>
+												<th>Simulated</th>
+												<th>Exact</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Win probability per roll</td><td>0.1667</td><td>1/6 = 0.1667</td></tr>
+											<tr><td>Mean ending balance</td><td>$833.75</td><td>$833.33</td></tr>
+											<tr><td>Probability the player ends in profit</td><td>0.0028</td><td>0.0025 (more than 200 wins, binomial)</td></tr>
+											<tr><td>Middle 90% of ending balances</td><td>$740 to $935</td><td>&ndash;</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Payout</th>
+												<th>Expected ending balance</th>
+												<th>Probability of ending in profit</th>
+												<th>5th percentile balance</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>4 &times; bet (Fizell)</td><td>$833.33</td><td>0.003</td><td>$735</td></tr>
+											<tr><td>5 &times; bet</td><td>$1,000.00</td><td>0.491</td><td>$882</td></tr>
+											<tr><td>6 &times; bet</td><td>$1,166.67</td><td>0.981</td><td>$1,029</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>The final test estimated the probability of a double from 100 up to 1,000,000 simulated rolls. The 95% margin fell from &plusmn;0.070 to &plusmn;0.0007, so 100 times as many runs bought only 10 times the precision. That margin measures sampling error only, which is the point I carried into Artefact 3.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit7/unit7_monte_carlo_dice_game.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit7/unit7_monte_carlo_dice_game.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Think Bayes, Chapters 1 and 2</h2>
+								</header>
+								<p><em>Risk modelling activity 2, based on Downey (2021). Python notebook: unit7_think_bayes_ch1_ch2.ipynb. Chapter 1 uses Downey&rsquo;s extract of the General Social Survey (49,290 respondents); the notebook first checks that the data reproduce the figures printed in the chapter.</em></p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Exercise</th>
+												<th>Answer</th>
+												<th>What it showed me</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1.1 P(liberal | Democrat) and P(Democrat | liberal)</td><td>0.389 and 0.521</td><td>Conditional probability is not commutative; the two differ because the groups are different sizes.</td></tr>
+											<tr><td>1.2 Linda: P(banker | female) and P(banker and liberal Democrat | female)</td><td>0.0212 and 0.0023</td><td>Adding a detail that fits the description makes it about nine times less likely: the conjunction fallacy.</td></tr>
+											<tr><td>1.3 (a) P(young and liberal); (b) P(liberal | young)</td><td>(a) 0.066; (b) 0.338</td><td>(a) is a conjunction over all respondents, (b) a conditional probability within a subgroup.</td></tr>
+											<tr><td>1.3 (c) P(old and conservative); (d) P(old | conservative)</td><td>(c) 0.067; (d) 0.196</td><td>Under Downey&rsquo;s 30% check, so the arguments are the right way round. P(conservative | old) is 0.387.</td></tr>
+											<tr><td>2.1 Trick coin: P(trick | heads seen)</td><td>2/3</td><td>Heads is twice as likely with the trick coin, so it doubles that coin&rsquo;s share.</td></tr>
+											<tr><td>2.2 Two children, at least one a girl: P(both girls)</td><td>1/3</td><td>The answer depends on exactly what was observed, not only on what is known.</td></tr>
+											<tr><td>2.3 Monty prefers Door 2: (a) opens Door 2, P(car behind 3); (b) opens Door 3, P(car behind 2)</td><td>(a) 1/2; (b) 1</td><td>A likelihood is a model of how the evidence was produced. Change the host&rsquo;s habits and the same observation means something else.</td></tr>
+											<tr><td>2.4 M&amp;M&rsquo;s: P(yellow came from the 1994 bag)</td><td>20/27 &asymp; 0.741</td><td>Hypotheses must be defined over the whole situation (which bag is which), not over single sweets.</td></tr>
+											<tr><td>Extension: P(attack | alert) with 95% detection, 2% false alarms and a base rate of 1 in 1,000 (illustrative figures)</td><td>0.045</td><td>A strong detection rate does not mean most alerts are real. The base rate dominates.</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit7/unit7_think_bayes_ch1_ch2.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit7/unit7_think_bayes_ch1_ch2.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 3: Revisiting the Pampered Pets Quantitative Model</h2>
+								</header>
+								<p><em>Applies the two activities to the Monte Carlo model and the platform decision in my executive summary (Stevens, 2026). Python notebook: unit7_pampered_pets_quantitative_review.ipynb. All inputs are the published figures, except the quality control test in section 2, which is hypothetical.</em></p>
+
+								<h3>1. Monte Carlo: what the published interval measured</h3>
+								<p>I rebuilt the quality model from its six triangular inputs and reproduced all three published results. Because each simulated year draws a probability and then a single event, the result depends only on the means of the distributions and can be calculated exactly. The published intervals are Monte Carlo sampling error. Running the model in two stages, with 20,000 sets of inputs drawn from the experts&rsquo; ranges, shows how uncertain the results really are.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Outcome (annual probability)</th>
+												<th>Published</th>
+												<th>Exact calculation</th>
+												<th>90% range from the input ranges</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Minor quality deviation</td><td>17.8% &plusmn; 0.13%</td><td>17.9%</td><td>15.0% to 20.9%</td></tr>
+											<tr><td>Major quality failure</td><td>4.6% &plusmn; 0.08%</td><td>4.6%</td><td>2.8% to 6.4%</td></tr>
+											<tr><td>Any quality event</td><td>21.6% &plusmn; 0.15%</td><td>21.6%</td><td>18.4% to 24.9%</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit7/figures/u7_quality_uncertainty.png" alt="Two histograms of annual probability across 20,000 input sets. Any quality event ranges mainly from 18.4% to 24.9% around the published 21.6%; major quality failure ranges from 2.8% to 6.4% around the published 4.6%." /></span>
+								<p>The rank correlation between each input and the probability of a major failure was &minus;0.88 for the quality control detection rate, against 0.32 for severe supplier defects and 0.30 for cyber-enabled tampering. The detection rate is the estimate most worth improving.</p>
+
+								<h3>2. Bayes: updating the detection rate</h3>
+								<p>A Bayes table, as in <em>Think Bayes</em> chapter 2, with 1,001 hypotheses for the detection rate and a hypothetical test in which quality control catches 11 of 20 deliberately faulty batches. The expert prior is the executive summary&rsquo;s Tri(0.50, 0.65, 0.85); the open prior treats every rate from 0 to 1 as equally likely.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th></th>
+												<th>Detection rate: mean (5th&ndash;95th percentile)</th>
+												<th>P(major failure): mean (5th&ndash;95th percentile)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Executive summary (expert prior, no test)</td><td>0.667 (0.551&ndash;0.791)</td><td>4.6% (2.8%&ndash;6.4%)</td></tr>
+											<tr><td>After the test, expert prior</td><td>0.627 (0.539&ndash;0.724)</td><td>5.1% (3.6%&ndash;6.7%)</td></tr>
+											<tr><td>After the test, open prior</td><td>0.545 (0.372&ndash;0.714)</td><td>6.2% (3.7%&ndash;8.8%)</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<span class="image fit"><img src="artefacts/unit7/figures/u7_detection_update.png" alt="Line chart of the detection rate: the triangular expert prior between 0.5 and 0.85, the posterior with the expert prior cut off at 0.5 and peaking near 0.63, and the posterior with an open prior peaking at 0.55 and extending below 0.4." /></span>
+								<p>Twenty trials are enough to move the estimate, so a seeded-defect test is a practical data requirement for a small business. The expert prior cannot fall below 0.50, however, so it cannot learn that detection is worse than the experts assumed.</p>
+
+								<h3>3. MCDA: rechecking the platform choice</h3>
+								<p>The weighted sum was recalculated from the published weights and ratings, then tested with the &lsquo;vendor lock-in risk&rsquo; rating read both ways, with 20,000 random variations of the weights (Dirichlet, concentration 50) and with TOPSIS as a second aggregation method.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Platform</th>
+												<th>Published score</th>
+												<th>Recalculated score</th>
+												<th>Score with lock-in read as a risk</th>
+												<th>First under varied weights (benefit / risk reading)</th>
+												<th>TOPSIS (benefit / risk reading)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Microsoft Azure</td><td>4.35</td><td>4.45</td><td>4.25</td><td>91% / 33%</td><td>0.587 / 0.540</td></tr>
+											<tr><td>AWS</td><td>4.20</td><td>4.30</td><td>4.30</td><td>9% / 67%</td><td>0.467 / 0.512</td></tr>
+											<tr><td>Google Cloud</td><td>3.85</td><td>3.90</td><td>3.90</td><td>0% / 0%</td><td>0.000 / 0.238</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p>The published scores contained arithmetic errors, although the ranking survived them. The recommendation does not survive reading lock-in as a risk under the weighted sum, but it does under TOPSIS, so the choice of platform depends on two decisions the executive summary never stated.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Security_Risk/artefacts/unit7/unit7_pampered_pets_quantitative_review.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="artefacts/unit7/unit7_pampered_pets_quantitative_review.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit7_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Asadabadi, M.R., Chang, E. and Saberi, M. (2019) &lsquo;Are MCDM methods useful? A critical review of Analytic Hierarchy Process (AHP) and Analytic Network Process (ANP)&rsquo;, <em>Cogent Engineering</em>, 6(1), 1623153. Available at: <a href="https://doi.org/10.1080/23311916.2019.1623153" target="_blank" rel="noopener">https://doi.org/10.1080/23311916.2019.1623153</a> (Accessed: 3 October 2026).<br /><br />
+									Aven, T. and Thekdi, S. (2025) <em>Risk science: an introduction</em>. 2nd edn. Abingdon: Routledge. Chapter 6: Risk perception. Available at: <a href="https://doi.org/10.4324/9781003494317" target="_blank" rel="noopener">https://doi.org/10.4324/9781003494317</a> (Accessed: 3 October 2026).<br /><br />
+									Cox, L.A. (2008) &lsquo;What&rsquo;s wrong with risk matrices?&rsquo;, <em>Risk Analysis</em>, 28(2), pp. 497&ndash;512. Available at: <a href="https://doi.org/10.1111/j.1539-6924.2008.01030.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1539-6924.2008.01030.x</a> (Accessed: 3 October 2026).<br /><br />
+									Downey, A.B. (2021) <em>Think Bayes: Bayesian statistics in Python</em>. 2nd edn. Sebastopol, CA: O&rsquo;Reilly Media. Chapters 1 and 2. Available at: <a href="https://allendowney.github.io/ThinkBayes2/" target="_blank" rel="noopener">https://allendowney.github.io/ThinkBayes2/</a> (Accessed: 3 October 2026).<br /><br />
+									Fizell, Z. (2022) &lsquo;How to create a Monte Carlo simulation using Python&rsquo;, <em>Towards Data Science</em>, 8 February. Available at: <a href="https://towardsdatascience.com/how-to-create-a-monte-carlo-simulation-using-python-c24634a0978a/" target="_blank" rel="noopener">https://towardsdatascience.com/how-to-create-a-monte-carlo-simulation-using-python-c24634a0978a/</a> (Accessed: 3 October 2026).<br /><br />
+									Hargreaves, J. (2021) &lsquo;Quantitative risk assessment in ERM&rsquo;, in Fraser, J.R.S., Quail, R. and Simkins, B.J. (eds) <em>Enterprise risk management: today&rsquo;s leading research and best practices for tomorrow&rsquo;s executives</em>. 2nd edn. Hoboken, NJ: Wiley, ch. 22. Available at: <a href="https://www.oreilly.com/library/view/enterprise-risk-management/9781119741480/c22.xhtml" target="_blank" rel="noopener">https://www.oreilly.com/library/view/enterprise-risk-management/9781119741480/c22.xhtml</a> (Accessed: 3 October 2026).<br /><br />
+									Jbair, M., Ahmad, B., Maple, C. and Harrison, R. (2022) &lsquo;Threat modelling for industrial cyber physical systems in the era of smart manufacturing&rsquo;, <em>Computers in Industry</em>, 137, p. 103611. Available at: <a href="https://doi.org/10.1016/j.compind.2022.103611" target="_blank" rel="noopener">https://doi.org/10.1016/j.compind.2022.103611</a> (Accessed: 3 October 2026).<br /><br />
+									Metropolis, N. (1987) &lsquo;The beginning of the Monte Carlo method&rsquo;, <em>Los Alamos Science</em>, 15 (Special Issue), pp. 125&ndash;130. Available at: <a href="https://fermatslibrary.com/s/the-beginning-of-the-monte-carlo-method" target="_blank" rel="noopener">https://fermatslibrary.com/s/the-beginning-of-the-monte-carlo-method</a> (Accessed: 3 October 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection in nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Stevens, I. (2026) <em>Quantitative risk assessment and digital resilience strategy for Pampered Pets: executive summary</em>. Unpublished assignment, Security and Risk Management module. University of Essex Online.<br /><br />
+									Tversky, A. and Kahneman, D. (1983) &lsquo;Extensional versus intuitive reasoning: the conjunction fallacy in probability judgment&rsquo;, <em>Psychological Review</em>, 90(4), pp. 293&ndash;315. Available at: <a href="https://doi.org/10.1037/0033-295X.90.4.293" target="_blank" rel="noopener">https://doi.org/10.1037/0033-295X.90.4.293</a> (Accessed: 3 October 2026).<br /><br />
+									Wang, J., Neil, M. and Fenton, N. (2020) &lsquo;A Bayesian network approach for cybersecurity risk assessment implementing and extending the FAIR model&rsquo;, <em>Computers &amp; Security</em>, 89, p. 101659. Available at: <a href="https://doi.org/10.1016/j.cose.2019.101659" target="_blank" rel="noopener">https://doi.org/10.1016/j.cose.2019.101659</a> (Accessed: 3 October 2026).<br /><br />
+									Wunder, J., Kurtz, A., Eichenm&uuml;ller, C., Gassmann, F. and Benenson, Z. (2024) &lsquo;Shedding light on CVSS scoring inconsistencies: a user-centric study on evaluating widespread security vulnerabilities&rsquo;, in <em>2024 IEEE Symposium on Security and Privacy (SP)</em>. San Francisco, CA: IEEE, pp. 1102&ndash;1121. Available at: <a href="https://doi.org/10.1109/SP54263.2024.00058" target="_blank" rel="noopener">https://doi.org/10.1109/SP54263.2024.00058</a> (Accessed: 3 October 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
