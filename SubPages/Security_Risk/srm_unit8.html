@@ -41,6 +41,7 @@
 								<header class="major">
 									<h1>Unit 8: Implementing Quantitative Risk Models</h1>
 								</header>
+								<blockquote class="in-brief"><strong>In brief:</strong> Aijaz and Nazir&rsquo;s (2024) attack tree reproduced, but none of 512 input mappings matched their success probabilities. In my supplier fraud model for Pampered Pets, a call-back check beat staff training in all 20,000 input sets.</blockquote>
 								<span class="image main"><img src="../../images/srm/srm_unit08_banner.jpg" alt="" /></span>
 								<p>This unit puts quantitative risk modelling into practice. It uses Monte Carlo simulation, Bayes&rsquo; theorem, attack trees and Markov models on real problems, reviews case studies of their use in project management and safety estimation, and asks how to choose between the techniques and how far their results can be trusted. The artefacts below are my answers to the seminar questions on Aijaz and Nazir&rsquo;s (2024) model of social engineering threats, a notebook that tries to reproduce their published results, and a quantitative model of supplier impersonation fraud at Pampered Pets.</p>
 							</div>
@@ -100,7 +101,7 @@
 								<p><em>Python notebook: unit8_aijaz_nazir_reproduction.ipynb. All inputs are the values printed in Tables 1 and 2 of the paper; the targets are its Table 3.</em></p>
 
 								<h3>1. Attack tree: the occurrence probabilities</h3>
-								<p>The paper&rsquo;s Algorithm 1 (OR takes the maximum, AND the product) reproduces every published AOP, but in the three scenarios with two persuasion principles only if each principle has its own copy of the modality leaf, as in the paper&rsquo;s Figure 2.</p>
+								<p>The paper&rsquo;s Algorithm 1 (OR takes the maximum, AND the product) reproduces every published AOP, but in the three scenarios with two persuasion principles only if each principle has its own copy of the modality leaf. The paper&rsquo;s Figure 2 points the same way, since each AND branch pairs one modality with one principle.</p>
 								<div class="table-wrapper">
 									<table>
 										<thead>
