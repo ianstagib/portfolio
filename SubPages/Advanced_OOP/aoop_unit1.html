@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 1 Reflection - Advanced Object-Oriented Design and Programming</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Ian Stevens</strong> <span>e-Portfolio</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="landing_aoop.html">Advanced Object-Oriented Design and Programming</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 1: Introduction and Recap of Object-Oriented Programming</h1>
+								</header>
+								<blockquote class="in-brief"><strong>In brief:</strong> I built a vehicle management hierarchy in Python with 28 tests. Python&rsquo;s private and protected names turned out to be conventions, not controls, so the protection came from design: read-only properties, validating constructors and a licence check on every driver assignment.</blockquote>
+								<span class="image main"><img src="../../images/aoop/aoop_unit01_banner.jpg" alt="" /></span>
+								<p>This unit revisits the four pillars of object-oriented programming, inheritance, polymorphism, abstraction and encapsulation, and reviews how classes and objects work, including constructors, destructors and access control. It introduces the role of object-oriented principles in designing large-scale and secure software, and the seminar practical implements a basic class hierarchy for a vehicle management system in Python. The class hierarchy, its tests and a walkthrough notebook are stored below as the unit&rsquo;s artefact.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 1 revisited the four pillars of object-oriented programming (inheritance, polymorphism, abstraction and encapsulation), the building blocks of classes, objects, constructors, destructors and access control, and the part these play in large-scale and secure software. I read chapters 7, 8 and 15 of Lott (2024) from the required reading and, from the recommended list, chapters 1 to 3 and 6 of Lott and Phillips (2021), chapter 9 of Matthes (2023) and chapter 11 of Wazlawick (2024). For the seminar practical I built a vehicle management system in Python: an abstract <code>Vehicle</code> class with <code>Car</code>, <code>Bike</code> and <code>Truck</code> subclasses, a <code>Fleet</code> that holds them, a <code>Driver</code> class, 28 tests and a notebook that walks through each concept (Artefact 1). Coming from Security and Risk Management, I wanted access control to matter in the domain as well as in the code, so the fleet only lets a driver take a vehicle that their licence covers.</p>
+
+								<h3>So what?</h3>
+								<p>I started the week with a Java view of encapsulation: fields are private, and access modifiers keep other code out. The reading did not support that view for Python. Lott and Phillips (2021, ch. 1) separate encapsulation, which wraps state and behaviour behind an interface, from information hiding, and argue that Python programmers neither have nor need fully private variables. In chapter 2 they treat the leading underscore as a convention and advise against creating new double-underscore names at all. The practical bore this out. <code>car._Vehicle__vin</code> returned the private VIN, and assigning to <code>car._odometer_km</code> wound the odometer back to zero. What did protect the odometer was the design: a read-only property, and one method, <code>record_trip()</code>, that checks every change. Matthes&rsquo;s (2023) <code>Car</code> shows the difference well. Its <code>update_odometer()</code> refuses to roll the reading back, but <code>odometer_reading</code> is a public attribute, so the rule only binds callers who choose to use the method. Parnas (1972) argued that modules should hide the design decisions most likely to change, which is about protecting other programmers from change rather than keeping secrets from them. That suits maintainability, but from a security point of view it means a Python class is not a trust boundary. The step that actually reduced exposure of the VIN was keeping it out of <code>__repr__()</code> and out of error messages, so that it cannot leak into logs.</p>
+								<p>Writing the base class made me decide what every vehicle shares, and the brief&rsquo;s word &lsquo;Bike&rsquo; turned out to be ambiguous. A bicycle has no registration, VIN or licence category, so it could not honour the promises <code>Vehicle</code> makes. This is Liskov and Wing&rsquo;s (1994) requirement that what can be proved about a supertype must also hold for its subtypes, which Lott (2024, ch. 8) reduces to the &lsquo;is-a&rsquo; question. I took Bike to mean a motorbike, but the lesson was that a base class fixes assumptions for every future subclass, and those assumptions should be written down. Lott and Phillips (2021, ch. 6) suggest that abstract base classes are optional in Python because of duck typing, and should be used only where they make the design clearer. Here the abstract class earned its place. A test subclass that forgot <code>licence_category</code> could not be created at all, rather than producing a vehicle with no category that the assignment check would have to handle. Once the abstraction was in place, polymorphism kept <code>Fleet</code> simple: neither <code>report()</code> nor <code>assign()</code> checks a type.</p>
+								<p><code>Fleet</code> holds its vehicles in a dictionary instead of extending one. Lott (2024, ch. 8) shows that a class built by extending <code>list</code> inherits every list method, wanted or not, and Gamma et al. (1994) advise favouring object composition over class inheritance, partly because inheritance exposes a parent&rsquo;s internals to its subclasses. For this system the choice was about security as much as design. Had <code>Fleet</code> extended <code>dict</code>, every caller would also have had <code>update()</code>, <code>setdefault()</code> and item assignment, any of which could store a vehicle under the wrong registration or silently replace one. With composition, the public operations are the ones I wrote. <code>add()</code> refuses duplicates, and <code>assign()</code>, the only public route to a driver, checks every request and treats an unrecognised licence category as granting nothing. These are Saltzer and Schroeder&rsquo;s (1975) principles of complete mediation and fail-safe defaults. They were written for operating system protection, but they fit object interfaces closely.</p>
+								<p>Destructors were where my prior understanding was most wrong. The language reference calls <code>__del__()</code> &lsquo;(improperly) a destructor&rsquo;, notes that <code>del x</code> only removes one reference, and does not guarantee the method will run when the interpreter exits (Python Software Foundation, 2026). My tests confirmed the first point: deleting a car that the fleet still held did nothing. They also exposed something I had not expected. Python runs <code>__del__()</code> on an object whose constructor raised, so a subclass that calls <code>super().__init__()</code> before validating its own arguments leaves a half-built object that is later finalised. In my code that only adds a registration to a list, but if the finaliser released a resource or wrote an audit record, it would act on a vehicle that never existed. I fixed this by validating before calling the base constructor, but the better lesson is to put nothing important in <code>__del__()</code> and to use explicit methods or context managers instead (Lott, 2024, ch. 7). The destructor tests also depend on CPython&rsquo;s reference counting, which is a reminder that a test can quietly encode an implementation detail.</p>
+								<p>The artefact has weaknesses. The licence rules are simplified and hard-coded, when a real system would take them from an authoritative source. The <code>decommissioned</code> list grows without limit and exists only to make the finaliser visible. The licence rules also sit inside the vehicle classes, so a change in the rules means editing the hierarchy. Wazlawick (2024, ch. 11) describes the Strategy pattern for exactly this case, where a procedure varies independently of the data it applies to.</p>
+
+								<h3>Now what?</h3>
+								<p>Four changes follow. First, I will treat Python access levels as documentation and put the real controls at boundaries: validation in constructors and methods, and sensitive values kept out of <code>__repr__()</code>, logs and exceptions. For values like the odometer I will consider deriving them from an append-only record, so there is no single field to overwrite. Second, before writing a subclass I will state what the base class promises and run the same contract tests against every subclass. Third, I will keep anything that matters out of <code>__del__()</code> and use context managers for cleanup, and I will look for finalisers that do real work when reviewing Python code at work. Fourth, ahead of the design pattern units I will read Sarcar&rsquo;s (2022) opening chapter from the required reading, which I have not yet done, and revisit the licence rules as a Strategy so that I can compare the two designs in code.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: A Vehicle Management Class Hierarchy</h2>
+								</header>
+								<p><em>Seminar practical exercise. Python module vehicles.py, 28 unit tests and doctests in test_vehicles.py, and a walkthrough notebook: unit1_vehicle_hierarchy.ipynb. Needs Python 3.10 or later and no third-party packages; run the tests with <code>python -m unittest -v test_vehicles</code>.</em></p>
+								<p>An abstract <code>Vehicle</code> class defines what every vehicle in the fleet shares: a registration, make, model, year, VIN and odometer. <code>Car</code>, <code>Bike</code> (taken to mean a motorbike) and <code>Truck</code> extend it and each say how many wheels they have and which driving licence category they need, using simplified DVLA rules. A <code>Fleet</code> holds the vehicles and assigns drivers, and refuses any assignment the driver&rsquo;s licence does not cover. Figure 1 shows the classes and the access level of each member.</p>
+								<span class="image fit"><img src="artefacts/unit1/figures/u1_class_diagram.png" alt="UML class diagram. An abstract Vehicle class with public make and model, protected registration, year and odometer, a private name-mangled VIN, and abstract wheels and licence_category properties. Car, Bike and Truck inherit from Vehicle. Fleet aggregates zero or more vehicles, and Driver, a frozen dataclass, checks whether it can drive a vehicle." /></span>
+								<p><em>Figure 1: Class diagram of the vehicle management system.</em></p>
+								<p>Table 1 maps each concept from the unit to where it appears in the code and the test or notebook result that shows it working.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Concept</th>
+												<th>Where it appears</th>
+												<th>Evidence</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Abstraction</td><td><code>Vehicle(abc.ABC)</code> with abstract <code>wheels</code> and <code>licence_category</code> properties</td><td><code>Vehicle(...)</code> raises <code>TypeError</code>, and so does a subclass that leaves out <code>licence_category</code></td></tr>
+											<tr><td>Inheritance</td><td><code>Car</code>, <code>Bike</code> and <code>Truck</code> call <code>super().__init__()</code> and inherit validation, the odometer, <code>describe()</code> and <code>__repr__()</code></td><td>An invalid registration is refused by all three subclasses</td></tr>
+											<tr><td>Polymorphism</td><td><code>describe()</code> is a template method that asks each subclass for <code>wheels</code>, <code>licence_category</code> and the <code>_extra_details()</code> hook</td><td><code>Fleet.report()</code> and <code>Fleet.assign()</code> work on any vehicle without checking its type</td></tr>
+											<tr><td>Encapsulation</td><td>Read-only <code>odometer_km</code>, changed only by <code>record_trip()</code>; <code>Truck.load()</code> and <code>unload()</code> guard the payload</td><td>Assigning the odometer raises <code>AttributeError</code>; a refused overload leaves the load unchanged</td></tr>
+											<tr><td>Constructors</td><td>Subclasses validate their own arguments before calling the base constructor; keyword-only arguments</td><td>A nine-seat car, a 3,500 kg truck and an invalid VIN are refused</td></tr>
+											<tr><td>Destructors</td><td><code>Vehicle.__del__()</code> records the registration when the finaliser runs</td><td><code>del</code> on a car the fleet still holds does nothing; the finaliser runs once the fleet lets go</td></tr>
+											<tr><td>Access control</td><td>Public <code>make</code>, protected <code>_odometer_km</code>, private <code>__vin</code>; <code>Fleet.assign()</code> checks the driver&rsquo;s licence</td><td><code>car._Vehicle__vin</code> is still readable, but the VIN is masked and kept out of <code>repr()</code>; a category B driver is refused a category C truck</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 1: OOP concepts in the artefact and the evidence for each.</em></p>
+								<p>An extract of the notebook&rsquo;s output shows polymorphism and the licence check together. Each line of the report comes from the same <code>describe()</code> call:</p>
+<pre><code>2021 Ford Focus (AB12CDE): 4 wheels, licence B, 4 passenger seats, 42.5 km
+2022 Honda CB125R (BK19ABC): 2 wheels, licence A1, 125 cc, 11 kW, 0.0 km
+2020 DAF LF (TR70XYZ): 6 wheels, licence C, 6,500 of 10,000 kg loaded, 310.0 km
+
+Sam -&gt; AB12CDE: assigned
+Sam -&gt; TR70XYZ: refused (Sam is not licensed for category C (TR70XYZ))
+Alex -&gt; TR70XYZ: assigned</code></pre>
+								<p>The notebook also records two findings that shaped the reflection above. Assigning to <code>car._odometer_km</code> still winds the odometer back, because a single underscore is only a warning. And a subclass that calls <code>super().__init__()</code> before validating its own arguments leaves a half-built object that Python later finalises.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit1/unit1_vehicle_hierarchy.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit1/vehicles.py" class="button" target="_blank" rel="noopener">View code on GitHub</a></li>
+									<li><a href="artefacts/unit1/unit1_vehicle_hierarchy.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit1_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Gamma, E., Helm, R., Johnson, R. and Vlissides, J. (1994) <em>Design patterns: elements of reusable object-oriented software</em>. Reading, MA: Addison-Wesley.<br /><br />
+									Liskov, B.H. and Wing, J.M. (1994) &lsquo;A behavioral notion of subtyping&rsquo;, <em>ACM Transactions on Programming Languages and Systems</em>, 16(6), pp. 1811&ndash;1841. Available at: <a href="https://doi.org/10.1145/197320.197383" target="_blank" rel="noopener">https://doi.org/10.1145/197320.197383</a> (Accessed: 20 October 2026).<br /><br />
+									Lott, S.F. (2024) <em>Modern Python cookbook: 130+ updated recipes for modern Python 3.12 with new techniques and tools</em>. 3rd edn. Birmingham: Packt Publishing. Chapters 7, 8 and 15. Available at: <a href="https://www.oreilly.com/library/view/modern-python-cookbook/9781835466384/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/modern-python-cookbook/9781835466384/</a> (Accessed: 20 October 2026).<br /><br />
+									Lott, S.F. and Phillips, D. (2021) <em>Python object-oriented programming: build robust and maintainable object-oriented Python applications and libraries</em>. 4th edn. Birmingham: Packt Publishing. Chapters 1&ndash;3 and 6. Available at: <a href="https://www.oreilly.com/library/view/python-object-oriented-programming/9781801077262/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/python-object-oriented-programming/9781801077262/</a> (Accessed: 20 October 2026).<br /><br />
+									Matthes, E. (2023) <em>Python crash course: a hands-on, project-based introduction to programming</em>. 3rd edn. San Francisco, CA: No Starch Press. Chapter 9. Available at: <a href="https://www.oreilly.com/library/view/python-crash-course/9781098156664/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/python-crash-course/9781098156664/</a> (Accessed: 20 October 2026).<br /><br />
+									Parnas, D.L. (1972) &lsquo;On the criteria to be used in decomposing systems into modules&rsquo;, <em>Communications of the ACM</em>, 15(12), pp. 1053&ndash;1058. Available at: <a href="https://doi.org/10.1145/361598.361623" target="_blank" rel="noopener">https://doi.org/10.1145/361598.361623</a> (Accessed: 20 October 2026).<br /><br />
+									Python Software Foundation (2026) <em>The Python language reference: 3. Data model</em>. Available at: <a href="https://docs.python.org/3/reference/datamodel.html" target="_blank" rel="noopener">https://docs.python.org/3/reference/datamodel.html</a> (Accessed: 20 October 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection for nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Saltzer, J.H. and Schroeder, M.D. (1975) &lsquo;The protection of information in computer systems&rsquo;, <em>Proceedings of the IEEE</em>, 63(9), pp. 1278&ndash;1308. Available at: <a href="https://web.mit.edu/Saltzer/www/publications/protection/" target="_blank" rel="noopener">https://web.mit.edu/Saltzer/www/publications/protection/</a> (Accessed: 20 October 2026).<br /><br />
+									Sarcar, V. (2022) <em>Java design patterns: a hands-on experience with real-world examples</em>. 3rd edn. Berkeley, CA: Apress. Available at: <a href="https://www.oreilly.com/library/view/java-design-patterns/9781484279717/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/java-design-patterns/9781484279717/</a> (Accessed: 20 October 2026).<br /><br />
+									Wazlawick, R.S. (2024) <em>Object-oriented analysis and design for information systems: modeling with BPMN, OCL, IFML, and Python</em>. 2nd edn. San Diego, CA: Elsevier Science and Technology. Chapter 11. Available at: <a href="https://www.oreilly.com/library/view/object-oriented-analysis-and/9780443137402/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/object-oriented-analysis-and/9780443137402/</a> (Accessed: 20 October 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Ian Stevens</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
