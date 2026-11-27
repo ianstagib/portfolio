@@ -1,0 +1,264 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 5 Reflection - Advanced Object-Oriented Design and Programming</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Ian Stevens</strong> <span>e-Portfolio</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../SubPages/Security_Risk/landing_srm.html">Security and Risk Management</a></li>
+							<li><a href="../../SubPages/Advanced_OOP/landing_aoop.html">Advanced Object-Oriented Design and Programming</a></li>
+						</ul>
+					</nav>
+
+								<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 5: Design Patterns III &ndash; Behavioural Patterns</h1>
+								</header>
+								<blockquote class="in-brief"><strong>In brief:</strong> I applied the Strategy pattern to password storage in Python, with 31 tests. One store hashes new passwords with its current algorithm, verifies older hashes with the algorithm named inside them and upgrades them at the next login, and it moved from PBKDF2 to scrypt while running. The pattern removed the if/elif chain but not the decision: one lookup remains, and because stored data drives it, it has to be treated as untrusted input.</blockquote>
+								<span class="image main"><img src="../../images/aoop/aoop_unit05_banner.jpg" alt="" /></span>
+								<p>This unit introduces six behavioural patterns, Strategy, Observer, Chain of Responsibility, Template Method, Command and State, which define how objects interact and communicate. It examines the Observer pattern in cybersecurity systems and asks for the Strategy pattern to be applied in a project. My password store, its tests and a walkthrough notebook are the unit&rsquo;s first artefact. The second is my contribution to Collaborative Discussion 2, a Strategy refactoring of a payment processor. My seminar preparation, including the Observer case study and the small login monitor I built for it, and my reading notes follow.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 5 moved from how objects are created and composed to how they communicate. I read Parts I to III of Nesteruk (2022), concentrating on the six behavioural patterns the unit names: Chain of Responsibility, Command, Observer, State, Strategy and Template Method (chapters 13, 14 and 20 to 23). For the practical exercise I applied Strategy to password storage: a store that hashes new passwords with its current algorithm, verifies older hashes with the algorithm named inside them and upgrades them at the next login, with 31 tests (Artefact 1). For Collaborative Discussion 2 I refactored the payment processor (Artefact 2), and for the case study I built a small login monitor with the Observer pattern.</p>
+								
+								<h3>So what?</h3>
+								<p>Nesteruk (2022, ch. 23) admits he is tempted to merge Strategy and Template Method into a single &lsquo;Skeleton Method&rsquo;, because both define the outline of an algorithm in one place and its details in another. The difference is that Strategy uses composition and Template Method uses inheritance, so Template Method &lsquo;can only be static&rsquo;. My artefact showed why that matters. Hashing guidance changes, and OWASP (no date) recommends rehashing when the user next authenticates, so a store has to keep running while its algorithm changes. With composition, the same store moved from PBKDF2 to scrypt in one call and every older hash still verified. With inheritance I would have needed a new store and a copy of every record.</p>
+								<p>The discussion guidance claims that Strategy lets new payment methods be added &lsquo;without modifying existing code&rsquo;. My tests confirm this for the processor, which no longer contains a branch, but something still has to turn the text &lsquo;paypal&rsquo; from a form into a class, just as the password store has to turn the name at the front of a stored hash into a strategy. Nesteruk&rsquo;s own dynamic strategy is chosen with a <code>switch</code> in <code>set_output_format()</code> (2022, ch. 22). Strategy does not remove the decision; it moves it into one lookup. That turned out to be the real gain. A single read-only table is easy to audit and, as with the factories in Unit 3, it can refuse what it does not recognise (Nesteruk, 2022, ch. 3).</p>
+								<p>The lookup also raised a security problem I had not expected from a behavioural pattern. Because a stored hash chooses which strategy runs and how much work it does, a tampered database row asking for a trillion iterations would turn every login into a denial of service. Each strategy therefore range-checks the settings it reads before doing any work, and the store accepts only the strategies it was given; the tests show such hashes refused in under a millisecond. Choosing behaviour at run time means that something at run time is doing the choosing, and that input has to be treated as hostile.</p>
+								<p>One limit remains. <code>LegacySha256</code> exists only to verify old unsalted hashes, so it refuses to create one. It is a <code>HashingStrategy</code> that cannot stand in for the others, which breaks the Liskov substitution principle from Unit 2. Nesteruk (2022, ch. 14) meets the same problem with commands that cannot be undone and suggests splitting the interface in line with interface segregation. I kept one interface and recorded the limit in a test, but a cleaner design would separate a verifier from a hasher.</p>
+								<p>The Observer case study changed how I read Nesteruk&rsquo;s chapter 20, most of which deals with unsubscription, reentrancy and thread safety before concluding that no implementation is ideal. In a security monitor, unsubscription is itself an attack surface. MITRE (2026) describes adversaries who &lsquo;disable, degrade, or tamper with security tools&rsquo;, and Python&rsquo;s runtime audit hooks deliberately &lsquo;cannot be removed or replaced&rsquo; (Dower, 2018). My monitor therefore lets required observers refuse removal and stops one failing observer from silencing the rest. A further test showed that an alert subscribed before the lockout policy missed the lock it depended on. This is the ordering problem from Unit 4 again, and it contradicts Nesteruk&rsquo;s claim that decorators can be applied in any order (2022, ch. 9). Observer separates the subject from its observers, but not the observers from each other.</p>
+								
+								<h3>Now what?</h3>
+								<p>I will split <code>HashingStrategy</code> into separate verifying and hashing interfaces and update the legacy test to match. In the monitor I will make the dependency between the alert and the lockout policy explicit, probably by letting the policy pass events on as a Chain of Responsibility rather than relying on subscription order. In the discussion I have asked peers whether a dictionary of Python functions would be enough, since Nesteruk (2022, ch. 22) treats lambdas as strategies; I will compare their answers with my view that a class earns its place when a strategy has several operations and an identifier. More generally, whenever behaviour is selected from data, whether a stored hash, a plug-in name or a deserialised message, I will use a read-only allow-list and test it with hostile input. The password store is a natural starting point for the authentication component of the capstone project.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: Password Storage Built with the Strategy Pattern</h2>
+								</header>
+								<p><em>Practical exercise. The design is in password_hashing.py, 31 unit tests and the module&rsquo;s doctests are in test_password_hashing.py, and the walkthrough notebook is unit5_strategy_pattern.ipynb. Needs Python 3.10 or later and no third-party packages; run the tests with <code>python -m unittest -v test_password_hashing</code> and the demonstration with <code>python password_hashing.py</code>. password_hashing.py also passes <code>mypy --strict</code>.</em></p>
+								<p>The exercise asks for the Strategy pattern to be implemented in a project so that an algorithm can be chosen and replaced without changing the code that uses it. I chose password storage because the recommended algorithm and its cost settings really do change, and a system has to keep verifying old hashes while it writes new ones. The pattern&rsquo;s three roles are each a class: the abstract strategy <code>HashingStrategy</code>, the concrete strategies <code>Pbkdf2Sha256</code>, <code>Scrypt</code> and the verify-only <code>LegacySha256</code>, and the context <code>PasswordStore</code>. Figure 1 shows how they depend on each other.</p>
+								<span class="image fit"><img src="artefacts/unit5/figures/u5_class_diagram.png" alt="UML class diagram of the password store. The context PasswordStore holds a current HashingStrategy and a dictionary of accepted strategies keyed by identifier, and a read-only view of the stored hashes. It offers set_strategy, set_password, check_password, which verifies with the strategy named in the stored hash and rehashes with the current one if it is out of date, and import_hash; a protected _strategy_for method is the one lookup. The abstract HashingStrategy declares an identifier and the abstract methods hash and verify, plus needs_rehash and owns. Pbkdf2Sha256 with 600,000 iterations, Scrypt with n of 2 to the 17, r 8 and p 1, the verify-only LegacySha256, and a dashed box for a new strategy that needs no edit, all extend HashingStrategy. The client main builds and switches the store. A note explains that every stored hash names its strategy and settings, that settings are range-checked before any work, and that digests are compared with hmac.compare_digest." /></span>
+								<p><em>Figure 1: Class diagram of the password store.</em></p>
+								<p>Table 1 maps each part of the exercise to the code that meets it and the test or notebook result that shows it.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Requirement</th>
+												<th>Implementation</th>
+												<th>Evidence</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>A family of algorithms, each encapsulated</td><td>PBKDF2-HMAC-SHA256, scrypt and legacy SHA-256 are separate classes behind the abstract <code>HashingStrategy</code></td><td>A contract test runs every strategy through the same checks; <code>HashingStrategy()</code> raises <code>TypeError</code></td></tr>
+											<tr><td>Interchangeable</td><td><code>PasswordStore</code> uses only the strategy interface and names no concrete class</td><td>A syntax-tree check finds no concrete strategy and no branch on an algorithm name in the store</td></tr>
+											<tr><td>Chosen at run time</td><td><code>set_strategy()</code> changes the algorithm for new hashes; the previous one stays accepted so its hashes still verify</td><td>The demonstration moves a running store from SHA-256 to PBKDF2 to scrypt</td></tr>
+											<tr><td>Flexible and reusable</td><td>A strategy written elsewhere plugs in, and out-of-date hashes are upgraded at the next login</td><td>A strategy defined only in the test file works without editing password_hashing.py</td></tr>
+											<tr><td>Demonstration</td><td><code>main()</code> prints each step of the migration</td><td>The demonstration test and the notebook output below</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 1: Each part of the exercise and the evidence for it.</em></p>
+								<p>Further tests treat stored hashes as untrusted input. The store accepts only strategies it was given, and each strategy range-checks the cost settings it reads, so a tampered hash asking for a trillion iterations is refused instantly rather than tying up the server. An unknown user still costs one hash, so response times do not reveal which user names exist, and digests are compared with <code>hmac.compare_digest</code>. The defaults follow the OWASP Password Storage Cheat Sheet (OWASP, no date). Three tests record the limits discussed in the reflection: the choice of strategy has moved into a lookup rather than disappearing, the legacy strategy cannot stand in for the others, and a plain function is not accepted as a strategy. An extract of the notebook&rsquo;s output:</p>
+<pre><code>alice imported from the old system     alice=sha256
+alice logs in                          alice=pbkdf2_sha256
+strategy switched; bob registers       alice=pbkdf2_sha256, bob=scrypt
+alice logs in again                    alice=scrypt, bob=scrypt
+
+if statements in hash_password(): 3
+concrete strategies named in PasswordStore: []
+
+unknown algorithm               refused in 0.01 ms: no accepted strategy for 'md5'
+trillion iterations             refused in 0.01 ms: iterations 1000000000000 is outside 1000..10000000
+
+Pbkdf2Sha256(iterations=600000)  hash took     98 ms; verifies: True
+Scrypt(n=2**17, r=8, p=1)        hash took    400 ms; verifies: True</code></pre>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit5/unit5_strategy_pattern.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit5/password_hashing.py" class="button" target="_blank" rel="noopener">View code on GitHub</a></li>
+									<li><a href="artefacts/unit5/unit5_strategy_pattern.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="discussion">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Collaborative Discussion 2 &ndash; Refactoring a Payment Processor with Strategy</h2>
+								</header>
+								<p><em>Collaborative discussion that starts and ends in this unit. Posts are limited to 300 words. The original snippet is kept unchanged in payment_original.py and my refactoring is in payment_strategy.py, with 14 unit tests and the module&rsquo;s doctests in test_payment_strategy.py; run them with <code>python -m unittest -v test_payment_strategy</code>. payment_strategy.py passes <code>mypy --strict</code>.</em></p>
+								<h3>My initial post</h3>
+								<p><strong>1. Problems.</strong> Every payment method lives in one if/elif chain, so adding crypto means editing and retesting a class that already works, which breaks the open/closed principle. The processor knows the details of every method, so it is tightly coupled to all of them, and the chain grows with each one. Two further problems: the method is free text, so a typo only fails at run time, and the amount is never checked. My test shows the original happily processing a payment of $-100.</p>
+								<p><strong>2. How Strategy helps.</strong> Nesteruk (2022, ch. 22) describes Strategy as defining the skeleton of an algorithm and supplying the details by composition. Each method becomes a class behind one interface, and the processor simply delegates to the one it holds.</p>
+								<p><strong>3. Refactored code</strong> (credit card and bank transfer follow the same shape):</p>
+<pre><code>class PaymentStrategy(ABC):
+    @abstractmethod
+    def pay(self, amount: Decimal) -&gt; str: ...
+
+class PayPalPayment(PaymentStrategy):
+    def pay(self, amount):
+        return f&quot;Processing PayPal payment of ${amount}&quot;
+
+class PaymentProcessor:
+    def __init__(self, strategy: PaymentStrategy):
+        self.strategy = strategy
+
+    def process_payment(self, amount):
+        print(self.strategy.pay(to_amount(amount)))
+
+PaymentProcessor(PayPalPayment()).process_payment(&quot;49.50&quot;)</code></pre>
+								<p><code>to_amount()</code> refuses floats, zero, negatives and fractions of a penny.</p>
+								<p><strong>4. Benefits.</strong> Crypto becomes one new class, and my tests add it without touching the module. Each method is tested alone, can carry its own data such as a wallet address, and can be swapped at run time.</p>
+								<p>One caveat: if a form still sends &ldquo;paypal&rdquo;, something must map that text to a class. I used a read-only dictionary, so the decision moves rather than disappears.</p>
+								<p><strong>Question:</strong> Python functions are first-class. Would a dictionary of functions be enough here, or do classes earn their place?</p>
+								<h3>What the code adds beyond the post</h3>
+								<p>The tests check that the refactored processor prints exactly what the original printed for every method and a range of amounts, and that an unknown method still raises <code>ValueError(&lsquo;Invalid payment type&rsquo;)</code>. A syntax-tree check confirms that <code>process_payment()</code> and <code>for_type()</code> contain no <code>if</code> and that the processor names no concrete method, while the original has one branch per method. A crypto method defined only in the test file, holding its own wallet address, works with no edit to the module, and can be offered by name through a copy of the read-only method table. Floats, zero, negative amounts, NaN, infinity and fractions of a penny are refused before any strategy is called, whereas the original accepted a payment of $-100.</p>
+								<h3>Peer responses and follow-up posts</h3>
+								<p><em>To be added as the discussion develops: responses from Peer A and Peer B, my two follow-up posts and the agreed final version of the code.</em></p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/tree/main/SubPages/Advanced_OOP/artefacts/unit5/discussion" class="button" target="_blank" rel="noopener">View code on GitHub</a></li>
+									<li><a href="docs/Unit5_Discussion_Initial_Post.docx" class="button icon solid fa-download">Download post as Word</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Seminar Preparation</h2>
+								</header>
+								<h4>The six behavioural patterns</h4>
+								<p>Table 2 summarises the purpose of each pattern, with the example Nesteruk (2022) uses and a use in security.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Pattern</th>
+												<th>Purpose</th>
+												<th>Example in Nesteruk (2022)</th>
+												<th>Security use</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Strategy</td><td>Defines a family of interchangeable algorithms; the skeleton stays fixed and the details are supplied by composition</td><td>A text processor rendering lists as Markdown or HTML, switchable at run time or fixed by a template (ch. 22)</td><td>Choosing a hashing, encryption or authentication algorithm without editing the code that uses it (Artefact 1)</td></tr>
+											<tr><td>Observer</td><td>Notifies every dependent when an object&rsquo;s state changes</td><td>A <code>Person</code> notifying subscribers when its age changes, then the dependent &lsquo;can vote&rsquo; property (ch. 20)</td><td>Audit logging, lockout and alerting reacting to login events (case study below)</td></tr>
+											<tr><td>Chain of Responsibility</td><td>Passes a request along a chain of handlers, each of which may handle it, change it or stop it</td><td>Creature modifiers in a game, first as a linked list and then as a broker using events (ch. 13)</td><td>Request filters in which an authentication handler can stop a request before it reaches the application</td></tr>
+											<tr><td>Template Method</td><td>Fixes the skeleton of an algorithm in a base class and lets subclasses supply the steps</td><td>A <code>Game</code> whose <code>run()</code> calls abstract <code>start()</code>, <code>take_turn()</code> and <code>have_winner()</code> (ch. 23)</td><td>A fixed sequence of validate, authorise, act and log, so no subclass can skip a check</td></tr>
+											<tr><td>Command</td><td>Encapsulates a request as an object so it can be stored, logged, undone or combined</td><td>Bank account deposits and withdrawals as commands with undo, and a transfer as a composite command (ch. 14)</td><td>An audit trail of every change, and rollback of a partly failed operation</td></tr>
+											<tr><td>State</td><td>Lets an object change its behaviour when its internal state changes</td><td>A light switch, then a phone call and a combination lock as state machines (ch. 21)</td><td>Session and lockout states, and protocol handlers that accept only the messages valid in their current state</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 2: The six behavioural patterns covered in this unit.</em></p>
+
+								<h4>How behavioural patterns organise communication</h4>
+								<p>Nesteruk (2022, Part III) notes that, unlike creational and structural patterns, behavioural patterns do not follow a central theme. What they share is that each gives one kind of message a named object and a single route. Strategy and Template Method separate what stays fixed in an algorithm from what varies, by composition and by inheritance respectively. Observer lets an object announce a change without knowing who is listening, and Chain of Responsibility lets a request travel until something deals with it. Command turns a request into an object that can be recorded and reversed, which Nesteruk ties to auditing (ch. 14), and State moves behaviour that would otherwise sit in conditionals into separate states or a transition table. The result is more modular code, since a new algorithm, listener, handler or state is added as a new object. The cost is that control flow is harder to follow by reading: the code that runs depends on what was subscribed, chained or selected at run time, so tests have to check how the objects are wired together as well as what each one does.</p>
+
+								<h4>Case study: the Observer pattern in cybersecurity systems</h4>
+								<p><em>Supporting code: login_monitor.py and test_login_monitor.py in the case_study folder, with 11 unit tests and the module&rsquo;s doctests; run them with <code>python -m unittest -v test_login_monitor</code>.</em></p>
+								<p>Security monitoring is a natural fit for Observer. A system produces events, such as logins, file changes or network connections, and several independent responses need to react to each one: an audit log, an alerting rule, an automatic lockout. The source of the events should not have to know about any of them. Python&rsquo;s runtime audit hooks work this way: the interpreter raises an event for sensitive operations, and every hook that has been added is called (Dower, 2018). To test the idea, I built a small login monitor in which an audit log, a lockout policy and an alert subscribe to login events, and a new response is added by subscribing it rather than by editing the monitor.</p>
+								<p>Nesteruk (2022, ch. 20) spends most of his chapter on problems that look like details but matter in security. The first is unsubscription. An attacker who has gained access wants monitoring switched off, and MITRE (2026) describes adversaries who &lsquo;disable, degrade, or tamper with security tools&rsquo;. PEP 578 takes the strict line that audit hooks &lsquo;cannot be removed or replaced&rsquo; (Dower, 2018). My monitor lets an observer be marked as required, and a test confirms that the audit log cannot then be unsubscribed. The second is reentrancy, where an observer unsubscribes while it is being notified. The monitor notifies a copy of its subscriber list, which is one of the remedies Nesteruk suggests. The third is failure: one observer that raises an exception, perhaps because its disk is full, must not stop the others hearing the event, so the monitor records the error and carries on. PEP 578 makes the opposite choice, letting a hook stop an operation by raising an exception, because there the hook acts as a guard rather than a listener.</p>
+								<p>The case study also showed a limit. Observer separates the subject from its observers, but not the observers from each other. My alert reads the lockout policy&rsquo;s state, and a test shows that if the alert is subscribed first it misses the lock it depends on. Subscription order became a hidden part of the security design, just as the order of decorators did in Unit 4. Events are frozen dataclasses, so no observer can alter what the next one sees. My conclusion for the seminar is that Observer is the right shape for security monitoring, provided that removal of a monitor is controlled, failures are isolated, and dependencies between observers are made explicit rather than left to the order in which they were added.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/tree/main/SubPages/Advanced_OOP/artefacts/unit5/case_study" class="button" target="_blank" rel="noopener">View case study code on GitHub</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Reading Notes</h2>
+								</header>
+								<p><strong>Nesteruk (2022), Part III, Behavioural (required).</strong> Twelve chapters in modern C++, of which I read the six the unit names most closely. Chain of Responsibility (ch. 13) starts as a linked list of creature modifiers, where forgetting to call the base handler silently breaks the chain, and ends as a &lsquo;broker chain&rsquo; that combines Mediator, Observer and Command. Command (ch. 14) wraps bank operations so they can be audited and undone, and shows how a composite transfer becomes complicated once a withdrawal can fail. Observer (ch. 20) covers dependent properties, thread safety, reentrancy and Boost.Signals2, and concludes that no implementation ticks every box. State (ch. 21) moves from the classic design, which Nesteruk finds unintuitive, to hand-made and Boost.MSM state machines with guards and transitions. Strategy (ch. 22) distinguishes functional, dynamic and static strategies, and Template Method (ch. 23) is presented as the inheritance-based twin of Strategy. I read the remaining chapters (Interpreter, Iterator, Mediator, Memento, Null Object and Visitor) more quickly; Null Object and Memento were the most relevant to the artefact, since Nesteruk&rsquo;s base <code>ListStrategy</code> is deliberately a null object.</p>
+								<p><strong>Nesteruk (2022), Parts I and II, Creational and Structural (required).</strong> I read these as revision of Units 3 and 4. The introduction recaps the SOLID principles with a product filter that is, in effect, a strategy. Two points added to my earlier work. Chapter 3 lists as an advantage of a factory that it &lsquo;can say no&rsquo;, which is what my method tables in both artefacts do. Chapter 9 says decorators can be applied in any order, which my Unit 4 tests showed is true only while every layer simply adds. Chapter 5 argues that a singleton should be passed in as a dependency rather than reached directly, the same dependency inversion that lets <code>PasswordStore</code> receive its strategy.</p>
+								<p><strong>OWASP (no date), Password Storage Cheat Sheet (additional).</strong> Used for the cost settings in Artefact 1, PBKDF2-HMAC-SHA256 with 600,000 iterations and scrypt with N = 2<sup>17</sup>, r = 8 and p = 1, and for the practice of upgrading a hash when the user next authenticates, which the store&rsquo;s <code>check_password()</code> implements.</p>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit5_Reflection.docx" class="button icon solid fa-download">Download reflection as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Dower, S. (2018) <em>PEP 578 &ndash; Python runtime audit hooks</em>. Python Software Foundation. Available at: <a href="https://peps.python.org/pep-0578/" target="_blank" rel="noopener">https://peps.python.org/pep-0578/</a> (Accessed: 27 November 2026).<br /><br />
+									MITRE (2026) <em>Disable or modify tools, technique T1685</em>. MITRE ATT&amp;CK. Available at: <a href="https://attack.mitre.org/techniques/T1685/" target="_blank" rel="noopener">https://attack.mitre.org/techniques/T1685/</a> (Accessed: 27 November 2026).<br /><br />
+									Nesteruk, D. (2022) <em>Design patterns in modern C++20: reusable approaches for object-oriented software design</em>. 2nd edn. Berkeley, CA: Apress. Parts I&ndash;III. Available at: <a href="https://www.oreilly.com/library/view/design-patterns-in/9781484272954/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/design-patterns-in/9781484272954/</a> (Accessed: 27 November 2026).<br /><br />
+									OWASP (no date) <em>Password storage cheat sheet</em>. OWASP Cheat Sheet Series. Available at: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" target="_blank" rel="noopener">https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html</a> (Accessed: 27 November 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection for nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Ian Stevens</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
