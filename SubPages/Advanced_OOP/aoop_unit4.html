@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 4 Reflection - Advanced Object-Oriented Design and Programming</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Ian Stevens</strong> <span>e-Portfolio</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../SubPages/Security_Risk/landing_srm.html">Security and Risk Management</a></li>
+							<li><a href="../../SubPages/Advanced_OOP/landing_aoop.html">Advanced Object-Oriented Design and Programming</a></li>
+						</ul>
+					</nav>
+
+								<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 4: Design Patterns II &ndash; Structural Patterns</h1>
+								</header>
+								<blockquote class="in-brief"><strong>In brief:</strong> I built the seminar&rsquo;s coffee shop in Python with the Decorator pattern, with 26 tests. Toppings wrap a coffee class that was never edited, and nine classes replace the 128 that subclassing would need. The pattern works cleanly only while every layer simply adds; a discount that alters the price made the order of layers matter, and the rules about order had to live outside the decorators.</blockquote>
+								<span class="image main"><img src="../../images/aoop/aoop_unit04_banner.jpg" alt="" /></span>
+								<p>This unit covers the seven structural patterns, Adapter, Bridge, Composite, Decorator, Facade, Proxy and Flyweight, and how they let classes and objects be composed into larger, flexible structures. It looks at their use in network security and asks for a coffee shop application built with the Decorator pattern. My coffee shop, its tests and a walkthrough notebook are stored below as the unit&rsquo;s first artefact. The second is my contribution to the collaborative discussion on the Adapter, Bridge and Composite patterns. My seminar preparation, including the network security case study, and my reading notes follow.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 4 moved from creating objects to composing them. I read chapters 2 and 3 of Di Francesco (2024), which cover Proxy, Decorator, Flyweight and Adapter in JavaScript and then the behavioural patterns. Because the book leaves out Bridge, Composite and Facade, I added chapters 8 to 14 and 30 of Sarcar (2022) and chapter 4 of Ayeva and Kasampalis (2024). For the exercise I built the seminar&rsquo;s coffee shop in Python: an abstract <code>Beverage</code>, two base drinks, an abstract <code>Topping</code> that wraps any <code>Beverage</code>, six toppings, a loyalty discount and an order desk, with 26 tests (Artefact 1).</p>
+
+								<h3>So what?</h3>
+								<p>In Unit 3 I concluded that Factory Method only earned its extra classes when the creator had work of its own. Decorator justified itself much faster. With two base drinks and six toppings, a class for every combination would need 128 classes, while the decorator design needs nine, and adding a topping adds one class instead of doubling the count. A test confirms that <code>Coffee</code> names no topping at all, so the &lsquo;existing class&rsquo; the brief describes really was left alone. That is the open/closed principle from Unit 2 achieved by composition rather than inheritance, which is how Sarcar (2022, ch. 9, Q&amp;A 9.1) presents the pattern.</p>
+								<p>The readings disagree about what a decorator may add. Sarcar (2022, ch. 9) stresses that a decorator has the same interface as the object it wraps, yet in Q&amp;A 8.7 he says decorators &lsquo;can work on extended interfaces&rsquo;. Di Francesco (2024, ch. 2) goes further: his <code>InstrumentedHttpClient</code> adds a <code>requestTimings</code> field, and he describes adding &lsquo;new members&rsquo; as the reason decorators can stack. My test shows the opposite. A member added by one layer disappears as soon as another layer wraps it, because the outer layer only forwards the shared interface. Stacking and extending pull against each other, so I kept every topping to the <code>Beverage</code> interface.</p>
+								<p>Order was the more important finding. Toppings that only add a price give the same total in any order, and a test tries every permutation. A loyalty discount alters the price instead, so placing it inside the vanilla syrup leaves the syrup undiscounted. Sarcar (2022, Q&amp;A 9.5) sees no significant disadvantages &lsquo;if you are careful&rsquo;, but each layer sees only the drink directly inside it, so the care cannot live in the decorators. My order desk, <code>make_drink()</code>, always puts the discount outermost and enforces limits, such as three sugars, that no single topping can see. Composition moves complexity out of the class hierarchy and into whatever assembles the layers.</p>
+								<p>The same pattern of naming confusion as in Unit 3 appeared. Ayeva and Kasampalis (2024, ch. 4) note that Python&rsquo;s <code>@</code> decorators have no one-to-one relationship with the pattern, and Di Francesco (2024, ch. 2) moves from a decorator class to an <code>addTiming</code> function. I wrote both forms. <code>audited()</code> wraps a function once, when the program is put together, whereas toppings wrap individual objects while it runs. They solve different problems and are only related by name.</p>
+								<p>The security reading made order feel less academic. In WSGI, middleware sits between a server and an application and plays both roles (Eby, 2010), so a stack of middleware is a stack of decorators around a request. If logging runs outside authentication it records requests that should have been rejected, and a security header added inside a compression layer may never be applied. My discount is the harmless version of that problem. The order desk also showed a structural pattern doing security work: it accepts only names from a read-only menu and never turns order text into attribute or class names, which tests with inputs such as <code>__class__</code> confirm.</p>
+								<p>A limit remains. <code>Milk(Espresso())</code> is a <code>Beverage</code> but not an <code>Espresso</code>, so any code that checks concrete types treats a decorated drink differently. That reinforces the Unit 2 lesson to depend on the abstraction rather than the class.</p>
+
+								<h3>Now what?</h3>
+								<p>Before using Decorator again I will ask whether each layer only adds or also alters. If any layer alters, I will make the order explicit in one place, as <code>make_drink()</code> does, and test it. I will keep decorators to the shared interface and expose anything extra through a method on the component, as <code>layers()</code> does. Unit 5 covers behavioural patterns, and I will compare a decorator stack with Chain of Responsibility, which Sarcar (2022, Q&amp;A 30.8) distinguishes by whether every handler acts on a request. Finally, I will build a small WSGI middleware stack with authentication, logging and a security header and write tests that fail when the layers are put in the wrong order, ready for the secure coding units later in the module.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: A Coffee Shop Built with the Decorator Pattern</h2>
+								</header>
+								<p><em>Seminar practical exercise. The design is in coffee.py, 26 unit tests and the module&rsquo;s doctests are in test_coffee.py, and the walkthrough notebook is unit4_decorator_pattern.ipynb. Needs Python 3.10 or later and no third-party packages; run the tests with <code>python -m unittest -v test_coffee</code> and the demonstration with <code>python coffee.py</code>. coffee.py also passes <code>mypy --strict</code>.</em></p>
+								<p>The seminar asks for a coffee shop application in which toppings such as milk and sugar are added to a base coffee object at run time, enhancing an existing class without changing it. Each of the pattern&rsquo;s four roles is a class: the component <code>Beverage</code>, the concrete components <code>Coffee</code> and <code>Espresso</code>, the abstract decorator <code>Topping</code>, which is a <code>Beverage</code> and holds one, and the concrete toppings. Figure 1 shows how they depend on each other.</p>
+								<span class="image fit"><img src="artefacts/unit4/figures/u4_class_diagram.png" alt="UML class diagram of the coffee shop. The abstract Beverage declares the abstract methods description and cost, plus layers and receipt_line. Coffee and Espresso extend Beverage as concrete components. The abstract decorator Topping also extends Beverage and wraps exactly one Beverage through the protected field _drink; it forwards description and cost and adds its own name and price. Milk, OatMilk, Sugar, VanillaSyrup, ExtraShot, WhippedCream and LoyaltyDiscount extend Topping, and a new topping can be added without editing coffee.py. The order desk, make_drink and main, builds Beverages from two read-only tables, BASES and TOPPINGS. The Python function decorator audited wraps make_drink." /></span>
+								<p><em>Figure 1: Class diagram of the coffee shop.</em></p>
+								<p>Table 1 maps each requirement of the exercise to the code that meets it and the test or notebook result that shows it.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Requirement</th>
+												<th>Implementation</th>
+												<th>Evidence</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>A base coffee object</td><td><code>Coffee</code>, a concrete <code>Beverage</code> with a size, a description and a price in whole pence; <code>Espresso</code> is a second base</td><td><code>Coffee()</code> is &lsquo;Coffee (regular)&rsquo; at &pound;2.50; <code>Beverage()</code> raises <code>TypeError</code></td></tr>
+											<tr><td>Enhance an existing class without changing it</td><td><code>Coffee</code> and <code>Espresso</code> contain no code for toppings</td><td>A syntax-tree check finds no topping class named in <code>Coffee</code>; wrapping a coffee leaves it unchanged</td></tr>
+											<tr><td>Toppings such as milk and sugar</td><td>Six concrete toppings extend the abstract <code>Topping</code>, which forwards to the drink it wraps and adds its own name and price</td><td>A contract test runs every topping over every base; <code>Sugar(Milk(Coffee()))</code> costs &pound;3.05</td></tr>
+											<tr><td>Added dynamically</td><td>Toppings are chosen at run time from data; <code>make_drink()</code> turns names on an order into layers</td><td>A drink is built from a list of names; 500 layers of sugar stack correctly</td></tr>
+											<tr><td>Demonstration</td><td><code>main()</code> prints a receipt for four orders</td><td>The demonstration test and the notebook output below</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 1: Each requirement of the exercise and the evidence for it.</em></p>
+								<p>Further tests go beyond the brief. The order desk refuses anything not on its read-only menu, including names such as <code>__class__</code>, and enforces a limit of five toppings and three of any one. A new topping can be offered without editing coffee.py. A Python function decorator, <code>audited()</code>, logs every order and keeps the original function&rsquo;s name through <code>functools.wraps</code>. Three tests record the limits discussed in the reflection: a decorated drink is no longer an instance of its base class, a member added by one decorator is hidden by the next, and a decorator that alters the price makes the order of layers matter. An extract of the notebook&rsquo;s output:</p>
+<pre><code>Coffee (regular): £2.50
+Coffee (regular), milk, sugar: £3.05
+Coffee (large), oat milk, vanilla syrup, sugar, sugar: £4.10
+Espresso, extra shot, whipped cream: £3.20
+
+subclass per combination: 128
+decorator design:         9 (Coffee, Espresso, Topping and one per topping)
+
+OrderError: not on the menu: '__class__'
+OrderError: at most 3 of each topping: sugar
+AttributeError: 'Sugar' object has no attribute 'label'
+Coffee (regular) > vanilla syrup > loyalty discount £2.66
+Coffee (regular) > loyalty discount > vanilla syrup £2.70</code></pre>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit4/unit4_decorator_pattern.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit4/coffee.py" class="button" target="_blank" rel="noopener">View code on GitHub</a></li>
+									<li><a href="artefacts/unit4/unit4_decorator_pattern.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="discussion">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 2: Collaborative Discussion &ndash; Adapter, Bridge and Composite</h2>
+								</header>
+								<p><em>Formative collaborative discussion, run within this unit. Posts are limited to 300 words. The full code is in the discussion folder: payment_adapter.py, remote_bridge.py and file_system_composite.py, with 21 unit tests and the modules&rsquo; doctests in test_structural.py; run them with <code>python -m unittest -v test_structural</code>. All three modules pass <code>mypy --strict</code>.</em></p>
+								<h3>My initial post</h3>
+								<p><strong>1. Adapter.</strong> The platform expects a <code>PaymentGateway</code> that takes and returns JSON, but the legacy service only speaks SOAP XML with amounts in pence. Rewriting either side is risky, so <code>SoapPaymentAdapter</code> implements the modern interface and translates both ways: pounds to pence, JSON to an XML envelope, and codes such as &lsquo;05&rsquo; to &lsquo;declined&rsquo; (Sarcar, 2022, ch. 10). Building the XML with ElementTree rather than string formatting also stops request values injecting elements.</p>
+<pre><code>class SoapPaymentAdapter:                    # implements PaymentGateway
+    def charge(self, request: dict) -&gt; dict:
+        envelope = self._to_soap(request)    # JSON -&gt; XML, &pound; -&gt; pence
+        reply = self._service.process_payment(envelope)
+        ...                                  # XML codes -&gt; JSON status</code></pre>
+								<p><strong>2. Bridge.</strong> A subclass per pairing (<code>BasicTVRemote</code>, <code>AdvancedRadioRemote</code>) multiplies with every new device or remote. Instead, remotes hold a <code>Device</code> and use only its interface, so two remotes and two devices need four classes, and a projector needs no new remote. Unlike Adapter, Bridge is designed up front rather than applied to existing code (Ayeva and Kasampalis, 2024, ch. 4).</p>
+<pre><code>class RemoteControl:
+    def __init__(self, device: Device):
+        self.device = device
+
+class AdvancedRemote(RemoteControl):
+    def mute(self):
+        self.device.set_volume(0)</code></pre>
+								<p><strong>3. Composite.</strong> <code>File</code> and <code>Folder</code> share <code>FileSystemComponent</code>, so clients call <code>size()</code> on either and a folder sums its children. <code>Folder.add()</code> refuses duplicates and cycles, since a folder inside itself would recurse forever.</p>
+<pre><code>class Folder(FileSystemComponent):
+    def size(self) -&gt; int:
+        return sum(child.size() for child in self)</code></pre>
+								<p><strong>Question:</strong> I put <code>add()</code> only on <code>Folder</code>, choosing safety over the transparency Sarcar (2022, Q&amp;A 13.5) prefers. Which would you choose?</p>
+								<h3>What the code adds beyond the post</h3>
+								<p>The tests check that the adapter sends the amount in pence, maps every legacy status, refuses non-GBP and badly formatted amounts before calling the legacy service, turns a SOAP fault into an exception and escapes a card token written to inject XML. For the Bridge, every remote is run against every device, a projector defined only in the test file works with the existing remotes, and a check of their source confirms the remotes never name a concrete device. For the Composite, folder sizes sum through a 200-level tree, and duplicates, cycles and names such as <code>..</code> are refused.</p>
+								<h3>Peer responses and follow-up posts</h3>
+								<p><em>To be added as the discussion develops: peers&rsquo; responses, my two follow-up posts and the agreed final version of the code.</em></p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/tree/main/SubPages/Advanced_OOP/artefacts/unit4/discussion" class="button" target="_blank" rel="noopener">View code on GitHub</a></li>
+									<li><a href="docs/Unit4_Discussion_Initial_Post.docx" class="button icon solid fa-download">Download post as Word</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Seminar Preparation</h2>
+								</header>
+								<h4>The seven structural patterns</h4>
+								<p>Table 2 summarises the purpose of each pattern, using the Gang of Four definitions as Sarcar (2022) quotes them, with an example from the readings and a use in security.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Pattern</th>
+												<th>Purpose</th>
+												<th>Example in the readings</th>
+												<th>Security use</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Adapter</td><td>Converts the interface of a class into the one clients expect, so classes with incompatible interfaces can work together (ch. 10)</td><td>A <code>UuidFactory</code> adapted to the <code>IdGenerator</code> interface a database expects (Di Francesco, 2024, ch. 2)</td><td>Wrapping a legacy authentication or logging system behind the interface a new service expects, without editing either</td></tr>
+											<tr><td>Bridge</td><td>Decouples an abstraction from its implementation so the two can vary independently (ch. 14)</td><td>Content fetched from different sources through one abstraction; device drivers and payment gateways (Ayeva and Kasampalis, 2024, ch. 4)</td><td>One encryption or alerting abstraction with interchangeable back ends</td></tr>
+											<tr><td>Composite</td><td>Composes objects into trees so that single objects and groups are treated uniformly (ch. 13)</td><td>An organisation chart in which a head of department and an employee share one interface (Sarcar, 2022, ch. 13)</td><td>Nested firewall rule groups or access policies evaluated through the same method as a single rule</td></tr>
+											<tr><td>Decorator</td><td>Attaches responsibilities to an object dynamically, as an alternative to subclassing (ch. 9)</td><td><code>InstrumentedHttpClient</code> recording request timings (Di Francesco, 2024, ch. 2); Java&rsquo;s <code>BufferedOutputStream</code> (Sarcar, 2022, Q&amp;A 9.9)</td><td>Cross-cutting concerns such as validation, logging and encryption (Ayeva and Kasampalis, 2024, ch. 4); WSGI middleware (Eby, 2010)</td></tr>
+											<tr><td>Facade</td><td>Provides a unified, higher-level interface to a set of interfaces in a subsystem (ch. 11)</td><td>An <code>OperatingSystem</code> class starting file and process servers (Ayeva and Kasampalis, 2024, ch. 4)</td><td>One safe entry point that applies checks consistently, as my order desk does, though callers can still reach the subsystem directly (Sarcar, 2022, Q&amp;A 11.3)</td></tr>
+											<tr><td>Proxy</td><td>Provides a surrogate or placeholder for another object to control access to it (ch. 8)</td><td>A redaction proxy that hides sensitive output (Di Francesco, 2024, ch. 2); remote, virtual, protection and smart proxies (Ayeva and Kasampalis, 2024, ch. 4)</td><td>A protection proxy that blocks access to websites (Sarcar, 2022, Q&amp;A 8.6) or checks privileges before sensitive data is read</td></tr>
+											<tr><td>Flyweight</td><td>Uses sharing to support large numbers of fine-grained objects efficiently (ch. 12)</td><td>Coins sharing their amount and currency through a flyweight factory (Di Francesco, 2024, ch. 2)</td><td>Sharing immutable rule or signature objects across millions of inspected packets; shared state must then be immutable</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 2: The seven structural patterns. Chapter numbers in the purpose column refer to Sarcar (2022).</em></p>
+
+								<h4>How structural patterns make code modular</h4>
+								<p>Di Francesco (2024, ch. 2) explains the &lsquo;structural&rsquo; label: implementations can change freely while the interfaces they expose stay stable. Each pattern puts a stable interface at a boundary. Adapter and Facade sit at the edge of code that cannot or should not change, Bridge separates two hierarchies so that each can grow alone, Decorator and Proxy put a layer between a client and an object, Composite hides whether a client holds one object or many, and Flyweight separates shared state from the state each object owns. In a large system this limits how far a change travels. The cost, which every chapter of Sarcar (2022) lists in its Q&amp;A, is an extra layer to maintain and debug, and a proxy or adapter that changes an exception can hide the real cause of a failure (Q&amp;A 8.9).</p>
+
+								<h4>My question: Bridge or Adapter?</h4>
+								<p>The two look alike in code, because both put an object behind an interface it does not implement itself. The difference is intent and timing. Ayeva and Kasampalis (2024, ch. 4) say that Adapter is applied afterwards to make unrelated classes work together, while Bridge is designed up front to decouple an abstraction from its implementation. Sarcar (2022, Q&amp;A 14.5) warns against matching a pattern to an implementation by its shape and says the intent decides: Adapter assumes the incompatible interfaces already exist. My working rule is that if I am writing both sides now, it is a Bridge, and if one side already exists and cannot change, it is an Adapter. Questions I will bring to the seminar are whether a Bridge that later gains a third-party implementation is then also using an Adapter, and whether a Python <code>Protocol</code> makes the Bridge&rsquo;s implementor hierarchy unnecessary.</p>
+
+								<h4>Case study: structural patterns in network security</h4>
+								<p>Network software is full of these patterns. Python&rsquo;s <code>ssl</code> module creates an <code>SSLSocket</code> by passing an existing socket to <code>SSLContext.wrap_socket()</code> (Python Software Foundation, 2026), so a TLS connection is an ordinary socket with encryption wrapped around it, a decorator over a socket interface. WSGI middleware plays the server to the application below it and the application to the server above it (Eby, 2010), which is the Decorator shape applied to whole requests, and the same specification lists forwarding requests over a network, a remote proxy. A protection proxy controls who reaches an object (Sarcar, 2022, Q&amp;A 8.6), which is the role a web filter or reverse proxy plays for a network. A firewall policy built from rule groups that contain rules is a Composite, and a single security API in front of several logging and alerting products is a Facade.</p>
+								<p>The patterns help security because they create one place to enforce a control without changing the protected code. They also carry risks that my artefact showed on a small scale. A control applied by wrapping protects only callers who go through the wrapper, just as a <code>Sedan()</code> could bypass the factory in Unit 3. The order of layers is part of the security design, so authentication has to sit outside anything that acts on a request. Each extra layer is also more code that can fail or hide an error. My conclusion for the seminar is that structural patterns make it easier to add security controls, but tests need to check how the layers are assembled as well as what each one does.</p>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Reading Notes</h2>
+								</header>
+								<p><strong>Di Francesco (2024), chapters 2 and 3 (required).</strong> Chapter 2 defines structural patterns as ways of managing the relationships between objects so that functionality can be added, removed or changed safely while interfaces stay stable. It covers four of the seven patterns. Proxy is shown first as a redaction class and then with JavaScript&rsquo;s built-in <code>Proxy</code> and <code>Reflect</code> objects, with the reactivity systems of Vue.js and Alpine.js as real uses. Decorator wraps an HTTP client to record request timings, then becomes a higher-order function. Flyweight shares the amount and currency of coins in a wallet through a factory with a private cache. Adapter fits a UUID generator and a counter to a database&rsquo;s <code>IdGenerator</code> interface. A recurring theme is that first-class functions let JavaScript replace a pattern&rsquo;s classes with functions. Bridge, Composite and Facade are not covered, so I used Sarcar and Ayeva for those. Chapter 3 moves on to behavioural patterns, organising communication between objects: Observer and the web&rsquo;s <code>EventTarget</code>, State and Strategy in class and function forms, and Visitor. I read it as preparation for Unit 5, and its framing of every pattern as a way to extend code without modifying it links back to the open/closed principle.</p>
+								<p><strong>Sarcar (2022), chapters 8 to 14 and 30 (additional).</strong> One chapter for each structural pattern in Java, each with the Gang of Four definition, a real-world and a programming example, and a Q&amp;A session. The Q&amp;A sessions were the most useful part for the seminar questions: proxies versus decorators (8.7), why composition beats inheritance for adding behaviour (9.1), how Facade differs from Adapter (11.4), the costs of Flyweight and Composite, and the comparison of Bridge and Adapter (14.5). Chapter 30 collects similar comparisons across all the patterns, including Decorator against Chain of Responsibility and Adapter. The decorator example adds luxury features to the price of a home, which is close in shape to the coffee shop, and it keeps prices as <code>double</code>, which is one reason I held prices in whole pence.</p>
+								<p><strong>Ayeva and Kasampalis (2024), chapter 4 (additional).</strong> The structural patterns in Python, apart from Composite. Useful for Python specifics: Python&rsquo;s decorator syntax is distinguished from the pattern, the decorator example is a memoisation function using <code>functools.wraps</code>, and decorators are recommended for cross-cutting concerns such as validation, logging and encryption. The chapter compares Bridge with Adapter directly, lists the four kinds of proxy, and gives the <code>Requests</code> library as an example of a facade.</p>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit4_Reflection.docx" class="button icon solid fa-download">Download reflection as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Ayeva, K. and Kasampalis, S. (2024) <em>Mastering Python design patterns: craft essential Python patterns by following core design principles</em>. 3rd edn. Birmingham: Packt Publishing. Chapter 4. Available at: <a href="https://www.oreilly.com/library/view/mastering-python-design/9781837639618/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/mastering-python-design/9781837639618/</a> (Accessed: 27 November 2026).<br /><br />
+									Di Francesco, H. (2024) <em>JavaScript design patterns: deliver fast and efficient production-grade JavaScript applications at scale</em>. Birmingham: Packt Publishing. Chapters 2 and 3. Available at: <a href="https://www.oreilly.com/library/view/javascript-design-patterns/9781804612279/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/javascript-design-patterns/9781804612279/</a> (Accessed: 27 November 2026).<br /><br />
+									Eby, P.J. (2010) <em>PEP 3333 &ndash; Python Web Server Gateway Interface v1.0.1</em>. Python Software Foundation. Available at: <a href="https://peps.python.org/pep-3333/" target="_blank" rel="noopener">https://peps.python.org/pep-3333/</a> (Accessed: 27 November 2026).<br /><br />
+									Python Software Foundation (2026) <em>ssl &ndash; TLS/SSL wrapper for socket objects</em>. Available at: <a href="https://docs.python.org/3/library/ssl.html" target="_blank" rel="noopener">https://docs.python.org/3/library/ssl.html</a> (Accessed: 27 November 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection for nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Sarcar, V. (2022) <em>Java design patterns: a hands-on experience with real-world examples</em>. 3rd edn. Berkeley, CA: Apress. Chapters 8&ndash;14 and 30. Available at: <a href="https://www.oreilly.com/library/view/java-design-patterns/9781484279717/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/java-design-patterns/9781484279717/</a> (Accessed: 27 November 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Ian Stevens</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
