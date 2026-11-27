@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 3 Reflection - Advanced Object-Oriented Design and Programming</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Ian Stevens</strong> <span>e-Portfolio</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../SubPages/Security_Risk/landing_srm.html">Security and Risk Management</a></li>
+							<li><a href="../../SubPages/Advanced_OOP/landing_aoop.html">Advanced Object-Oriented Design and Programming</a></li>
+						</ul>
+					</nav>
+
+								<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 3: Design Patterns I &ndash; Creational Patterns</h1>
+								</header>
+								<blockquote class="in-brief"><strong>In brief:</strong> I built the brief&rsquo;s car manufacturing system in Python with the Factory Method pattern, with 26 tests. The readings use &lsquo;factory method&rsquo; for three different things, and writing the Gang of Four version showed that it only earns its extra classes when the creator has work of its own. It moves the choice of class to one place rather than removing it.</blockquote>
+								<span class="image main"><img src="../../images/aoop/aoop_unit03_banner.jpg" alt="" /></span>
+								<p>This unit introduces design patterns, proven solutions to recurring design problems, and studies the five creational patterns: Singleton, Factory Method, Builder, Prototype and Abstract Factory. It looks at how they are used in real systems and asks for an implementation of the Factory Method pattern. My car manufacturing system, its tests and a walkthrough notebook are stored below as the unit&rsquo;s artefact, followed by the 300-word report the individual activity asks for and my reading notes.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 3 introduced design patterns, starting with the five creational patterns. I read Parts 1, 2 and 4 of Sarcar (2022), concentrating on chapters 2 to 7 and 28 to 30, chapters 3, 9, 10 and 12 of Reddy (2024), chapter 5 of Oliveira (2023) and chapters 1 and 2 of Soshin (2024). For the exercise I built the brief&rsquo;s car manufacturing system in Python with the Factory Method pattern: an abstract <code>Car</code>, three cars, an abstract <code>CarFactory</code> with <code>create_car()</code>, three factories and a demonstration, with 26 tests (Artefact 1).</p>
+
+								<h3>So what?</h3>
+								<p>The first surprise was that the readings do not agree on what a factory method is. Oliveira (2023) uses a static <code>createInstance()</code>, Soshin (2024, ch. 2) a function whose <code>when</code> expression picks a class from a letter, and Reddy (2024, ch. 3) a <code>CreateRenderer()</code> that takes a type string. Sarcar (2022) separates these. He treats the string-driven version as a Simple Factory (ch. 2) and keeps the Gang of Four name for creators whose subclasses decide what to instantiate, conceding that even his own <code>NumberFormat.getInstance()</code> example is &lsquo;not a perfect example&rsquo; because no subclassing is involved (ch. 3, Q&amp;A 3.7). Most of what I would have called a factory method before this unit was a simple factory.</p>
+								<p>Writing the brief&rsquo;s version made the difference concrete. With only <code>create_car()</code>, <code>SedanFactory().create_car()</code> does nothing that <code>Sedan()</code> does not, and in Python a class is already a callable that returns an instance. The pattern earned its place only when <code>CarFactory</code> had an operation of its own: <code>produce()</code> calls the factory method, refuses anything that is not a <code>Car</code> and stamps a serial number, the role <code>createAndDisplayAnimal()</code> plays in Sarcar&rsquo;s second demonstration (2022, ch. 3). The cost is the one Sarcar names in Q&amp;A 3.3: a parallel hierarchy with a factory class for every product.</p>
+								<p>The brief asks for a main program that creates cars without naming their classes, but something still has to choose <code>SedanFactory</code>. In my design that choice sits in a read-only table used by <code>factory_for()</code>, which is a simple factory with Reddy&rsquo;s registry (2024, ch. 3). The client functions are free of concrete classes, and a test adds an electric car without editing <code>cars.py</code>, yet the decision has moved to where the program is assembled rather than disappearing. That is the same thing I found with dependency inversion in Unit 2.</p>
+								<p>The lessons on Singleton were mostly warnings. Reddy (2024, ch. 3) and Sarcar (2022, ch. 7) both cite Gamma wanting to drop it, and Reddy offers dependency injection as the alternative. My Unit 2 action plan was to replace a class-wide counter with an injected generator, and the serial numbers were the chance to do it: <code>SerialNumbers</code> is passed into each factory, so every test gets its own sequence. Sharing it across factories makes it shared mutable state, so, following Reddy&rsquo;s Thread-Safe Interface pattern (2024, ch. 9), only the public <code>next()</code> takes the lock. Nine factories in parallel threads issued 2,700 serials with no repeats.</p>
+								<p>Two limits stood out. Oliveira (2023) and Soshin (2024, ch. 2) make constructors private so that the factory is the only way in, and Sarcar (2022, Q&amp;A 2.2) argues that creation must be centralised for consistent life-cycle management. Python cannot enforce this: <code>Sedan()</code> skips <code>produce()</code>, its check and its serial, and a test records it. From a security angle, a factory is a natural control point for validation only if callers cannot go around it. Second, Reddy (2024, ch. 10) warns that adding a pure virtual method to a published base class breaks every client subclass. My test shows Python accepts such a subclass and fails only when it is instantiated. The factories hide concrete classes from the client, but they do not protect anyone from changes to <code>Car</code>.</p>
+								<p>Was the pattern worth it here? Sarcar (2022, ch. 28) notes that many patterns are now built into languages and that small applications pay for them in code size, and Soshin (2024, ch. 2) shows Kotlin&rsquo;s <code>object</code>, <code>copy()</code> and named arguments doing most of the work of Singleton, Prototype and Builder. Python is similar. For three cars, a dictionary of classes would have met the brief. Factory Method justifies itself when the creator holds logic that every product passes through, as in Sarcar&rsquo;s <code>iterator()</code> example from the Java collections, not merely to avoid writing a class name.</p>
+
+								<h3>Now what?</h3>
+								<p>Before reaching for Factory Method I will ask whether the creator has work of its own; if not, a simple factory or passing the class is enough. I will keep running one set of contract tests over every registered factory, as I did with payment methods in Unit 2. Next I will extend the exercise to an Abstract Factory, for example UK and US market factories that each produce a car and its matching handbook, to test Sarcar&rsquo;s point that a change to an abstract factory spreads to every concrete one (2022, Q&amp;A 4.2). I will also look for factory methods in the Python standard library to see which form it prefers.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: A Car Manufacturer Built with the Factory Method Pattern</h2>
+								</header>
+								<p><em>Individual report activity. The design is in cars.py, 23 unit tests and the module&rsquo;s doctests are in test_cars.py, and the walkthrough notebook is unit3_factory_method.ipynb. Needs Python 3.10 or later and no third-party packages; run the tests with <code>python -m unittest -v test_cars</code> and the demonstration with <code>python cars.py</code>. cars.py also passes <code>mypy --strict</code>.</em></p>
+								<p>The brief asks for a system that builds Sedans, SUVs and Hatchbacks without the main program naming their classes. Each of the pattern&rsquo;s four roles is a class: the abstract product <code>Car</code>, the concrete cars, the abstract creator <code>CarFactory</code> with its factory method <code>create_car()</code>, and the concrete factories that override it. Figure 1 shows how they depend on each other.</p>
+								<span class="image fit"><img src="artefacts/unit3/figures/u3_class_diagram.png" alt="UML class diagram of the car manufacturing system. The abstract CarFactory declares the abstract factory method create_car, which returns a Car, and the template method produce, which returns a BuildRecord. SedanFactory, SUVFactory and HatchbackFactory extend CarFactory and each create their own car: Sedan, SUV and Hatchback extend the abstract Car, which declares drive. SerialNumbers is injected into CarFactory. The client functions road_test and run_production use CarFactory and drive Car. The composition root, factory_for and main, is the only part that names the concrete factories." /></span>
+								<p><em>Figure 1: Class diagram of the car manufacturing system.</em></p>
+								<p>Table 1 maps each requirement in the brief to the code that meets it and the test or notebook result that shows it.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Requirement</th>
+												<th>Implementation</th>
+												<th>Evidence</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td><code>Car</code> with <code>drive()</code></td><td>Abstract class; <code>drive()</code> is abstract and returns a sentence rather than printing it</td><td><code>Car()</code> raises <code>TypeError</code>; <code>drive</code> is its only abstract method</td></tr>
+											<tr><td>Concrete cars</td><td><code>Sedan</code>, <code>SUV</code> and <code>Hatchback</code> each override <code>drive()</code></td><td>Each class defines <code>drive</code> itself and the three sentences differ</td></tr>
+											<tr><td><code>CarFactory</code> with <code>create_car()</code></td><td>Abstract creator; also defines <code>produce()</code>, which checks the car and gives it a serial number</td><td><code>CarFactory()</code> raises <code>TypeError</code>; a factory that returns a string is refused by <code>produce()</code></td></tr>
+											<tr><td>Concrete factories</td><td><code>SedanFactory</code>, <code>SUVFactory</code> and <code>HatchbackFactory</code> override <code>create_car()</code></td><td>Each returns exactly its own car type, and a new object every time, in contract tests run over every registered factory</td></tr>
+											<tr><td>Demonstration</td><td><code>main()</code> turns names into factories with <code>factory_for()</code> and passes them to <code>run_production()</code></td><td>A syntax-tree check finds no concrete class named in <code>road_test()</code>, <code>run_production()</code>, <code>produce()</code> or <code>main()</code></td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 1: Each requirement of the brief and the evidence for it.</em></p>
+								<p>Further tests go beyond the brief. An electric car and its factory, defined only in the test file, work with the existing client code and can be registered without editing <code>cars.py</code>. Nine factories sharing one serial number source in parallel threads issue 2,700 unique numbers. Two tests record limits discussed in the reflection: a <code>Sedan()</code> built directly bypasses the factory, and a new abstract method on <code>Car</code> breaks existing subclasses only when they are instantiated. An extract of the notebook&rsquo;s output:</p>
+<pre><code>CAR-000001 Sedan: a smooth, quiet ride on the motorway
+CAR-000002 SUV: high driving position and four-wheel drive on a gravel track
+CAR-000003 Hatchback: nipping through town and into a tight parking space
+
+TypeError: BrokenFactory.create_car() returned str, not a Car
+Sedan: a smooth, quiet ride on the motorway | serial number: none
+Instantiation fails: Can't instantiate abstract class OldSedan without an implementation for abstract method 'refuel'
+2700 cars built, 2700 unique serial numbers, last issued CAR-002700</code></pre>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit3/unit3_factory_method.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit3/cars.py" class="button" target="_blank" rel="noopener">View code on GitHub</a></li>
+									<li><a href="artefacts/unit3/unit3_factory_method.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Individual Report: Applying the Factory Method Pattern</h2>
+								</header>
+								<p><em>The 300-word solution the activity asks for, excluding code listings and references.</em></p>
+								<h4>Problem</h4>
+								<p>A car manufacturer builds Sedans, SUVs and Hatchbacks and expects to add models. If the main program constructs each car directly, every new model means editing that program, and the program depends on every concrete class. The Factory Method pattern addresses this by letting subclasses of a creator decide which class to instantiate (Sarcar, 2022, ch. 3).</p>
+								<h4>Design</h4>
+								<p><code>Car</code> is an abstract class with the abstract method <code>drive()</code>. <code>Sedan</code>, <code>SUV</code> and <code>Hatchback</code> inherit from it and each override <code>drive()</code>. <code>CarFactory</code> is an abstract creator with the abstract factory method <code>create_car()</code>, which <code>SedanFactory</code>, <code>SUVFactory</code> and <code>HatchbackFactory</code> override to return their own car (Figure 1, above). <code>CarFactory</code> also defines <code>produce()</code>, which calls <code>create_car()</code>, rejects anything that is not a <code>Car</code> and records a serial number. Because <code>produce()</code> is written against the abstraction, every factory inherits the same checks, and client code depends only on <code>Car</code> and <code>CarFactory</code>, which applies the dependency inversion principle.</p>
+<pre><code>class CarFactory(ABC):
+    @abstractmethod
+    def create_car(self) -&gt; Car: ...
+
+    def produce(self) -&gt; BuildRecord:
+        car = self.create_car()
+        ...
+
+class SUVFactory(CarFactory):
+    def create_car(self) -&gt; Car:
+        return SUV()</code></pre>
+								<h4>Demonstration</h4>
+								<p>The client function <code>road_test(factory: CarFactory)</code> builds and drives a car without naming any concrete class. <code>main()</code> turns names such as &lsquo;suv&rsquo; into factories through one read-only lookup table, so the choice of class is made in a single place. Adding a model means one new entry in that table rather than a change to the client.</p>
+<pre><code>CAR-000001 Sedan: a smooth, quiet ride on the motorway
+CAR-000002 SUV: high driving position and four-wheel drive on a gravel track
+CAR-000003 Hatchback: nipping through town and into a tight parking space</code></pre>
+								<h4>Evaluation</h4>
+								<p>A new model needs a new car class and factory class but no change to existing code, which keeps the design open for extension. Twenty-six tests confirm each requirement and show that the client code names no concrete class. The cost is an extra class for every product (Sarcar, 2022, ch. 3). Python also has no private constructors of the kind Oliveira (2023) uses in C++ to make the factory the only route to an object, so a caller can still construct <code>Sedan()</code> directly and the factory relies on convention.</p>
+								<p><strong>References.</strong> Oliveira (2023); Sarcar (2022). Full entries are in the reference list below.</p>
+								<ul class="actions">
+									<li><a href="docs/Unit3_Factory_Method_Report.docx" class="button icon solid fa-download">Download report as Word</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Reading Notes</h2>
+								</header>
+								<p><strong>Sarcar (2022), Parts 1, 2 and 4 (required).</strong> Each Gang of Four pattern in Java, with a definition, a real-world and a programming example, a demonstration and a Q&amp;A session. Part 1 covers the SOLID principles (chapter 1) and the Simple Factory (chapter 2), which is not one of the Gang of Four patterns and breaks the open/closed principle, since adding a product means editing its <code>if</code>/<code>else</code> block. Chapters 3 to 7 cover the creational patterns. The Factory Method chapter uses a car manufacturer as its real-life example and adds a method that calls the factory method and then runs code common to every product, which is the structure I used for <code>produce()</code>. The Q&amp;A sessions are the most useful part: the cost of one factory subclass per product, the parallel creator and product hierarchies, why a static <code>getInstance()</code> is not strictly a factory method, and how a change to an abstract factory spreads to every concrete factory. Chapter 7 compares lazy, eager, holder-class and enum versions of a Singleton in Java and ends with Gamma&rsquo;s view that its use is &lsquo;almost always a design smell&rsquo;. Chapters 8 to 25 cover the structural and behavioural patterns, which later units return to. Part 4 (chapters 28 to 30) covers criticisms of patterns, including that languages now absorb many of them and that small programs pay for them in size, then anti-patterns and an FAQ comparing similar patterns.</p>
+								<p><strong>Reddy (2024), chapters 3, 9, 10 and 12 (required).</strong> A C++ book about designing libraries for other programmers, which makes it a useful outside view of patterns as part of a public interface. Chapter 3 covers the pimpl idiom, Singleton and its alternatives (dependency injection, Monostate and a single session object), factory methods as a way round the limits of constructors, a registry-based extensible factory, and the Proxy, Adapter, Fa&ccedil;ade and Observer patterns. Chapter 9 covers concurrency: data races, stateless APIs, safe initialisation of shared data and the Thread-Safe Interface pattern, which takes locks only in public methods. Chapter 10 covers versioning and compatibility, including the rule not to add pure virtual methods to a published base class. Chapter 12 covers testing, including test-driven development and stub and mock objects, and presents dependency injection as what makes them possible.</p>
+								<p><strong>Oliveira (2023), section 5 (additional).</strong> Chapter 5 applies Factory Method, Singleton, Observer and Visitor to options trading in C++. Its factory method is a static <code>createInstance()</code> on a class whose constructors are private, used to hide where market data comes from. Its Singleton example is a clearing house, the one institution an application trades through. The chapter is short and presents each pattern favourably, so I read it mainly as an example of patterns in a specific industry rather than as an evaluation of them.</p>
+								<p><strong>Soshin (2024), chapters 1 and 2 (additional).</strong> Chapter 1 introduces Kotlin&rsquo;s syntax and closes with a short account of what design patterns are, rejecting the idea that they are only missing language features or only for object-oriented languages. Chapter 2 covers the five creational patterns in Kotlin and keeps showing the language doing the work: the <code>object</code> keyword gives a Singleton, companion objects give static factory methods, default and named arguments make most builders unnecessary, and a data class&rsquo;s <code>copy()</code> is a Prototype. His Factory Method example is a function that chooses a chess piece class from a letter, which Sarcar would call a Simple Factory.</p>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit3_Reflection.docx" class="button icon solid fa-download">Download reflection as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Oliveira, C. (2023) <em>Options and derivatives programming in C++23: algorithms and programming techniques for the financial industry</em>. 3rd edn. Berkeley, CA: Apress. Chapter 5. Available at: <a href="https://www.oreilly.com/library/view/options-and-derivatives/9781484298275/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/options-and-derivatives/9781484298275/</a> (Accessed: 27 November 2026).<br /><br />
+									Reddy, M. (2024) <em>API design for C++</em>. 2nd edn. San Diego: Elsevier Science and Technology. Chapters 3, 9, 10 and 12. Available at: <a href="https://www.oreilly.com/library/view/api-design-for/9780443222207/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/api-design-for/9780443222207/</a> (Accessed: 27 November 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection for nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Sarcar, V. (2022) <em>Java design patterns: a hands-on experience with real-world examples</em>. 3rd edn. Berkeley, CA: Apress. Parts 1, 2 and 4. Available at: <a href="https://www.oreilly.com/library/view/java-design-patterns/9781484279717/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/java-design-patterns/9781484279717/</a> (Accessed: 27 November 2026).<br /><br />
+									Soshin, A. (2024) <em>Kotlin design patterns and best practices: elevate your Kotlin skills with classical and modern design patterns, coroutines, and microservices</em>. 3rd edn. Birmingham: Packt Publishing. Chapters 1 and 2. Available at: <a href="https://www.oreilly.com/library/view/kotlin-design-patterns/9781805127765/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/kotlin-design-patterns/9781805127765/</a> (Accessed: 27 November 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Ian Stevens</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
