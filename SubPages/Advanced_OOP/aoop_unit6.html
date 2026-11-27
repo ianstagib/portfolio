@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 6 Reflection - Advanced Object-Oriented Design and Programming</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Ian Stevens</strong> <span>e-Portfolio</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../SubPages/Security_Risk/landing_srm.html">Security and Risk Management</a></li>
+							<li><a href="../../SubPages/Advanced_OOP/landing_aoop.html">Advanced Object-Oriented Design and Programming</a></li>
+						</ul>
+					</nav>
+
+								<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 6: Concurrency and Parallelism in Object-Oriented Design</h1>
+								</header>
+								<blockquote class="in-brief"><strong>In brief:</strong> I built a bank account in Python that shows a race condition, an overdraft caused by a time-of-check to time-of-use bug and a deadlock, each beside its fix, with 32 tests. The fixed account is a monitor: its balance, lock and condition variable live in one object, and transfers lock accounts in a fixed order. The main lesson was that a concurrency test that passes proves little: the obvious stress test missed the race until the interleaving was forced.</blockquote>
+								<span class="image main"><img src="../../images/aoop/aoop_unit06_banner.jpg" alt="" /></span>
+								<p>This unit introduces concurrency and parallelism: threads, processes and synchronisation, object-oriented ways of writing thread-safe code, and the common problems of race conditions and deadlocks. Its practical exercise is a multi-threaded bank account in Python made safe with <code>threading</code> locks. My account, its tests and a walkthrough notebook are the unit&rsquo;s artefact. My seminar preparation and reading notes follow.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 6 moved from how objects are designed to what happens when several threads use them at once. I read Section 2 of Nguyen (2022), &lsquo;Concurrency and Parallelism&rsquo;, which runs from chapter 7 to chapter 15, giving most attention to chapters 12 (Deadlocks) and 14 (Race Conditions), together with the second section of chapter 6 on setting up JAX, and McDonald (2022) chapters 17 and 20. For the practical exercise I built a bank account in Python that shows a race condition, an overdraft caused by a time-of-check to time-of-use bug and a deadlock, each beside its fix, with a semaphore-limited teller desk and a withdrawal that waits on a condition variable. It has 32 tests (Artefact 1).</p>
+								<h3>So what?</h3>
+								<p>The most useful surprise came before I wrote a lock. McDonald (2022, ch. 17) disassembles <code>count += 1</code> to show that it is a read, an add and a write, and therefore not atomic. Yet a stress test of eight threads lost nothing on Python 3.13, even with the thread switch interval at its minimum. The race appeared only when I put a pause between the read and the write, which is where real code does its work. McDonald warns that a race condition &lsquo;can hide in plain sight&rsquo; (2022, ch. 17), and here it did. The behaviour belongs to one interpreter release, and PEP 703 makes the GIL optional from Python 3.13 (Gross, 2023), so code that is safe only by accident may not stay safe. I rewrote the tests to use a <code>threading.Barrier</code> that forces the harmful interleaving, which turns a race that might happen into one that always does. This also follows McDonald&rsquo;s advice on flaky tests (2022, ch. 20): a test that fails one run in fifty teaches people to ignore it.</p>
+								<p>Coverage taught the same lesson. The suite reaches 98% of statements and branches, but the first stress test reached the same lines and missed the bug. Marick&rsquo;s warning, quoted by McDonald (2022, ch. 20), that coverage cannot show what a suite fails to test applies with extra force here, because interleavings are not lines of code.</p>
+								<p>The second insight concerned encapsulation. Nguyen (2022, ch. 14) argues that &lsquo;locks do not lock anything&rsquo;: they work only if every piece of code that touches the data agrees to use them. Object-oriented design offers an answer. In <code>BankAccount</code> the balance, the lock and the condition variable are private to one object and every public method takes the lock, which is the monitor structure Hoare (1974) proposed. A caller cannot forget a lock it never sees. Python privacy is only a convention, though, and one test records that writing <code>account._balance</code> directly still bypasses everything, so the guarantee is as strong as the team&rsquo;s discipline. The same reasoning applied to security. The overdraft is the race MITRE (2026) catalogues as CWE-367, and the fix was not a better check but doing the check and the debit inside one critical section.</p>
+								<p>Deadlock turned out to be a design decision rather than a coding slip. Nguyen (2022, ch. 12) explains the four conditions identified by Coffman, Elphick and Shoshani (1971) and removes the circular wait by ranking resources, and he names bank transfers as an example. My naive transfer, locking source then target, deadlocked whenever two opposite transfers met. Ordering the locks by account number fixed it, and a ring of five accounts each paying its neighbour, the dining philosophers in banking form, completed every time. McDonald&rsquo;s first remedy, a timeout on <code>acquire()</code>, was less satisfactory in practice. In my notebook a hang became an abandoned transfer that the caller has to retry, and repeated retries invite livelock. His second suggestion, releasing another thread&rsquo;s lock by force, seems more dangerous still, as he concedes, because it reintroduces the race the lock was there to prevent. Ranking has a cost too, which a limit test records: transfers between the same pair of accounts take turns, which bears out Nguyen&rsquo;s observation that enough locks make a concurrent program sequential.</p>
+								<p>Finally, a benchmark separated concurrency from parallelism: four threads counting primes took as long as one, while four processes ran three times faster, as both books&rsquo; accounts of the GIL predict. For a bank account correctness under any interleaving matters more than speed.</p>
+								<h3>Now what?</h3>
+								<p>In future tests of shared state I will force interleavings with barriers rather than hope for them, and I will treat a concurrency test that has never been seen to fail as unproven. For the capstone project I intend to keep each lock inside the object that owns the data, document a lock order whenever an operation needs more than one lock, and pass messages through <code>queue.Queue</code> where objects do not need to share state, as both Lott and Phillips (2021, ch. 14) and McDonald (2022, ch. 17) recommend. I also want to run the suite on the free-threaded build of Python to see whether the <code>+=</code> race appears there. I will bring two questions to the seminar: whether free-threaded Python makes monitor-style classes a requirement rather than good practice, and when a semaphore is a better way to limit work than a bounded queue.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: A Thread-Safe Bank Account</h2>
+								</header>
+								<p><em>Practical exercise. The code is in bank_account.py, 32 unit tests and the module&rsquo;s doctests are in test_bank_account.py, and the walkthrough notebook is unit6_concurrency.ipynb. Needs Python 3.10 or later and no third-party packages; run the tests with <code>python -m unittest -v test_bank_account</code> and the demonstration with <code>python bank_account.py</code>. bank_account.py also passes <code>mypy --strict</code>, and the tests cover 98% of its statements and branches.</em></p>
+								<p>The seminar asks for a simple multi-threaded application, such as a bank account with concurrent deposits and withdrawals, made thread safe with <code>threading</code> locks. To show what the locks are for, the module keeps the broken versions beside the fixed ones. <code>UnsafeAccount</code> has no lock, and <code>naive_transfer</code> takes two locks in an inconsistent order. <code>BankAccount</code> is the thread-safe account, written as a monitor, and <code>TellerDesk</code> uses a semaphore to let a fixed number of operations run at once. Figure 1 shows how they relate.</p>
+								<span class="image fit"><img src="artefacts/unit6/figures/u6_class_diagram.png" alt="UML class diagram of the bank account. BankAccount is labelled as a monitor: it keeps a private account number, balance, history list, threading.Lock and a Condition built on that lock. Its public interface is a read-only balance, number and owner, deposit, withdraw, withdraw_when_funded with a timeout, transfer_to, which locks both accounts in account-number order, and history, which returns a snapshot. Private helpers _require, _credit and _debit assume the caller holds the lock. BankAccount owns zero or more frozen Transaction records. UnsafeAccount, marked broken on purpose, has a public unguarded balance and a pause hook, and its deposit and withdraw lose updates and overdraw. TellerDesk holds a BoundedSemaphore and a lock protecting its busy count. The function naive_transfer, also broken on purpose, locks source then target and raises DeadlockDetected on timeout. The client main uses all of them." /></span>
+								<p><em>Figure 1: Class diagram of the bank account artefact.</em></p>
+								<p>Table 1 maps each part of the exercise to the code that meets it and the test or notebook result that shows it.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Requirement</th>
+												<th>Implementation</th>
+												<th>Evidence</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Concurrent deposits and withdrawals</td><td>Threads call <code>deposit()</code> and <code>withdraw()</code> on one shared account</td><td>Stress tests with eight threads and the interpreter&rsquo;s switch interval at its minimum</td></tr>
+											<tr><td>Show the race condition</td><td><code>UnsafeAccount</code> reads, pauses and writes; its withdrawal checks, pauses and debits</td><td>With a barrier forcing the interleaving, two deposits of 100 leave 100 and two withdrawals of 100 from 100 leave &minus;100, every time</td></tr>
+											<tr><td>Thread safety with <code>threading.Lock</code></td><td><code>BankAccount</code> keeps its lock private and takes it in every public method, so a check and its update are one step</td><td>8,000 concurrent deposits give exactly 8,000.00; fifty withdrawals of 10 from 100 give ten successes and forty refusals</td></tr>
+											<tr><td>Show and fix a deadlock</td><td><code>naive_transfer</code> locks source then target; <code>transfer_to</code> locks the lower account number first</td><td>Opposite naive transfers time out holding one lock each; 2 &times; 5,000 opposite ranked transfers and a ring of five accounts always finish with money conserved</td></tr>
+											<tr><td>Other synchronisation mechanisms</td><td>A condition variable for a withdrawal that waits for funds; a bounded semaphore for a desk with three tellers</td><td>A waiting withdrawal completes after a deposit or times out; no more than three customers are ever served at once</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 1: Each part of the exercise and the evidence for it.</em></p>
+								<p>Concurrency failures depend on scheduling, so a test that merely starts threads can pass by luck. The race and deadlock tests therefore use a <code>threading.Barrier</code> to force the harmful interleaving, and every thread is joined with a timeout so that a deadlock fails a test rather than hanging the suite. Further tests check that amounts are validated (floats, NaN and fractions of a penny are refused), that account numbers stay unique when accounts are opened concurrently, and that no public attribute exposes the lock. Two limit tests record what the design does not achieve: Python&rsquo;s privacy is a convention, so writing <code>_balance</code> directly bypasses the lock, and ranked locking makes transfers between the same two accounts take turns. An extract of the notebook&rsquo;s output:</p>
+<pre><code>one after another       0.28 s
+four threads            0.30 s      speed-up x0.9  (the GIL: one thread at a time)
+four processes          0.09 s      speed-up x3.1
+
+count += 1, 8 threads x 10,000:          80000 every run (the race stays hidden)
+UnsafeAccount, 8 threads x 1000:         1013.00, expected 8000
+BankAccount,   8 threads x 1000:         8000.00, expected 8000
+
+two withdrawals of 100 from 100
+UnsafeAccount:  balance -100.00, refused []
+BankAccount:    balance 0.00, refused ['InsufficientFunds']
+
+naive_transfer: ['DeadlockDetected'] after 0.50 s
+transfer_to:    2 x 5000 opposite transfers in 0.04 s, total 10000.00
+Lock acquired twice by the same thread:  False
+RLock acquired twice by the same thread: True</code></pre>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit6/unit6_concurrency.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit6/bank_account.py" class="button" target="_blank" rel="noopener">View code on GitHub</a></li>
+									<li><a href="artefacts/unit6/unit6_concurrency.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Seminar Preparation</h2>
+								</header>
+								<h4>Concurrency and parallelism</h4>
+								<p>Concurrency is about managing several tasks at once: their lifetimes overlap, and the program has to stay correct whatever order their steps run in. Parallelism is about executing several tasks at the same instant on separate cores. McDonald (2022, ch. 17), following Rob Pike, describes concurrency as the composition of tasks and parallelism as running them simultaneously, and notes that parallelism can be part of a concurrent design but is not the same thing. Nguyen (2022, ch. 7) presents concurrency as a way of dealing with slow resources by moving on to other work while waiting, which is why it suits input and output. A program can be concurrent on a single core, and the bank account is concurrent whether or not its threads happen to run in parallel.</p>
+
+								<h4>Threads and processes</h4>
+								<p>Table 2 compares the two, drawing on Nguyen (2022, ch. 8 and 15), Lott and Phillips (2021, ch. 14) and McDonald (2022, ch. 17).</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr><th></th><th>Threads</th><th>Processes</th></tr>
+										</thead>
+										<tbody>
+											<tr><td>Memory</td><td>Share the memory of one process, so objects are shared by default</td><td>Each has its own memory; data has to be copied (pickled) or placed in explicit shared memory</td></tr>
+											<tr><td>In CPython</td><td>One Global Interpreter Lock per interpreter, so only one thread runs Python bytecode at a time</td><td>One interpreter and one GIL per process, so they can run on separate cores</td></tr>
+											<tr><td>Cost</td><td>Cheap to start and switch between</td><td>Slower to start, use more memory, and communication between them is slower</td></tr>
+											<tr><td>Main risk</td><td>Race conditions on shared state</td><td>Overhead, and data that cannot be pickled</td></tr>
+											<tr><td>Use when</td><td>The work is I/O-bound: network requests, files, waiting for users</td><td>The work is CPU-bound and can be divided into independent parts</td></tr>
+											<tr><td>Python tools</td><td><code>threading</code>, <code>ThreadPoolExecutor</code>, <code>queue.Queue</code></td><td><code>multiprocessing</code>, <code>ProcessPoolExecutor</code>, <code>multiprocessing.Queue</code></td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 2: Threads and processes compared.</em></p>
+								<p>My benchmark confirmed the CPython column: four threads counting primes were no faster than one, while four processes were three times faster. Two points complicate the usual summary. First, the GIL is no longer fixed: PEP 703 makes it optional from Python 3.13 (Gross, 2023), whereas Lott and Phillips (2021, ch. 14) still describe it as impossible to turn off. Second, the GIL does not make Python code thread safe. It protects the interpreter&rsquo;s own structures, not the invariants of my objects, and Nguyen (2022, ch. 8) shows a shared counter in <code>multiprocessing</code> losing updates even though it was created with <code>lock=True</code>, because <code>counter.value += 1</code> is still a read followed by a write.</p>
+
+								<h4>Object-oriented approaches to thread-safe code</h4>
+								<p>Encapsulation is the main tool. If a shared object keeps its state private and offers only operations that take its lock, the lock cannot be forgotten by callers, which answers Nguyen&rsquo;s (2022, ch. 14) warning that &lsquo;locks do not lock anything&rsquo; unless every user agrees to take them. Abstraction helps by making each operation a whole business step, such as <code>withdraw()</code> or <code>transfer_to()</code>, rather than separate <code>get_balance()</code> and <code>set_balance()</code> calls that a caller would have to combine safely. Immutability removes the problem altogether: the account&rsquo;s <code>Transaction</code> records are frozen dataclasses and <code>history()</code> returns a tuple, so they can be shared without a lock. Finally, objects can avoid sharing state at all by passing messages through a thread-safe queue, which Lott and Phillips (2021, ch. 14) and McDonald (2022, ch. 17) both recommend as the safest default, and which Ayeva and Kasampalis (2024, ch. 7) build into the Thread Pool and Worker Model patterns.</p>
+
+								<h4>Locks, semaphores and monitors</h4>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr><th>Mechanism</th><th>What it does</th><th>Python</th><th>Use in the artefact</th></tr>
+										</thead>
+										<tbody>
+											<tr><td>Lock (mutex)</td><td>Admits one thread at a time to a critical section</td><td><code>threading.Lock</code>; <code>RLock</code> can be re-acquired by the thread that holds it</td><td>Each <code>BankAccount</code> has one, taken by every public method</td></tr>
+											<tr><td>Semaphore</td><td>A counter that admits up to <em>n</em> threads; a lock is the case <em>n</em> = 1</td><td><code>threading.Semaphore</code>, <code>BoundedSemaphore</code></td><td><code>TellerDesk</code> serves at most three customers at once</td></tr>
+											<tr><td>Monitor</td><td>An object that combines data, the lock that guards it and conditions to wait on, so that only one thread is active inside it (Hoare, 1974)</td><td>A class with a private <code>Lock</code> and a <code>threading.Condition</code> on that lock</td><td><code>BankAccount</code> itself; <code>withdraw_when_funded()</code> waits until a deposit makes the withdrawal affordable</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 3: Synchronisation mechanisms.</em></p>
+								<p>The choice follows from the question being asked. A lock protects an invariant: the balance must never be read half-updated. A semaphore limits a resource: there are only three tellers, or ten database connections. It does not protect data, which is why <code>TellerDesk</code> still needs a lock for its own counter. A monitor is less a separate primitive than a way of organising the other two inside a class, and it is the form that object-oriented design leads to naturally.</p>
+
+								<h4>Race conditions and deadlocks</h4>
+								<p>A race condition occurs when the result depends on the order in which threads run, and the data is corrupted when the order is unlucky (Nguyen, 2022, ch. 14). The bank account shows two kinds: a lost update, where two deposits read the same balance, and a time-of-check to time-of-use bug, where two withdrawals both pass the balance check before either debits. The second is a security weakness in its own right, listed by MITRE (2026) as CWE-367, and in a bank it is a double spend. The solution is mutual exclusion: make the check and the update one critical section.</p>
+								<p>A deadlock occurs when threads wait for each other for ever. It needs all four of the conditions identified by Coffman, Elphick and Shoshani (1971): mutual exclusion, hold and wait, no preemption and circular wait, so prevention means removing one of them. Table 4 summarises the options I found in the readings.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr><th>Approach</th><th>Condition removed</th><th>Cost</th></tr>
+										</thead>
+										<tbody>
+											<tr><td>Acquire locks in a global order (Nguyen, 2022, ch. 12), as <code>transfer_to()</code> does</td><td>Circular wait</td><td>Every caller must know the order; operations on the same resources become sequential</td></tr>
+											<tr><td>Timeout on <code>acquire()</code>, then release and retry (McDonald, 2022, ch. 17)</td><td>Hold and wait</td><td>A hang becomes a failure the caller must handle; retries can livelock</td></tr>
+											<tr><td>Pass messages through a queue instead of sharing state</td><td>Mutual exclusion on the shared object</td><td>A redesign; blocking on an empty queue can still starve a thread</td></tr>
+											<tr><td>Remove the locks (Nguyen, 2022, ch. 12)</td><td>Mutual exclusion</td><td>Brings back the race conditions unless the data really is independent</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 4: Ways of preventing deadlock.</em></p>
+								<p>Two related problems are worth naming. In a livelock the threads keep acting but make no progress, like Nguyen&rsquo;s (2022, ch. 12) two polite diners who each wait for the other to eat first. Starvation is defined differently in the two books: McDonald (2022, ch. 17) uses it for a thread waiting on a future or join that never returns, while Nguyen (2022, ch. 13) uses the scheduling sense, a thread that is always passed over, as in the readers-writers problem.</p>
+
+								<h4>Environment and practice</h4>
+								<p><code>threading</code>, <code>queue</code>, <code>multiprocessing</code> and <code>concurrent.futures</code> are part of the standard library, so nothing needs installing. I practised with the snippets in the notebook, starting from the smallest example of creating and joining threads:</p>
+<pre><code>import threading
+
+def worker(name, results, lock):
+    with lock:
+        results.append(f"{name} ran in {threading.current_thread().name}")
+
+results, lock = [], threading.Lock()
+threads = [threading.Thread(target=worker, args=(i, results, lock)) for i in range(3)]
+for t in threads: t.start()
+for t in threads: t.join()
+print(results)</code></pre>
+
+								<h4>Questions to bring to the seminar</h4>
+								<ul>
+									<li>When a race condition does not show up in testing, as <code>+=</code> did not for me on Python 3.13, what techniques other than forcing interleavings with barriers do professional teams use to find it?</li>
+									<li>Does the free-threaded build of Python make monitor-style classes a requirement rather than good practice, and how much existing code relies on the GIL by accident?</li>
+									<li>When should a semaphore be preferred to a bounded queue for limiting work?</li>
+									<li>Ordering locks by account number works for two accounts. How do large systems such as databases decide lock order, or do they detect deadlocks and abort a transaction instead?</li>
+									<li>Is a timeout a legitimate way to avoid deadlock in a financial system, given that it turns a hang into a failed transaction?</li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Reading Notes</h2>
+								</header>
+								<p><strong>Nguyen (2022), Section 2, Concurrency and Parallelism, chapters 7&ndash;15 (required, with chapters 12 and 14 named).</strong> The module lists &lsquo;Chapter 6 (Section 2 only)&rsquo;; the book&rsquo;s Section 2 is chapters 7 to 15, so I read those, and I also read the second section of chapter 6. Chapter 7 introduces asynchronous programming for slow, unpredictable resources, with callbacks, futures, <code>asyncio</code> coroutines and reactive programming. Chapter 8 divides parallel work into shared-memory and distributed-memory models, contrasts threads with processes, explains why the GIL stops threads from speeding up Python code, and shows a shared <code>multiprocessing.Value</code> losing updates until a lock is added. Chapters 9 to 11 apply threads to web requests, processes to image processing and <code>asyncio</code> to network communication. Chapter 12 states the four Coffman conditions, simulates the dining philosophers, and fixes the deadlock by sorting locks before acquiring them; it notes that enough locks make a program sequential, and that a livelock is a deadlock in which the threads keep moving. Chapter 13 treats starvation through scheduling and the readers-writers problem. Chapter 14 defines race conditions and critical sections, fixes a racing counter with a lock, and gives the most important warning for this unit, that locks are not connected to the data they protect; it ends with race conditions in security (time of check to time of use), operating systems and networking. Chapter 15 explains why CPython has a GIL, what it costs, and ways around it.</p>
+								<p><strong>Nguyen (2022), chapter 6, section 2, &lsquo;Getting JAX up and running&rsquo; (required).</strong> A short section on installing JAX, or using it through Google Colab, which presents JAX as &lsquo;functional transformations&rsquo; that compile, vectorise and parallelise ordinary functions. Its relevance to this unit is indirect but useful: parallelism comes easily when functions are pure and share no mutable state, which is the opposite end of the scale from a shared bank account.</p>
+								<p><strong>McDonald (2022), chapter 17, Threading and Parallelism (required).</strong> Clear on the definitions: threading gives concurrency and suits I/O-bound work, while multiprocessing gives parallelism for CPU-bound work. Its explanation of race conditions through the bytecode of <code>count += 1</code>, its contrast of coarse-grained and fine-grained locking, and its treatment of deadlock, livelock, self-deadlock and <code>RLock</code> shaped the artefact directly. It recommends passing messages through queues as the default way for threads to share data. I disagree with one suggestion, forcibly releasing another thread&rsquo;s lock to break a deadlock, which McDonald himself admits can create a race condition.</p>
+								<p><strong>McDonald (2022), chapter 20, Testing and Profiling (required).</strong> Covers pytest, fixtures, mocking and parametrisation, flaky tests, coverage, tox, <code>timeit</code> and <code>cProfile</code>. The parts on flaky tests and on the limits of coverage, quoting Marick, changed how I tested the artefact, and its claim that &lsquo;all claims of performance are mythical until proven otherwise&rsquo; is why the notebook measures the threads-versus-processes speed-up and the cost of the lock rather than asserting them. The artefact keeps <code>unittest</code> for consistency with earlier units, and the tests also run under pytest.</p>
+								<p><strong>Lott and Phillips (2021), chapter 14, Concurrency (additional).</strong> Describes the many problems with threads, shared memory, the GIL and thread overhead, then multiprocessing, futures and <code>asyncio</code>, and ends with its own dining philosophers benchmark. Used for the threads and processes comparison and the case for queues.</p>
+								<p><strong>Ayeva and Kasampalis (2024), chapter 7, Concurrency and Asynchronous Patterns (additional).</strong> Presents Thread Pool, Worker Model, Future and Promise and Observer in reactive programming as patterns, and lists the Actor model, coroutines, message passing and backpressure. It links this unit to the pattern units: a thread pool is a reusable object that hides the cost of creating threads, much as a factory hides construction.</p>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit6_Reflection.docx" class="button icon solid fa-download">Download reflection as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Ayeva, K. and Kasampalis, S. (2024) <em>Mastering Python design patterns: craft essential Python patterns by following core design principles</em>. 3rd edn. Birmingham: Packt Publishing. Chapter 7. Available at: <a href="https://www.oreilly.com/library/view/mastering-python-design/9781837639618/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/mastering-python-design/9781837639618/</a> (Accessed: 27 November 2026).<br /><br />
+									Coffman, E.G., Elphick, M.J. and Shoshani, A. (1971) &lsquo;System deadlocks&rsquo;, <em>ACM Computing Surveys</em>, 3(2), pp. 67&ndash;78. doi: <a href="https://doi.org/10.1145/356586.356588" target="_blank" rel="noopener">10.1145/356586.356588</a>.<br /><br />
+									Gross, S. (2023) <em>PEP 703 &ndash; Making the Global Interpreter Lock optional in CPython</em>. Python Software Foundation. Available at: <a href="https://peps.python.org/pep-0703/" target="_blank" rel="noopener">https://peps.python.org/pep-0703/</a> (Accessed: 27 November 2026).<br /><br />
+									Hoare, C.A.R. (1974) &lsquo;Monitors: an operating system structuring concept&rsquo;, <em>Communications of the ACM</em>, 17(10), pp. 549&ndash;557. doi: <a href="https://doi.org/10.1145/355620.361161" target="_blank" rel="noopener">10.1145/355620.361161</a>.<br /><br />
+									Lott, S.F. and Phillips, D. (2021) <em>Python object-oriented programming: build robust and maintainable object-oriented Python applications and libraries</em>. 4th edn. Birmingham: Packt Publishing. Chapter 14. Available at: <a href="https://www.oreilly.com/library/view/python-object-oriented-programming/9781801077262/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/python-object-oriented-programming/9781801077262/</a> (Accessed: 27 November 2026).<br /><br />
+									McDonald, J.C. (2022) <em>Dead simple Python: idiomatic Python for the impatient programmer</em>. San Francisco, CA: No Starch Press. Chapters 17 and 20. Available at: <a href="https://www.oreilly.com/library/view/dead-simple-python/9781098156671/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/dead-simple-python/9781098156671/</a> (Accessed: 27 November 2026).<br /><br />
+									MITRE (2026) <em>CWE-367: Time-of-check time-of-use (TOCTOU) race condition</em>. Common Weakness Enumeration. Available at: <a href="https://cwe.mitre.org/data/definitions/367.html" target="_blank" rel="noopener">https://cwe.mitre.org/data/definitions/367.html</a> (Accessed: 27 November 2026).<br /><br />
+									Nguyen, Q. (2022) <em>Advanced Python programming: accelerate your Python programs using proven techniques and design patterns</em>. 2nd edn. Birmingham: Packt Publishing. Chapter 6 (section 2) and Section 2, chapters 7&ndash;15. Available at: <a href="https://www.oreilly.com/library/view/advanced-python-programming/9781801814010/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/advanced-python-programming/9781801814010/</a> (Accessed: 27 November 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection for nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Ian Stevens</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
