@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Unit 2 Reflection - Advanced Object-Oriented Design and Programming</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="../../index.html" class="logo"><strong>Ian Stevens</strong> <span>e-Portfolio</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="../../index.html">Home</a></li>
+							<li><a href="../../SubPages/Security_Risk/landing_srm.html">Security and Risk Management</a></li>
+							<li><a href="../../SubPages/Advanced_OOP/landing_aoop.html">Advanced Object-Oriented Design and Programming</a></li>
+						</ul>
+					</nav>
+
+								<!-- Main -->
+					<div id="main" class="alt">
+
+						<section id="one">
+							<div class="inner">
+								<header class="major">
+									<h1>Unit 2: SOLID Principles of Object-Oriented Design</h1>
+								</header>
+								<blockquote class="in-brief"><strong>In brief:</strong> I refactored a shopping cart from one class that did everything into small classes that follow the SOLID principles, with 38 tests. The principles turned out to be the design patterns from the reading seen from another angle, and the hardest one to keep, Liskov substitution, could only be protected by tests, not by the class hierarchy.</blockquote>
+								<span class="image main"><img src="../../images/aoop/aoop_unit02_banner.jpg" alt="" /></span>
+								<p>This unit covers the five SOLID principles of object-oriented design: single responsibility, open/closed, Liskov substitution, interface segregation and dependency inversion. It looks at how they keep real systems maintainable and scalable, and the case study refactors a poorly designed online shopping system in Python so that it follows all five. The original code, the refactored design, its tests and a walkthrough notebook are stored below as the unit&rsquo;s artefact, followed by my reading notes and seminar preparation.</p>
+							</div>
+						</section>
+
+						<section id="two">
+							<div class="inner">
+								<header class="major">
+									<h2>Reflection</h2>
+								</header>
+								<p><em>Structured using the What? So what? Now what? model (Rolfe, Freshwater and Jasper, 2001).</em></p>
+
+								<h3>What?</h3>
+								<p>Unit 2 introduced the SOLID principles and how they apply to real systems. From the required reading I read chapters 3 and 12 to 19 of Sridhar, Indumathi and Hariharan (2023), and sections 2 and 3 (chapters 4 to 11) of Marcotte (2022). For the case study I started from the brief&rsquo;s <code>Order</code> class, which held a cart, worked out the total and took payments, and refactored it into an <code>Order</code>, a family of <code>Discount</code> classes, a family of <code>PaymentMethod</code> classes, a <code>PaymentProcessor</code> and a <code>RefundService</code> (Artefact 1). The original and refactored versions sit side by side, with 38 tests and a notebook that runs them.</p>
+
+								<h3>So what?</h3>
+								<p>The first thing the exercise taught me was that I had been treating SOLID and design patterns as separate topics. Marcotte (2022, ch. 6) presents the Strategy pattern as a way to follow the open/closed principle almost for free, and then scores it against each SOLID principle in turn. My <code>PaymentMethod</code> family is a Strategy: the processor is the context and each payment class is an interchangeable algorithm. Constructor injection of that strategy, which Marcotte (2022, ch. 7) treats as the practical form of dependency inversion, is what took the hard-coded <code>if payment_type == "credit"</code> chain out of the design. Martin&rsquo;s (2000, p. 5) remark that &lsquo;abstraction is the key to the OCP&rsquo; reads differently once you have watched a chain of string comparisons turn into a single method call.</p>
+								<p>The brief&rsquo;s own description of the dependency inversion step did not match what I found. It says the high-level <code>Order</code> should stop depending on the low-level <code>PaymentProcessor</code>. After the single responsibility split, though, <code>Order</code> had no dependency on payment at all. The dependency that needed inverting ran from the processor, which holds the checkout policy, to the payment providers. I could only see this by drawing the dependencies (Figure 1) rather than following the steps in order. It was a reminder that the principles are reasons, and applying them as a checklist can point the arrow the wrong way.</p>
+								<p>Liskov substitution was the principle I understood least going in, and the one the code taught me most about. Sridhar, Indumathi and Hariharan (2023, ch. 14) define method overriding in terms of signature: the same name, parameters and return type. Liskov and Wing (1994) define subtyping in terms of behaviour, and Martin (2000, p. 11) puts it as derived methods that &lsquo;expect no more and provide no less&rsquo;. To test the difference I wrote a card payment that refuses orders under &pound;10 by raising an error. It overrides <code>pay()</code> correctly by Sridhar&rsquo;s definition, yet code that worked with every other payment method now crashed. I had made <code>pay()</code> a template method so that the base class checks the amount once for every subclass, but Python cannot stop a subclass overriding it anyway. Marcotte (2022, ch. 10) makes the same point about Template Method: it helps with LSP, but the principle is &lsquo;tricky&rsquo; and a subclass can still break it. What actually protects the contract is the set of tests in <code>LiskovSubstitutionTests</code>, which run against every subclass. Moving the same rule into <code>_take_payment()</code> and returning a declined result kept it substitutable.</p>
+								<p>Interface segregation came up through refunds. My first instinct was to add <code>refund()</code> to <code>PaymentMethod</code>, with <code>CryptoPayment</code> raising <code>NotImplementedError</code>. That is the forced, empty implementation that ISP warns about, and it would break LSP as well, since a caller holding a <code>PaymentMethod</code> could no longer rely on <code>refund()</code> working. I made <code>Refundable</code> a separate protocol, which Python checks structurally (Levkivskyi, Lehtosalo and Langa, 2017), so mypy rejects a crypto payment passed to <code>RefundService</code> before the code runs. My first version still had a fault, though. It checked <code>isinstance(method, Refundable)</code> inside <code>PaymentProcessor</code> on every refund, which is the same type test that Martin (2000, pp. 11&ndash;12) calls an &lsquo;ugly fix&rsquo; and shows to violate the open/closed principle. Moving refunds to their own service, checked once at construction, removed it.</p>
+								<p>I also had to ask whether the refactor was worth it. Two classes became fifteen, and the number of <code>if</code> branches in <code>Order</code> went up from four to five, because the new version validates quantities and checks each discount&rsquo;s result. Marcotte (2022, ch. 11) leaves his own <code>OperationResult</code> concrete, a technical breach of dependency inversion, and argues that principles are &lsquo;ideals not applicable in every scenario; not laws&rsquo;. I made the same choice with <code>PaymentResult</code> and <code>Order</code>. Both are stable data holders, which is the line Marcotte (2022, ch. 7) draws between stable and volatile dependencies, and Martin (2000, p. 14) makes the same allowance for concrete code that is &lsquo;not at all volatile&rsquo;. Yanakiev, Lazar and Capiluppi (2025) describe the industrial version of this judgement: a team that could not refactor everything used metrics to choose which components to repay first, and built most of the work around dependency inversion. I have only read their abstract so far, but it suggests the principles pay off where change is expected, not everywhere.</p>
+								<p>The refactor also fixed faults the brief did not list, and these mattered most to me coming from Security and Risk Management. The original <code>pay()</code> printed a message and returned nothing, so no caller could tell whether money had been taken, and an unknown payment type was ignored without an error. Prices were floats, so ten pence and twenty pence came to 0.30000000000000004, and a large fixed discount gave a negative total. The new design returns a result for every attempt, holds money as <code>Decimal</code>, refuses discounts that break their contract, and keeps only the last four digits of a card number. The artefact still has weaknesses. Payment references come from a counter shared by the whole class, the kind of static, global state that Marcotte (2022, ch. 6) advises against. <code>_RefundablePayment</code> uses inheritance where Marcotte (2022, ch. 7) would favour composition. The refund ledger lives in memory and nothing stops the same refund being sent twice.</p>
+
+								<h3>Now what?</h3>
+								<p>Four things follow. First, for every abstraction I write I will put its contract in the docstring and run one set of contract tests over every implementation, as I did for <code>PaymentMethod</code>. This continues the plan from Unit 1 and is the only check on substitutability I found that works in Python. Second, before applying the open/closed or dependency inversion principle I will ask what is actually likely to change. Here it was payment providers and promotions, not products or results. Third, I will rework the refund ledger and reference generator as injected collaborators instead of inherited and class-level state, and compare the two designs. Fourth, before Unit 3 I will read the chapters I could not get this week: chapter 3 of Marcotte (2022), which covers SOLID directly, section 4 of the same book, the full Yanakiev, Lazar and Capiluppi (2025) paper, chapters 2 to 7 of Ayeva and Kasampalis (2024), and chapter 12 of Martin (2023). At work, I will treat an <code>if</code> chain that switches on a type name or string as a sign that an abstraction is missing.</p>
+							</div>
+						</section>
+
+						<section id="three">
+							<div class="inner">
+								<header class="major">
+									<h2>Artefact 1: Refactoring a Shopping Cart to the SOLID Principles</h2>
+								</header>
+								<p><em>Case study activity. The original design in shop_initial.py, the refactored design in shop_solid.py, 38 unit tests and the doctests of both modules in test_shop.py, and a walkthrough notebook: unit2_solid_refactor.ipynb. Needs Python 3.10 or later and no third-party packages; run the tests with <code>python -m unittest -v test_shop</code>. shop_solid.py also passes <code>mypy --strict</code>.</em></p>
+								<p>The brief gave a single <code>Order</code> class that holds items, totals them and takes payment through an <code>if</code>/<code>elif</code> chain on a payment type string. I kept it almost as given, adding only an <code>Item</code> class so that it runs and an <code>apply_discount()</code> method so that it meets the discount requirement:</p>
+<pre><code>class Order:
+    def add_item(self, item): ...
+    def apply_discount(self, discount_type, value): ...   # "percent" or "fixed"
+    def calculate_total(self): ...
+    def pay(self, payment_type):
+        if payment_type == "credit":
+            print("Processing credit card payment...")
+        elif payment_type == "paypal":
+            print("Processing PayPal payment...")</code></pre>
+								<p>The refactored design splits it by responsibility and puts the two things that vary, payment methods and discounts, behind abstractions. Figure 1 shows the classes and how they depend on each other.</p>
+								<span class="image fit"><img src="artefacts/unit2/figures/u2_class_diagram.png" alt="UML class diagram of the refactored shopping system. Order owns Products and uses the abstract Discount, which NoDiscount, PercentageDiscount and FixedAmountDiscount extend. PaymentProcessor checks out an Order and has an abstract PaymentMethod injected. CryptoPayment and the abstract _RefundablePayment extend PaymentMethod; CreditCardPayment and PayPalPayment extend _RefundablePayment, which implements the Refundable protocol. RefundService has a Refundable injected. PaymentMethod returns a PaymentResult." /></span>
+								<p><em>Figure 1: Class diagram of the refactored shopping system.</em></p>
+								<p>Table 1 maps each principle to the problem in the original code, the change made, and the test or notebook result that shows it.</p>
+								<div class="table-wrapper">
+									<table>
+										<thead>
+											<tr>
+												<th>Principle</th>
+												<th>Problem in the original</th>
+												<th>Change</th>
+												<th>Evidence</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Single responsibility</td><td><code>Order</code> holds items, totals them, applies discounts and takes payment</td><td><code>Order</code> keeps items and totals; discounts, payment methods and checkout are separate classes</td><td><code>Order</code> has no member that mentions payment; its tests need no payment objects</td></tr>
+											<tr><td>Open/closed</td><td>A new payment type or discount means a new branch in <code>Order</code></td><td>New behaviour is a new <code>PaymentMethod</code> or <code>Discount</code> subclass</td><td>A bank transfer and a buy-one-get-one-free discount defined in the tests work with no change to existing code; <code>PaymentProcessor</code> names no concrete class</td></tr>
+											<tr><td>Liskov substitution</td><td>No contract for what a payment does or returns</td><td><code>pay()</code> is a template method with a stated contract; declines are results, not exceptions</td><td>The same contract tests pass for every payment method; a subclass that raises for small orders breaks checkout, and its substitutable version does not</td></tr>
+											<tr><td>Interface segregation</td><td>(Would arise if refunds were added to every payment method)</td><td><code>Refundable</code> is a separate protocol; <code>CryptoPayment</code> does not implement it</td><td><code>RefundService</code> refuses a crypto payment at run time, and mypy rejects it before the code runs</td></tr>
+											<tr><td>Dependency inversion</td><td><code>Order</code> handles each concrete payment type inline</td><td><code>PaymentProcessor</code> and <code>RefundService</code> receive their payment method through the constructor</td><td>A recording test double stands in for a real provider and shows the exact amount charged</td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p><em>Table 1: Each SOLID principle in the case study and the evidence for it.</em></p>
+								<p>An extract of the notebook&rsquo;s output shows the original&rsquo;s silent faults, and then the refactored processor giving the same answer with every payment method it is handed:</p>
+<pre><code>Total: 0.30000000000000004
+pay('applepay') printed '' and returned None
+Pencil with £5 off: -3.0
+
+credit card ending 1111      succeeded=True £9.18 ref=CRED-000001 (card payment authorised)
+PayPal (s***@example.com)    succeeded=True £9.18 ref=PAYP-000002 (PayPal payment completed)
+crypto wallet 0xA1B2...      succeeded=True £9.18 ref=CRYP-000003 (sent 0.00018360 coins)
+
+CreditCardPayment -&gt; True card payment authorised
+MinimumSpendCardPayment -&gt; ValueError: minimum card spend is £10</code></pre>
+								<p>The last two lines are the Liskov substitution failure discussed in the reflection. Both classes override correctly in the syntactic sense, but only one can be substituted for its parent.</p>
+								<ul class="actions">
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit2/unit2_solid_refactor.ipynb" class="button" target="_blank" rel="noopener">View notebook on GitHub</a></li>
+									<li><a href="https://github.com/ianstagib/portfolio/blob/main/SubPages/Advanced_OOP/artefacts/unit2/shop_solid.py" class="button" target="_blank" rel="noopener">View code on GitHub</a></li>
+									<li><a href="artefacts/unit2/unit2_solid_refactor.ipynb" class="button icon solid fa-download" download>Download notebook</a></li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Reading Notes</h2>
+								</header>
+								<p><strong>Sridhar, Indumathi and Hariharan (2023), chapters 3 and 12&ndash;19 (required).</strong> A broad Python textbook. Chapter 3 covers the language basics and data types. Chapters 12 to 14 cover classes, constructors and destructors, the forms of inheritance, method overriding and abstract base classes, where an abstract class is described as a way to define a common interface for a set of subclasses. Chapters 15 to 19 move on to modules, exceptions, debugging and testing with <code>doctest</code>, <code>unittest</code> and <code>pytest</code>, file handling and GUIs. The book does not discuss SOLID by name. Its value this week was the Python mechanics the refactor relies on, and its definition of overriding, which is purely about signatures, turned out to be a useful contrast with the behavioural definition behind LSP.</p>
+								<p><strong>Marcotte (2022), sections 2 and 3, chapters 4&ndash;11 (required).</strong> Written for ASP.NET Core in C#, but the design reasoning carries across. Each pattern chapter ends by scoring the pattern against the five principles, which is the most useful habit I took from it. Chapter 6 presents Strategy as the route to the open/closed principle and argues that Singleton breaks every principle except LSP. Chapter 7 treats dependency injection as the working form of dependency inversion, separates stable from volatile dependencies, and argues for composition over inheritance. Chapters 9 to 11 cover Decorator, Composite, Adapter, Template Method, Chain of Responsibility and Operation Result, and the last of these admits to letting minor breaches of ISP and DIP slide where the design stays simpler. Section 4 and chapter 3, which covers SOLID directly, were not available to me this week.</p>
+								<p><strong>Yanakiev, Lazar and Capiluppi (2025) (additional).</strong> An experience report of refactoring a system with two decades of technical debt at a Dutch company. The abstract describes choosing what to refactor from the limited metrics available, centring the work on dependency inversion, and turning recurring fixes into &lsquo;refactoring patterns&rsquo; applied across more than 5,000 files. I have read the abstract only so far; the full paper is open access and is next on my list.</p>
+								<p><strong>Not yet read.</strong> Martin (2023) section 5 (chapter 16, a review of design patterns from a functional point of view; the SOLID chapter is chapter 12) and Ayeva and Kasampalis (2024) chapters 3 to 7 (creational, structural, behavioural, architectural and concurrency patterns; SOLID is chapter 2). Both are planned before the design pattern units.</p>
+							</div>
+						</section>
+
+						<section id="five">
+							<div class="inner">
+								<header class="major">
+									<h2>Seminar Preparation</h2>
+								</header>
+								<p><strong>Environment.</strong> Python 3.13 with <code>unittest</code>, Jupyter and mypy, used for the case study above. The original and refactored versions sit side by side so the refactor can be walked through one principle at a time during the hands-on session.</p>
+								<p><strong>Refactoring practice.</strong> The case study is my main practice piece. The steps I followed, which I will bring to the session, were: write tests that pin down the original behaviour and its faults; separate responsibilities; find what varies and put it behind an abstraction; state each abstraction&rsquo;s contract and test every implementation against it; and inject dependencies at the point where objects are put together.</p>
+								<p><strong>Questions to bring.</strong></p>
+								<ul>
+									<li>The brief says <code>Order</code> should stop depending on <code>PaymentProcessor</code>, but after the SRP split it no longer did. Is the intended inversion the one between the processor and the payment methods?</li>
+									<li>Python cannot stop a subclass overriding a template method. Are contract tests the accepted way to enforce LSP in Python, or is there a better tool?</li>
+									<li>When does SRP start to cost more than it saves, in performance or in the effort of following a call through many small classes?</li>
+									<li>Is a <code>typing.Protocol</code> enough for interface segregation, or are there cases where an abstract base class is still the better choice?</li>
+									<li>How do we decide whether a dependency is stable enough to use directly, as I did with <code>PaymentResult</code>, rather than through an abstraction?</li>
+								</ul>
+							</div>
+						</section>
+
+						<section id="six">
+							<div class="inner">
+								<ul class="actions">
+									<li><a href="docs/Unit2_Reflection.docx" class="button icon solid fa-download">Download as Word</a></li>
+								</ul>
+
+								<h3>References</h3>
+								<p>
+									Ayeva, K. and Kasampalis, S. (2024) <em>Mastering Python design patterns: craft essential Python patterns by following core design principles</em>. 3rd edn. Birmingham: Packt Publishing. Available at: <a href="https://www.oreilly.com/library/view/mastering-python-design/9781837639618/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/mastering-python-design/9781837639618/</a> (Accessed: 27 November 2026).<br /><br />
+									Levkivskyi, I., Lehtosalo, J. and Langa, &Lstrok;. (2017) <em>PEP 544: Protocols: structural subtyping (static duck typing)</em>. Python Software Foundation. Available at: <a href="https://peps.python.org/pep-0544/" target="_blank" rel="noopener">https://peps.python.org/pep-0544/</a> (Accessed: 27 November 2026).<br /><br />
+									Liskov, B.H. and Wing, J.M. (1994) &lsquo;A behavioral notion of subtyping&rsquo;, <em>ACM Transactions on Programming Languages and Systems</em>, 16(6), pp. 1811&ndash;1841. Available at: <a href="https://doi.org/10.1145/197320.197383" target="_blank" rel="noopener">https://doi.org/10.1145/197320.197383</a> (Accessed: 20 October 2026).<br /><br />
+									Marcotte, C.-H. (2022) <em>An atypical ASP.NET Core 6 design patterns guide: a SOLID adventure into architectural principles and design patterns using .NET 6 and C# 10</em>. 2nd edn. Birmingham: Packt Publishing. Sections 2 and 3. Available at: <a href="https://www.oreilly.com/library/view/an-atypical-asp-net/9781803249841/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/an-atypical-asp-net/9781803249841/</a> (Accessed: 27 November 2026).<br /><br />
+									Martin, R.C. (2000) <em>Design principles and design patterns</em>. Object Mentor. Available at: <a href="https://eli.sdsu.edu/courses/fall19/cs635/Principles_and_Patterns.pdf" target="_blank" rel="noopener">https://eli.sdsu.edu/courses/fall19/cs635/Principles_and_Patterns.pdf</a> (Accessed: 27 November 2026).<br /><br />
+									Martin, R.C. (2023) <em>Functional design: principles, patterns, and practices</em>. Boston, MA: Addison-Wesley Professional. Available at: <a href="https://www.oreilly.com/library/view/functional-design-principles/9780138176518/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/functional-design-principles/9780138176518/</a> (Accessed: 27 November 2026).<br /><br />
+									Rolfe, G., Freshwater, D. and Jasper, M. (2001) <em>Critical reflection for nursing and the helping professions: a user&rsquo;s guide</em>. Basingstoke: Palgrave Macmillan.<br /><br />
+									Sridhar, S., Indumathi, J. and Hariharan, V.M. (2023) <em>Python programming</em>. Pearson India. Chapters 3 and 12&ndash;19. Available at: <a href="https://www.oreilly.com/library/view/python-programming-by/9789357053303/" target="_blank" rel="noopener">https://www.oreilly.com/library/view/python-programming-by/9789357053303/</a> (Accessed: 27 November 2026).<br /><br />
+									Yanakiev, I., Lazar, B.M. and Capiluppi, A. (2025) &lsquo;Applying SOLID principles for the refactoring of legacy code: an experience report&rsquo;, <em>Journal of Systems and Software</em>, 220, 112254. Available at: <a href="https://doi.org/10.1016/j.jss.2024.112254" target="_blank" rel="noopener">https://doi.org/10.1016/j.jss.2024.112254</a> (Accessed: 27 November 2026).
+								</p>
+							</div>
+						</section>
+
+					</div>
+
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://github.com/ianstagib/portfolio" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/stevensian/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Ian Stevens</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
